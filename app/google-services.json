@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "363226868465",
+    "project_id": "bus-timetable-app-48aa6",
+    "storage_bucket": "bus-timetable-app-48aa6.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:363226868465:android:e1967cfb1391e6767d1750",
+        "android_client_info": {
+          "package_name": "mk.vozenred.bustimetableapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "363226868465-f9m5vhi7l0njm3cbq38vmelid3tfthmc.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "mk.vozenred.bustimetableapp",
+            "certificate_hash": "37fa67d2cd5e4b1d3e1f579719d0a11f243a1d72"
+          }
+        },
+        {
+          "client_id": "363226868465-0vt0lp4h5kdahqh7sikj2uf0e5s5gcvp.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD4xGpibCX6UPE0LRUHMnDZNShoouV3ly8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "363226868465-0vt0lp4h5kdahqh7sikj2uf0e5s5gcvp.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
