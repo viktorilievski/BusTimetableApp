@@ -24,4 +24,4 @@ The app uses a public Excel document from "Ministry of Transport & Communication
 
 
 
-*** Note: This app is currently unstable and could contain some bugs. I am fully aware of it, they will be fixed before the thesis is presented ***
+***Note: This app is currently unstable and could contain some bugs. I am fully aware of it, they will be fixed before the thesis is presented***
