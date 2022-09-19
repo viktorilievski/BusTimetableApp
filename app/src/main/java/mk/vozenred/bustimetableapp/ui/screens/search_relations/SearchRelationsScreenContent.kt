@@ -19,6 +19,9 @@ fun SearchRelationsScreenContent(
     navigateToEndDestinationScreen: () -> Unit,
     navigateToRelationsScreen: () -> Unit
 ) {
+    val isStartPointSelected = startPoint.isNotEmpty()
+    val isEndPointSelected = endPoint.isNotEmpty()
+
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -29,15 +32,18 @@ fun SearchRelationsScreenContent(
             SelectRelationField(
                 label = "LEAVING FROM",
                 selectedPoint = startPoint,
-                onFieldClick = navigateToStartDestinationScreen
+                onFieldClick = navigateToStartDestinationScreen,
+                isStartPointSelected = true
             )
             SelectRelationField(
                 label = "GOING TO",
                 selectedPoint = endPoint,
-                onFieldClick = navigateToEndDestinationScreen
+                onFieldClick = navigateToEndDestinationScreen,
+                isStartPointSelected = isStartPointSelected
             )
         Button(
-            onClick = { navigateToRelationsScreen() }
+            onClick = { navigateToRelationsScreen() },
+            enabled = isEndPointSelected
         ) {
             Text(text = "Search")
         }
