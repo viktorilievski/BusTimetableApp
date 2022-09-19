@@ -24,22 +24,37 @@ import androidx.compose.ui.unit.dp
 fun SelectRelationField(
     label: String,
     selectedPoint: String,
-    onFieldClick: () -> Unit
+    onFieldClick: () -> Unit,
+    isStartPointSelected: Boolean
 ) {
+    val textColor: Color
+    val backgroundColor: Color
+    val borderColor: Color
+    if (isStartPointSelected) {
+        textColor = Color.Black
+        backgroundColor = Color.Gray
+        borderColor = Color.Red
+    } else {
+        textColor = Color.Gray
+        backgroundColor = Color.LightGray
+        borderColor = Color.Gray
+    }
     Surface(
         modifier = Modifier
             .padding(16.dp)
             .fillMaxWidth(),
         shape = RoundedCornerShape(10.dp),
-        border = BorderStroke(2.dp, Color.Red),
+        border = BorderStroke(2.dp, borderColor),
+        enabled = isStartPointSelected,
         onClick = { onFieldClick() }
     ) {
-        Column(modifier = Modifier
-            .background(Color.Gray)
-            .padding(26.dp)
+        Column(
+            modifier = Modifier
+                .background(backgroundColor)
+                .padding(26.dp)
         ) {
-            Text(text = label)
-            Text(text = selectedPoint)
+            Text(text = label, color = textColor)
+            Text(text = selectedPoint, color = textColor)
         }
     }
 }
@@ -47,5 +62,10 @@ fun SelectRelationField(
 @Composable
 @Preview
 fun SelectRelationFieldPreview() {
-    SelectRelationField(label = "LEAVING FROM", selectedPoint = "Skopje", onFieldClick = {})
+    SelectRelationField(
+        label = "LEAVING FROM",
+        selectedPoint = "Skopje",
+        onFieldClick = {},
+        isStartPointSelected = false
+    )
 }
