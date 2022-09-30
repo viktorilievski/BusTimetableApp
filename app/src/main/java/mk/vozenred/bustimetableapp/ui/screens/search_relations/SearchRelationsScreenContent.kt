@@ -15,6 +15,7 @@ import mk.vozenred.bustimetableapp.components.SelectRelationField
 fun SearchRelationsScreenContent(
     startPoint: String,
     endPoint: String,
+    paddingValue: PaddingValues,
     navigateToStartDestinationScreen: () -> Unit,
     navigateToEndDestinationScreen: () -> Unit,
     navigateToRelationsScreen: () -> Unit
@@ -25,7 +26,8 @@ fun SearchRelationsScreenContent(
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .background(MaterialTheme.colors.background),
+            .background(MaterialTheme.colors.background)
+            .padding(paddingValue),
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
@@ -56,6 +58,7 @@ fun SearchRelationsScreenContentPreview() {
     SearchRelationsScreenContent(
         startPoint = "Skopje",
         endPoint = "Kumanovo",
+        paddingValue = PaddingValues(),
         navigateToEndDestinationScreen = {},
         navigateToStartDestinationScreen = {},
         navigateToRelationsScreen = {}

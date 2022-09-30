@@ -1,6 +1,7 @@
 package mk.vozenred.bustimetableapp.ui.screens.relations
 
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.Scaffold
@@ -25,7 +26,9 @@ fun RelationsScreen(
         modifier = Modifier
             .fillMaxSize()
     ) {
-        LazyColumn() {
+        LazyColumn(
+            modifier = Modifier.padding(it)
+        ) {
             items(relations) { relation ->
                 RelationListRowItem(relation = relation)
             }
