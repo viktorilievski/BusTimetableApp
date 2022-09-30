@@ -1,6 +1,5 @@
 package mk.vozenred.bustimetableapp.data.repositories.local
 
-import android.util.Log
 import dagger.hilt.android.scopes.ViewModelScoped
 import kotlinx.coroutines.flow.Flow
 import mk.vozenred.bustimetableapp.data.RelationsDao

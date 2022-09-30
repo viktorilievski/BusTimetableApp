@@ -15,29 +15,37 @@ import mk.vozenred.bustimetableapp.components.SelectRelationField
 fun SearchRelationsScreenContent(
     startPoint: String,
     endPoint: String,
+    paddingValue: PaddingValues,
     navigateToStartDestinationScreen: () -> Unit,
     navigateToEndDestinationScreen: () -> Unit,
     navigateToRelationsScreen: () -> Unit
 ) {
+    val isStartPointSelected = startPoint.isNotEmpty()
+    val isEndPointSelected = endPoint.isNotEmpty()
+
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .background(MaterialTheme.colors.background),
+            .background(MaterialTheme.colors.background)
+            .padding(paddingValue),
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
             SelectRelationField(
                 label = "LEAVING FROM",
                 selectedPoint = startPoint,
-                onFieldClick = navigateToStartDestinationScreen
+                onFieldClick = navigateToStartDestinationScreen,
+                isStartPointSelected = true
             )
             SelectRelationField(
                 label = "GOING TO",
                 selectedPoint = endPoint,
-                onFieldClick = navigateToEndDestinationScreen
+                onFieldClick = navigateToEndDestinationScreen,
+                isStartPointSelected = isStartPointSelected
             )
         Button(
-            onClick = { navigateToRelationsScreen() }
+            onClick = { navigateToRelationsScreen() },
+            enabled = isEndPointSelected
         ) {
             Text(text = "Search")
         }
@@ -50,6 +58,7 @@ fun SearchRelationsScreenContentPreview() {
     SearchRelationsScreenContent(
         startPoint = "Skopje",
         endPoint = "Kumanovo",
+        paddingValue = PaddingValues(),
         navigateToEndDestinationScreen = {},
         navigateToStartDestinationScreen = {},
         navigateToRelationsScreen = {}

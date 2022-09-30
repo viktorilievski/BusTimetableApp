@@ -26,15 +26,17 @@ class Screens(navController: NavHostController) {
         navController.navigate(route = SELECT_TO_DESTINATION_SCREEN)
     }
 
-    val selectFromDestinationToSearch: () -> Unit = {
+    val selectFromDestinationToSearch: (shouldClearBackstack: Boolean) -> Unit = { shouldClearBackstack ->
         navController.navigate(route = SEARCH_SCREEN) {
             popUpTo(SELECT_FROM_DESTINATION_SCREEN) { inclusive = true }
+            popUpTo(SEARCH_SCREEN) { inclusive = shouldClearBackstack }
         }
     }
 
-    val selectToDestinationToSearch: () -> Unit = {
+    val selectToDestinationToSearch: (shouldClearBackstack: Boolean) -> Unit = { shouldClearBackstack ->
         navController.navigate(route = SEARCH_SCREEN) {
             popUpTo(SELECT_TO_DESTINATION_SCREEN) { inclusive = true }
+            popUpTo(SEARCH_SCREEN) { inclusive = shouldClearBackstack }
         }
     }
 }

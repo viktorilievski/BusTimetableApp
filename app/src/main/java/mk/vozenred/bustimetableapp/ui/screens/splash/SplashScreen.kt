@@ -29,6 +29,7 @@ fun SplashScreen(
 
     LaunchedEffect(key1 = true) {
         val firestoreDbVersion = splashScreenViewModel.readFirestoreDatabaseVersion()
+
         if (localDbVersion == null || localDbVersion != firestoreDbVersion) {
             splashScreenViewModel.fetchAndStoreRelationsToLocalDb()
         } else {

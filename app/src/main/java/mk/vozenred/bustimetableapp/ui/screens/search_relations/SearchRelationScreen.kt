@@ -24,8 +24,9 @@ fun SearchRelationsScreen(
             .fillMaxSize()
             .padding(24.dp),
         topBar = {},
-        content = {
+        content = { padding ->
             SearchRelationsScreenContent(
+                paddingValue = padding,
                 startPoint = startPoint,
                 endPoint = endPoint,
                 navigateToStartDestinationScreen = { navigateToStartDestinationScreen() },
