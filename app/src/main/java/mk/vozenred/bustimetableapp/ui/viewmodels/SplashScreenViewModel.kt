@@ -1,5 +1,7 @@
 package mk.vozenred.bustimetableapp.ui.viewmodels
 
+import androidx.compose.runtime.MutableState
+import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -25,8 +27,10 @@ class SplashScreenViewModel @Inject constructor(
     private val firebaseRemoteConfigDb: FirebaseRemoteConfigDb
 ) : ViewModel() {
 
-    private var _loading: MutableLiveData<Boolean> = MutableLiveData(true)
-    val loading: LiveData<Boolean> = _loading
+    var networkStatus: MutableState<Boolean> = mutableStateOf(false)
+
+    private var _loading: MutableLiveData<LoadingState> = MutableLiveData(LoadingState.Loading)
+    val loading: LiveData<LoadingState> = _loading
 
     private val _dataStoreValue: MutableStateFlow<String?> = MutableStateFlow(null)
     val dataStoreValue: StateFlow<String?> = _dataStoreValue
@@ -37,7 +41,7 @@ class SplashScreenViewModel @Inject constructor(
 
     fun fetchAndStoreRelationsToLocalDb() {
         viewModelScope.launch {
-            _loading.value = true
+            _loading.value = LoadingState.Loading
             withContext(Dispatchers.IO) {
                 val allRelations = firestoreRepository.getRelationsFromFirestore().data
                 for (relation in allRelations!!) {
@@ -45,7 +49,7 @@ class SplashScreenViewModel @Inject constructor(
                 }
             }
             saveToDataStore(DB_VERSION_PREFERENCE_KEY, readFirestoreDatabaseVersion())
-            _loading.value = false
+            _loading.value = LoadingState.Success
         }
     }
 
@@ -61,12 +65,17 @@ class SplashScreenViewModel @Inject constructor(
         }
     }
 
-    fun setLoadingState(value: Boolean) {
+    fun setLoadingState(value: LoadingState) {
         _loading.value = value
     }
 
     fun readFirestoreDatabaseVersion(): String {
         return firebaseRemoteConfigDb.getDbVersion()
     }
+}
 
+sealed class LoadingState {
+    object Success : LoadingState()
+    object Loading : LoadingState()
+    object Failed : LoadingState()
 }
