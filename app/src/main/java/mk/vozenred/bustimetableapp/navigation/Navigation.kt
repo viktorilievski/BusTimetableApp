@@ -25,6 +25,12 @@ fun SetupNavigation(
     ) {
         splashComposable(
             navigateToSearchScreen = screen.splashToSearchScreen,
+            navigateToNoConnectionScreen = screen.splashToNoConnectionScreen,
+            splashScreenViewModel = splashScreenViewModel
+        )
+        noConnectionComposable(
+            navigateToSplashScreen = screen.noConnectionToSplashScreen,
+            navigateToSearchScreen = screen.noConnectionToSearchScreen,
             splashScreenViewModel = splashScreenViewModel
         )
         searchComposable(

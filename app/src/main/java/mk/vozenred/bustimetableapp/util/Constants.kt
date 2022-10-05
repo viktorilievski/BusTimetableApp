@@ -9,6 +9,7 @@ object Constants {
 
     // Navigation Routes
     const val SPLASH_SCREEN = "splash"
+    const val NO_CONNECTION_SCREEN = "no_connection"
     const val SEARCH_SCREEN = "search"
     const val RELATIONS_SCREEN = "relationsList"
     const val FAVORITES_SCREEN = "favorites"

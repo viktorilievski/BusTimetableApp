@@ -19,6 +19,8 @@ class SharedViewModel @Inject constructor(
     private val relationsRepository: RelationsRepository
 ) : ViewModel() {
 
+    var networkStatus: MutableState<Boolean> = mutableStateOf(false)
+
     private val _startPointSelected: MutableState<String> = mutableStateOf("")
     val startPointSelected: State<String> = _startPointSelected
 

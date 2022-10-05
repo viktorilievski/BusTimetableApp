@@ -20,11 +20,11 @@ import mk.vozenred.bustimetableapp.util.Constants.SPLASH_SCREEN_DELAY
 @Composable
 fun SplashScreen(
     navigateToSearchScreen: () -> Unit,
+    navigateToNoConnectionScreen: () -> Unit,
     splashScreenViewModel: SplashScreenViewModel
 ) {
     val localDbVersion by splashScreenViewModel.dataStoreValue.collectAsState()
 
-    //todo: change screen info depending on network status
     var backgroundColor by remember {
         mutableStateOf(Color.Green)
     }
@@ -51,19 +51,14 @@ fun SplashScreen(
                         "SplashScreen",
                         "Failed loading data. Please check your internet connection!"
                     )
-                    backgroundColor = Color.Red
-                    textInfo = "Internet connection problem"
+                    navigateToNoConnectionScreen()
                 }
                 LoadingState.Loading -> {
                     Log.d("SplashScreen", "Loading data from Firestore!")
                     // set loading widget TRUE
-                    backgroundColor = Color.Blue
-                    textInfo = "Loading data..."
                 }
                 LoadingState.Success -> {
                     Log.d("SplashScreen", "Data loaded successfully!")
-                    backgroundColor = Color.Green
-                    textInfo = "Data loaded successfully!"
                     navigateToSearchScreen()
                 }
             }

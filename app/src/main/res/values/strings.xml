@@ -1,3 +1,6 @@
 <resources>
     <string name="app_name">BusTimetableApp</string>
+    <string name="no_connection_first_time">Connection is required for the first setup of the application. Please enable Internet Access and click on the Retry button!</string>
+    <string name="no_connection_with_db">Connection is required for the latest relation updates, however you can use the application in Offline mode with your previous saved relations!</string>
+    <string name="retry_connection_button_text">Retry</string>
 </resources>
