@@ -31,18 +31,18 @@ fun SearchRelationsScreenContent(
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-            SelectRelationField(
-                label = "LEAVING FROM",
-                selectedPoint = startPoint,
-                onFieldClick = navigateToStartDestinationScreen,
-                isStartPointSelected = true
-            )
-            SelectRelationField(
-                label = "GOING TO",
-                selectedPoint = endPoint,
-                onFieldClick = navigateToEndDestinationScreen,
-                isStartPointSelected = isStartPointSelected
-            )
+        SelectRelationField(
+            label = "LEAVING FROM",
+            selectedPoint = startPoint,
+            onFieldClick = navigateToStartDestinationScreen,
+            isStartPointSelected = true
+        )
+        SelectRelationField(
+            label = "GOING TO",
+            selectedPoint = endPoint,
+            onFieldClick = navigateToEndDestinationScreen,
+            isStartPointSelected = isStartPointSelected
+        )
         Button(
             onClick = { navigateToRelationsScreen() },
             enabled = isEndPointSelected

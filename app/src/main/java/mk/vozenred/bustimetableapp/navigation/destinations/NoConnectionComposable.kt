@@ -2,21 +2,21 @@ package mk.vozenred.bustimetableapp.navigation.destinations
 
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
-import mk.vozenred.bustimetableapp.ui.screens.splash.SplashScreen
+import mk.vozenred.bustimetableapp.ui.screens.no_connection.NoConnectionScreen
 import mk.vozenred.bustimetableapp.ui.viewmodels.SplashScreenViewModel
-import mk.vozenred.bustimetableapp.util.Constants.SPLASH_SCREEN
+import mk.vozenred.bustimetableapp.util.Constants.NO_CONNECTION_SCREEN
 
-fun NavGraphBuilder.splashComposable(
+fun NavGraphBuilder.noConnectionComposable(
+    navigateToSplashScreen: () -> Unit,
     navigateToSearchScreen: () -> Unit,
-    navigateToNoConnectionScreen: () -> Unit,
     splashScreenViewModel: SplashScreenViewModel
 ) {
     composable(
-        route = SPLASH_SCREEN,
+        route = NO_CONNECTION_SCREEN
     ) {
-        SplashScreen(
+        NoConnectionScreen(
+            navigateToSplashScreen = navigateToSplashScreen,
             navigateToSearchScreen = navigateToSearchScreen,
-            navigateToNoConnectionScreen = navigateToNoConnectionScreen,
             splashScreenViewModel = splashScreenViewModel
         )
     }

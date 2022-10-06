@@ -31,7 +31,8 @@ fun RelationListRowItem(
                 .padding(26.dp)
         ) {
             Row(
-                modifier = Modifier.fillMaxWidth()
+                modifier = Modifier
+                    .fillMaxWidth()
                     .padding(top = LARGE_PADDING, bottom = LARGE_PADDING)
             ) {
                 Text(text = relation.companyName)
@@ -51,7 +52,8 @@ fun RelationListRowItem(
                 Text(text = relation.arrivalTime)
             }
             Row(
-                modifier = Modifier.fillMaxWidth()
+                modifier = Modifier
+                    .fillMaxWidth()
                     .padding(top = LARGE_PADDING, bottom = LARGE_PADDING)
             ) {
                 Text(text = relation.note)
