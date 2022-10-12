@@ -5,9 +5,11 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Surface
-import androidx.compose.material.Text
+import androidx.compose.material.*
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Add
+import androidx.compose.material.icons.filled.Favorite
+import androidx.compose.material.icons.filled.FavoriteBorder
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -22,8 +24,10 @@ import mk.vozenred.bustimetableapp.ui.theme.*
 
 @Composable
 fun RelationListRowItem(
-    relation: Relation
+    relation: Relation,
+    onFavoriteButtonClick: (Int) -> Unit
 ) {
+
     Surface(
         modifier = Modifier
             .padding(16.dp)
@@ -51,9 +55,27 @@ fun RelationListRowItem(
             Column(verticalArrangement = Arrangement.SpaceBetween) {
                 Row(
                     modifier = Modifier
-                        .padding(bottom = LARGE_PADDING)
+                        .fillMaxWidth()
+                        .padding(bottom = LARGE_PADDING),
+                    verticalAlignment = Alignment.CenterVertically,
+                    horizontalArrangement = Arrangement.SpaceBetween
                 ) {
                     Text(text = relation.companyName, fontSize = TEXT_SIZE_LARGE)
+                    IconButton(onClick = { onFavoriteButtonClick(relation.id) }) {
+                        if (relation.isRelationFavorite) {
+                            Icon(
+                                imageVector = Icons.Filled.Favorite,
+                                contentDescription = "Add to Favorites Icon"
+                            )
+                        } else {
+                            Icon(
+                                imageVector = Icons.Filled.FavoriteBorder,
+                                contentDescription = "Add to Favorites Icon"
+                            )
+                        }
+
+                    }
+
                 }
                 Row(
                     verticalAlignment = Alignment.CenterVertically,
@@ -143,7 +165,9 @@ fun RelationListRowItemPreview() {
             endPoint = "Куманово",
             departureTime = "11:00",
             arrivalTime = "12:00",
-            note = "This is a note"
-        )
+            note = "This is a note",
+            isRelationFavorite = true
+        ),
+        onFavoriteButtonClick = {},
     )
 }

@@ -11,6 +11,10 @@ class RelationsRepository @Inject constructor(
     private val relationsDao: RelationsDao
 ) {
 
+    fun fetchRelation(relationId: Int): Relation {
+        return relationsDao.fetchRelation(relationId)
+    }
+
     fun getAllRelations(): Flow<List<Relation>> {
         return relationsDao.getAllRelations()
     }
@@ -41,5 +45,9 @@ class RelationsRepository @Inject constructor(
 
     fun getRelationsForSelectedCompany(startPoint: String, endPoint: String, companyName: String): Flow<List<Relation>> {
         return relationsDao.getRelationsForCompany(startPoint, endPoint, companyName)
+    }
+
+    suspend fun setRelationFavoriteStatus(relationId: Int, isRelationFavorite: Boolean) {
+        relationsDao.setRelationFavoriteStatus(relationId, isRelationFavorite)
     }
 }

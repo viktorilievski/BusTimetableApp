@@ -16,7 +16,15 @@ class FavoriteRelationsRepository @Inject constructor(
         return favoriteRelationsDao.getAllFavoriteRelations()
     }
 
-    suspend fun addFavoriteRelation(relation: Relation) {
+    fun fetchFavoriteRelation(relationId: Int): FavoriteRelation? {
+        return favoriteRelationsDao.fetchFavoriteRelation(relationId)
+    }
+
+    suspend fun removeRelationFromFavorite(relationId: Int) {
+        return favoriteRelationsDao.removeRelationFromFavorite(relationId)
+    }
+
+    suspend fun addFavoriteRelation(relation: FavoriteRelation) {
         return favoriteRelationsDao.addFavoriteRelation(relation = relation)
     }
 }

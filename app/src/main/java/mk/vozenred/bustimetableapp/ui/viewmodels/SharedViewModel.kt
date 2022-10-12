@@ -10,7 +10,10 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
+import mk.vozenred.bustimetableapp.data.model.FavoriteRelation
 import mk.vozenred.bustimetableapp.data.model.Relation
+import mk.vozenred.bustimetableapp.data.repositories.local.FavoriteRelationsRepository
 import mk.vozenred.bustimetableapp.data.repositories.local.RelationsRepository
 import javax.inject.Inject
 
@@ -32,6 +35,8 @@ class SharedViewModel @Inject constructor(
 
     private val _relations: MutableStateFlow<List<Relation>> = MutableStateFlow(mutableListOf())
     val relations: StateFlow<List<Relation>> = _relations
+
+    val isRelationFavorite: MutableState<Boolean> = mutableStateOf(false)
 
     fun getRelations() {
         selectedCompany.value = "Сите"
@@ -92,6 +97,14 @@ class SharedViewModel @Inject constructor(
                 .collect {
                     endPoints.value = it
                 }
+        }
+    }
+
+    fun setRelationFavoriteStatus(relationId: Int, isRelationFavorite: Boolean) {
+        viewModelScope.launch(Dispatchers.IO) {
+            withContext(Dispatchers.IO) {
+                relationsRepository.setRelationFavoriteStatus(relationId, isRelationFavorite)
+            }
         }
     }
 

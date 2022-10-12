@@ -2,7 +2,6 @@ package mk.vozenred.bustimetableapp.ui.screens.relations
 
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -42,7 +41,8 @@ fun RelationsScreen(
                     RelationsTopAppBar(
                         title = "$selectedFromRelation - $selectedToRelation",
                         filterButtonEnabled = false,
-                        onFilterClicked = {}
+                        onFilterClicked = {},
+                        onDrawerIconClick = {}
                     )
                 } else {
                     RelationsTopAppBar(
@@ -50,7 +50,8 @@ fun RelationsScreen(
                         filterButtonEnabled = true,
                         onFilterClicked = {
                             filterExpanded = true
-                        }
+                        },
+                        onDrawerIconClick = {}
                     )
                     FilterDropdownMenu(
                         expanded = filterExpanded,
@@ -76,7 +77,15 @@ fun RelationsScreen(
             modifier = Modifier.padding(it)
         ) {
             items(relations) { relation ->
-                RelationListRowItem(relation = relation)
+                RelationListRowItem(
+                    relation = relation,
+                    onFavoriteButtonClick = { relationId ->
+                        sharedViewModel.setRelationFavoriteStatus(
+                            relationId = relationId,
+                            isRelationFavorite = !relation.isRelationFavorite
+                        )
+                    }
+                )
             }
         }
     }

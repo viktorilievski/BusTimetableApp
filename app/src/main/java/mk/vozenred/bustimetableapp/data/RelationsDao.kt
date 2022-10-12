@@ -1,14 +1,14 @@
 package mk.vozenred.bustimetableapp.data
 
-import androidx.room.Dao
-import androidx.room.Insert
-import androidx.room.OnConflictStrategy
-import androidx.room.Query
+import androidx.room.*
 import kotlinx.coroutines.flow.Flow
 import mk.vozenred.bustimetableapp.data.model.Relation
 
 @Dao
 interface RelationsDao {
+
+    @Query("SELECT * FROM relations_table WHERE id = :relationId")
+    fun fetchRelation(relationId: Int): Relation
 
     @Query("SELECT * FROM relations_table ORDER BY departureTime ASC")
     fun getAllRelations(): Flow<List<Relation>>
@@ -45,4 +45,7 @@ interface RelationsDao {
         endPoint: String,
         companyName: String
     ): Flow<List<Relation>>
+
+    @Query("UPDATE relations_table SET isRelationFavorite = :isRelationFavorite WHERE id = :relationId")
+    suspend fun setRelationFavoriteStatus(relationId: Int, isRelationFavorite: Boolean)
 }
