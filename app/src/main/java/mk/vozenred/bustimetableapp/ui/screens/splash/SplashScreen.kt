@@ -6,16 +6,13 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.getValue
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import kotlinx.coroutines.delay
-import mk.vozenred.bustimetableapp.ui.theme.splashScreenBackgroundColor
+import mk.vozenred.bustimetableapp.ui.viewmodels.LoadingState
 import mk.vozenred.bustimetableapp.ui.viewmodels.SplashScreenViewModel
 import mk.vozenred.bustimetableapp.util.Constants.SPLASH_SCREEN_DELAY
 
@@ -23,23 +20,44 @@ import mk.vozenred.bustimetableapp.util.Constants.SPLASH_SCREEN_DELAY
 @Composable
 fun SplashScreen(
     navigateToSearchScreen: () -> Unit,
+    navigateToNoConnectionScreen: () -> Unit,
     splashScreenViewModel: SplashScreenViewModel
 ) {
     val localDbVersion by splashScreenViewModel.dataStoreValue.collectAsState()
 
-    LaunchedEffect(key1 = true) {
-        val firestoreDbVersion = splashScreenViewModel.readFirestoreDatabaseVersion()
+    var backgroundColor by remember {
+        mutableStateOf(Color.Green)
+    }
+    var textInfo by remember {
+        mutableStateOf("")
+    }
 
-        if (localDbVersion == null || localDbVersion != firestoreDbVersion) {
-            splashScreenViewModel.fetchAndStoreRelationsToLocalDb()
+    LaunchedEffect(key1 = true) {
+        if (splashScreenViewModel.networkStatus.value) {
+            delay(SPLASH_SCREEN_DELAY)
+            val firestoreDbVersion = splashScreenViewModel.readFirestoreDatabaseVersion()
+            if (localDbVersion == null || localDbVersion != firestoreDbVersion) {
+                splashScreenViewModel.fetchAndStoreRelationsToLocalDb()
+            } else {
+                splashScreenViewModel.setLoadingState(LoadingState.Success)
+            }
         } else {
-            splashScreenViewModel.setLoadingState(false)
+            splashScreenViewModel.setLoadingState(LoadingState.Failed)
         }
-        delay(SPLASH_SCREEN_DELAY)
         splashScreenViewModel.loading.observeForever {
             when (it) {
-                true -> Log.d("SplashScreen", "Loading data from Firestore!")
-                false -> {
+                LoadingState.Failed -> {
+                    Log.e(
+                        "SplashScreen",
+                        "Failed loading data. Please check your internet connection!"
+                    )
+                    navigateToNoConnectionScreen()
+                }
+                LoadingState.Loading -> {
+                    Log.d("SplashScreen", "Loading data from Firestore!")
+                    // set loading widget TRUE
+                }
+                LoadingState.Success -> {
                     Log.d("SplashScreen", "Data loaded successfully!")
                     navigateToSearchScreen()
                 }
@@ -49,13 +67,13 @@ fun SplashScreen(
     Box(
         modifier = Modifier
             .fillMaxSize()
-            .background(MaterialTheme.colors.splashScreenBackgroundColor)
+            .background(backgroundColor)
     ) {
         Column(
             verticalArrangement = Arrangement.Center,
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            Text(text = "Splash Screen: local db version $localDbVersion")
+            Text(text = textInfo)
         }
     }
 }

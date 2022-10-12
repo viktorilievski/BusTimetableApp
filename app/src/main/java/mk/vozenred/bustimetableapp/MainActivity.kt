@@ -11,6 +11,7 @@ import mk.vozenred.bustimetableapp.navigation.SetupNavigation
 import mk.vozenred.bustimetableapp.ui.theme.BusTimetableAppTheme
 import mk.vozenred.bustimetableapp.ui.viewmodels.SharedViewModel
 import mk.vozenred.bustimetableapp.ui.viewmodels.SplashScreenViewModel
+import mk.vozenred.bustimetableapp.util.NetworkConnectionLiveData
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
@@ -21,6 +22,7 @@ class MainActivity : ComponentActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        checkInternetConnection()
         setContent {
             BusTimetableAppTheme {
                 navController = rememberNavController()
@@ -32,4 +34,12 @@ class MainActivity : ComponentActivity() {
             }
         }
     }
+
+    private fun checkInternetConnection() {
+        val connection = NetworkConnectionLiveData(this)
+        connection.observe(this) { isConnected ->
+            splashScreenViewModel.networkStatus.value = isConnected
+        }
+    }
+
 }
