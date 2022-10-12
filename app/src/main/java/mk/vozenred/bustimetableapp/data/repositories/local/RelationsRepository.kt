@@ -34,4 +34,12 @@ class RelationsRepository @Inject constructor(
     fun getEndPointsForSelectedStartPoint(selectedStartPoint: String): Flow<List<String>> {
         return relationsDao.getEndPointsForSelected(selectedStartPoint)
     }
+
+    fun getCompaniesForRelation(startPoint: String, endPoint: String): Flow<List<String>> {
+        return relationsDao.getCompaniesForRelation(startPoint, endPoint)
+    }
+
+    fun getRelationsForSelectedCompany(startPoint: String, endPoint: String, companyName: String): Flow<List<Relation>> {
+        return relationsDao.getRelationsForCompany(startPoint, endPoint, companyName)
+    }
 }

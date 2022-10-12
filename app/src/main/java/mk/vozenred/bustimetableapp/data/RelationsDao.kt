@@ -35,4 +35,14 @@ interface RelationsDao {
 
     @Query("SELECT DISTINCT endPoint FROM relations_table WHERE startPoint LIKE :startPointSelected ORDER BY endPoint ASC")
     fun getEndPointsForSelected(startPointSelected: String): Flow<List<String>>
+
+    @Query("SELECT DISTINCT companyName FROM relations_table WHERE startPoint LIKE :starPoint AND endPoint LIKE :endPoint ORDER BY companyName ASC")
+    fun getCompaniesForRelation(starPoint: String, endPoint: String): Flow<List<String>>
+
+    @Query("SELECT * FROM relations_table WHERE startPoint LIKE :startPoint AND endPoint LIKE :endPoint AND companyName LIKE :companyName ORDER BY departureTime ASC")
+    fun getRelationsForCompany(
+        startPoint: String,
+        endPoint: String,
+        companyName: String
+    ): Flow<List<Relation>>
 }
