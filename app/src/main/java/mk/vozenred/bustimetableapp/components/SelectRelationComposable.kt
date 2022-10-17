@@ -14,6 +14,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import mk.vozenred.bustimetableapp.ui.theme.LARGEST_PADDING
+import mk.vozenred.bustimetableapp.ui.theme.LARGE_PADDING
 
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
@@ -37,7 +39,7 @@ fun SelectRelationField(
     }
     Surface(
         modifier = Modifier
-            .padding(16.dp)
+            .padding(LARGEST_PADDING)
             .fillMaxWidth(),
         shape = RoundedCornerShape(10.dp),
         border = BorderStroke(2.dp, borderColor),

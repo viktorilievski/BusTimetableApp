@@ -5,9 +5,11 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Surface
-import androidx.compose.material.Text
+import androidx.compose.material.*
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Add
+import androidx.compose.material.icons.filled.Favorite
+import androidx.compose.material.icons.filled.FavoriteBorder
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -24,12 +26,10 @@ import mk.vozenred.bustimetableapp.ui.theme.*
 fun RelationListRowItem(
     relation: Relation
 ) {
+
     Surface(
         modifier = Modifier
-            .padding(16.dp)
-            .fillMaxWidth(),
-        shape = RoundedCornerShape(CARD_CORNER_RADIUS),
-        border = BorderStroke(2.dp, MaterialTheme.colors.cardBorderColor)
+            .fillMaxWidth()
     ) {
         Row(
             Modifier
@@ -37,7 +37,7 @@ fun RelationListRowItem(
                 .padding(horizontal = LARGE_PADDING, vertical = LARGE_PADDING)
         ) {
             Column(
-                modifier = Modifier.fillMaxWidth(0.3f)
+                modifier = Modifier.fillMaxWidth(0.15f)
             ) {
                 Image(
                     painter = painterResource(id = R.drawable.ic_bus_standard),
@@ -51,7 +51,10 @@ fun RelationListRowItem(
             Column(verticalArrangement = Arrangement.SpaceBetween) {
                 Row(
                     modifier = Modifier
-                        .padding(bottom = LARGE_PADDING)
+                        .fillMaxWidth()
+                        .height(45.dp),
+                    verticalAlignment = Alignment.CenterVertically,
+                    horizontalArrangement = Arrangement.Start
                 ) {
                     Text(text = relation.companyName, fontSize = TEXT_SIZE_LARGE)
                 }
@@ -110,6 +113,7 @@ fun RelationListRowItem(
         }
 
     }
+    Divider()
 }
 
 @Composable
@@ -143,7 +147,8 @@ fun RelationListRowItemPreview() {
             endPoint = "Куманово",
             departureTime = "11:00",
             arrivalTime = "12:00",
-            note = "This is a note"
+            note = "This is a note",
+            isRelationFavorite = true
         )
     )
 }

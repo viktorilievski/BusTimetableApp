@@ -1,12 +1,12 @@
 package mk.vozenred.bustimetableapp.ui.screens.search_relations
 
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.padding
 import androidx.compose.material.Scaffold
+import androidx.compose.material.Text
+import androidx.compose.material.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.unit.dp
+import androidx.compose.ui.res.stringResource
+import mk.vozenred.bustimetableapp.R
 import mk.vozenred.bustimetableapp.ui.viewmodels.SharedViewModel
 
 @Composable
@@ -20,10 +20,11 @@ fun SearchRelationsScreen(
     val endPoint: String by sharedViewModel.endPointSelected
 
     Scaffold(
-        modifier = Modifier
-            .fillMaxSize()
-            .padding(24.dp),
-        topBar = {},
+        topBar = {
+            TopAppBar(title = {
+                Text(text = stringResource(R.string.search_relations_screen_topbar_title))
+            })
+        },
         content = { padding ->
             SearchRelationsScreenContent(
                 paddingValue = padding,

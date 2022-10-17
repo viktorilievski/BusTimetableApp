@@ -10,7 +10,10 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
+import mk.vozenred.bustimetableapp.data.model.FavoriteRelation
 import mk.vozenred.bustimetableapp.data.model.Relation
+import mk.vozenred.bustimetableapp.data.repositories.local.FavoriteRelationsRepository
 import mk.vozenred.bustimetableapp.data.repositories.local.RelationsRepository
 import javax.inject.Inject
 
@@ -18,8 +21,6 @@ import javax.inject.Inject
 class SharedViewModel @Inject constructor(
     private val relationsRepository: RelationsRepository
 ) : ViewModel() {
-
-    var networkStatus: MutableState<Boolean> = mutableStateOf(false)
 
     private val _startPointSelected: MutableState<String> = mutableStateOf("")
     val startPointSelected: State<String> = _startPointSelected
@@ -29,11 +30,14 @@ class SharedViewModel @Inject constructor(
 
     val startPoints: MutableState<List<String>> = mutableStateOf(mutableListOf())
     val endPoints: MutableState<List<String>> = mutableStateOf(mutableListOf())
+    val companiesForRelation: MutableState<List<String>> = mutableStateOf(mutableListOf())
+    val selectedCompany: MutableState<String> = mutableStateOf("Сите")
 
     private val _relations: MutableStateFlow<List<Relation>> = MutableStateFlow(mutableListOf())
     val relations: StateFlow<List<Relation>> = _relations
 
     fun getRelations() {
+        selectedCompany.value = "Сите"
         viewModelScope.launch(Dispatchers.IO) {
             relationsRepository.getRelations(_startPointSelected.value, _endPointSelected.value)
                 .collect {
@@ -50,10 +54,13 @@ class SharedViewModel @Inject constructor(
         }
     }
 
-    fun getAllEndPoints() {
+    fun getCompaniesForSelectedRelation() {
         viewModelScope.launch(Dispatchers.IO) {
-            relationsRepository.getAllEndPoints().collect {
-                endPoints.value = it
+            relationsRepository.getCompaniesForRelation(
+                _startPointSelected.value,
+                _endPointSelected.value
+            ).collect {
+                companiesForRelation.value = it
             }
         }
     }
@@ -66,6 +73,10 @@ class SharedViewModel @Inject constructor(
         _endPointSelected.value = endPoint
     }
 
+    fun setSelectedCompany(companyName: String) {
+        selectedCompany.value = companyName
+    }
+
     fun clearEndPoint() {
         _endPointSelected.value = ""
     }
@@ -76,6 +87,22 @@ class SharedViewModel @Inject constructor(
                 .collect {
                     endPoints.value = it
                 }
+        }
+    }
+
+    fun getRelationsForSelectedCompany(companyName: String) {
+        if (companyName.isEmpty()) {
+            getRelations()
+        } else {
+            viewModelScope.launch(Dispatchers.IO) {
+                relationsRepository.getRelationsForSelectedCompany(
+                    _startPointSelected.value,
+                    _endPointSelected.value,
+                    companyName
+                ).collect {
+                    _relations.value = it
+                }
+            }
         }
     }
 }

@@ -32,9 +32,9 @@ fun SelectFromDestinationScreen(
             .background(Color.Red),
         content = {
             LazyColumn(modifier = Modifier.padding(it)) {
-                items(startPoints) {
-                    PointListRowItemComposable(pointName = it) {
-                        sharedViewModel.setStartPoint(it)
+                items(startPoints) { startPoint ->
+                    PointListRowItemComposable(pointName = startPoint) {
+                        sharedViewModel.setStartPoint(startPoint)
                         sharedViewModel.clearEndPoint()
                         navigateToSearchScreen(true)
                     }
