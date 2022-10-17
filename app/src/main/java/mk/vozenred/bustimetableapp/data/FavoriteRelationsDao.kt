@@ -5,6 +5,7 @@ import kotlinx.coroutines.flow.Flow
 import mk.vozenred.bustimetableapp.data.model.FavoriteRelation
 import mk.vozenred.bustimetableapp.data.model.Relation
 
+//todo: to be implemented in near future
 @Dao
 interface FavoriteRelationsDao {
 

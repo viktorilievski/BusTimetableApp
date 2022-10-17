@@ -7,6 +7,7 @@ import mk.vozenred.bustimetableapp.data.model.FavoriteRelation
 import mk.vozenred.bustimetableapp.data.model.Relation
 import javax.inject.Inject
 
+//todo: to be implemented in near future
 @ViewModelScoped
 class FavoriteRelationsRepository @Inject constructor(
     private val favoriteRelationsDao: FavoriteRelationsDao

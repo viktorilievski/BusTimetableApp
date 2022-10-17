@@ -36,8 +36,6 @@ class SharedViewModel @Inject constructor(
     private val _relations: MutableStateFlow<List<Relation>> = MutableStateFlow(mutableListOf())
     val relations: StateFlow<List<Relation>> = _relations
 
-    val isRelationFavorite: MutableState<Boolean> = mutableStateOf(false)
-
     fun getRelations() {
         selectedCompany.value = "Сите"
         viewModelScope.launch(Dispatchers.IO) {
@@ -52,14 +50,6 @@ class SharedViewModel @Inject constructor(
         viewModelScope.launch(Dispatchers.IO) {
             relationsRepository.getAllStartingPoints().collect {
                 startPoints.value = it
-            }
-        }
-    }
-
-    fun getAllEndPoints() {
-        viewModelScope.launch(Dispatchers.IO) {
-            relationsRepository.getAllEndPoints().collect {
-                endPoints.value = it
             }
         }
     }
@@ -97,14 +87,6 @@ class SharedViewModel @Inject constructor(
                 .collect {
                     endPoints.value = it
                 }
-        }
-    }
-
-    fun setRelationFavoriteStatus(relationId: Int, isRelationFavorite: Boolean) {
-        viewModelScope.launch(Dispatchers.IO) {
-            withContext(Dispatchers.IO) {
-                relationsRepository.setRelationFavoriteStatus(relationId, isRelationFavorite)
-            }
         }
     }
 

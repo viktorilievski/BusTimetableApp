@@ -24,16 +24,12 @@ import mk.vozenred.bustimetableapp.ui.theme.*
 
 @Composable
 fun RelationListRowItem(
-    relation: Relation,
-    onFavoriteButtonClick: (Int) -> Unit
+    relation: Relation
 ) {
 
     Surface(
         modifier = Modifier
-            .padding(16.dp)
-            .fillMaxWidth(),
-        shape = RoundedCornerShape(CARD_CORNER_RADIUS),
-        border = BorderStroke(2.dp, MaterialTheme.colors.cardBorderColor)
+            .fillMaxWidth()
     ) {
         Row(
             Modifier
@@ -41,7 +37,7 @@ fun RelationListRowItem(
                 .padding(horizontal = LARGE_PADDING, vertical = LARGE_PADDING)
         ) {
             Column(
-                modifier = Modifier.fillMaxWidth(0.3f)
+                modifier = Modifier.fillMaxWidth(0.15f)
             ) {
                 Image(
                     painter = painterResource(id = R.drawable.ic_bus_standard),
@@ -56,26 +52,11 @@ fun RelationListRowItem(
                 Row(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .padding(bottom = LARGE_PADDING),
+                        .height(45.dp),
                     verticalAlignment = Alignment.CenterVertically,
-                    horizontalArrangement = Arrangement.SpaceBetween
+                    horizontalArrangement = Arrangement.Start
                 ) {
                     Text(text = relation.companyName, fontSize = TEXT_SIZE_LARGE)
-                    IconButton(onClick = { onFavoriteButtonClick(relation.id) }) {
-                        if (relation.isRelationFavorite) {
-                            Icon(
-                                imageVector = Icons.Filled.Favorite,
-                                contentDescription = "Add to Favorites Icon"
-                            )
-                        } else {
-                            Icon(
-                                imageVector = Icons.Filled.FavoriteBorder,
-                                contentDescription = "Add to Favorites Icon"
-                            )
-                        }
-
-                    }
-
                 }
                 Row(
                     verticalAlignment = Alignment.CenterVertically,
@@ -132,6 +113,7 @@ fun RelationListRowItem(
         }
 
     }
+    Divider()
 }
 
 @Composable
@@ -167,7 +149,6 @@ fun RelationListRowItemPreview() {
             arrivalTime = "12:00",
             note = "This is a note",
             isRelationFavorite = true
-        ),
-        onFavoriteButtonClick = {},
+        )
     )
 }

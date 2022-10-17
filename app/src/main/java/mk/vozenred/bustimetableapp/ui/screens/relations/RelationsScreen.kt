@@ -56,7 +56,7 @@ fun RelationsScreen(
                     FilterDropdownMenu(
                         expanded = filterExpanded,
                         onDismissRequested = { filterExpanded = false },
-                        onMenuItemClicked = { companyNameClicked ->
+                        onFilterIconClicked = { companyNameClicked ->
                             sharedViewModel.getRelationsForSelectedCompany(companyNameClicked)
                             sharedViewModel.setSelectedCompany(companyNameClicked)
                             filterExpanded = false
@@ -78,13 +78,7 @@ fun RelationsScreen(
         ) {
             items(relations) { relation ->
                 RelationListRowItem(
-                    relation = relation,
-                    onFavoriteButtonClick = { relationId ->
-                        sharedViewModel.setRelationFavoriteStatus(
-                            relationId = relationId,
-                            isRelationFavorite = !relation.isRelationFavorite
-                        )
-                    }
+                    relation = relation
                 )
             }
         }

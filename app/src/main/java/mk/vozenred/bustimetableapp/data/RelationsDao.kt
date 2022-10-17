@@ -30,9 +30,6 @@ interface RelationsDao {
     @Query("SELECT DISTINCT startPoint FROM relations_table ORDER BY startPoint ASC")
     fun getAllStartingPoints(): Flow<List<String>>
 
-    @Query("SELECT DISTINCT endPoint FROM relations_table")
-    fun getAllEndPoints(): Flow<List<String>>
-
     @Query("SELECT DISTINCT endPoint FROM relations_table WHERE startPoint LIKE :startPointSelected ORDER BY endPoint ASC")
     fun getEndPointsForSelected(startPointSelected: String): Flow<List<String>>
 
