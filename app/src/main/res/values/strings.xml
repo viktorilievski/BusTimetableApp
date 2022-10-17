@@ -10,4 +10,8 @@
     <string name="note_info_icon">Note info icon</string>
     <string name="search_relations_screen_topbar_title">Одбери релација</string>
     <string name="all_relations_text">Сите</string>
+    <string name="not_selected_company_icon">Not selected company icon</string>
+    <string name="selected_company_icon">Selected option icon</string>
+    <string name="drawer_icon">Drawer Icon</string>
+    <string name="filter_icon">Filter Icon</string>
 </resources>

@@ -18,7 +18,7 @@ import mk.vozenred.bustimetableapp.ui.theme.MEDIUM_PADDING
 fun FilterDropdownMenu(
     expanded: Boolean,
     onDismissRequested: () -> Unit,
-    onMenuItemClicked: (String) -> Unit,
+    onFilterIconClicked: (String) -> Unit,
     onShowAllRelationsClicked: () -> Unit,
     companies: List<String>,
     selectedCompany: String
@@ -33,12 +33,12 @@ fun FilterDropdownMenu(
                 if (selectedCompany == stringResource(R.string.all_relations_text)) {
                     Image(
                         painter = painterResource(id = R.drawable.ic_end_point_relation),
-                        contentDescription = "Selected option icon"
+                        contentDescription = stringResource(id = R.string.selected_company_icon)
                     )
                 } else {
                     Image(
                         painter = painterResource(id = R.drawable.ic_start_point_relation2),
-                        contentDescription = "Selected option icon"
+                        contentDescription = stringResource(id = R.string.not_selected_company_icon)
                     )
                 }
                 Text(
@@ -51,8 +51,8 @@ fun FilterDropdownMenu(
         companies.forEach { companyName ->
             FilterDropdownMenuItem(
                 companyName = companyName,
-                onDropdownMenuItemClick = {
-                    onMenuItemClicked(companyName)
+                onFilterItemClicked = {
+                    onFilterIconClicked(companyName)
                 },
                 selectedCompany = selectedCompany
             )
@@ -63,19 +63,19 @@ fun FilterDropdownMenu(
 @Composable
 fun FilterDropdownMenuItem(
     companyName: String,
-    onDropdownMenuItemClick: () -> Unit,
+    onFilterItemClicked: () -> Unit,
     selectedCompany: String
 ) {
-    DropdownMenuItem(onClick = { onDropdownMenuItemClick() }) {
+    DropdownMenuItem(onClick = { onFilterItemClicked() }) {
         if (selectedCompany == companyName) {
             Image(
                 painter = painterResource(id = R.drawable.ic_end_point_relation),
-                contentDescription = "Selected option icon"
+                contentDescription = stringResource(R.string.selected_company_icon)
             )
         } else {
             Image(
                 painter = painterResource(id = R.drawable.ic_start_point_relation2),
-                contentDescription = "Selected option icon"
+                contentDescription = stringResource(R.string.not_selected_company_icon)
             )
         }
         Text(

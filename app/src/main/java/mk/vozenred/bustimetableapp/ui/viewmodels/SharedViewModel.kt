@@ -10,7 +10,10 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
+import mk.vozenred.bustimetableapp.data.model.FavoriteRelation
 import mk.vozenred.bustimetableapp.data.model.Relation
+import mk.vozenred.bustimetableapp.data.repositories.local.FavoriteRelationsRepository
 import mk.vozenred.bustimetableapp.data.repositories.local.RelationsRepository
 import javax.inject.Inject
 
@@ -47,14 +50,6 @@ class SharedViewModel @Inject constructor(
         viewModelScope.launch(Dispatchers.IO) {
             relationsRepository.getAllStartingPoints().collect {
                 startPoints.value = it
-            }
-        }
-    }
-
-    fun getAllEndPoints() {
-        viewModelScope.launch(Dispatchers.IO) {
-            relationsRepository.getAllEndPoints().collect {
-                endPoints.value = it
             }
         }
     }

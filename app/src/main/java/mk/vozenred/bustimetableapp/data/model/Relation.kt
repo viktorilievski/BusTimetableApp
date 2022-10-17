@@ -13,5 +13,6 @@ data class Relation(
     val endPoint: String = "",
     val departureTime: String = "",
     val arrivalTime: String = "",
-    val note: String = ""
+    val note: String = "",
+    val isRelationFavorite: Boolean = false
 )
