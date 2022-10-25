@@ -5,9 +5,14 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.material.DrawerValue
 import androidx.compose.material.Scaffold
+import androidx.compose.material.rememberDrawerState
+import androidx.compose.material.rememberScaffoldState
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
+import kotlinx.coroutines.launch
+import mk.vozenred.bustimetableapp.components.topbars.DrawerContent
 import mk.vozenred.bustimetableapp.components.topbars.FilterDropdownMenu
 import mk.vozenred.bustimetableapp.components.topbars.RelationsTopAppBar
 import mk.vozenred.bustimetableapp.ui.screens.relations.composables.RelationListRowItem
@@ -26,6 +31,9 @@ fun RelationsScreen(
     var filterExpanded by remember {
         mutableStateOf(false)
     }
+    val scaffoldState = rememberScaffoldState()
+    val drawerState = rememberDrawerState(initialValue = DrawerValue.Closed)
+    val coroutineScope = rememberCoroutineScope()
 
     LaunchedEffect(key1 = true) {
         sharedViewModel.getRelations()
@@ -33,6 +41,7 @@ fun RelationsScreen(
     }
 
     Scaffold(
+        scaffoldState = scaffoldState,
         modifier = Modifier
             .fillMaxSize(),
         topBar = {
@@ -42,7 +51,11 @@ fun RelationsScreen(
                         title = "$selectedFromRelation - $selectedToRelation",
                         filterButtonEnabled = false,
                         onFilterClicked = {},
-                        onDrawerIconClick = {}
+                        onDrawerIconClick = {
+                            coroutineScope.launch {
+                                scaffoldState.drawerState.open()
+                            }
+                        }
                     )
                 } else {
                     RelationsTopAppBar(
@@ -51,7 +64,11 @@ fun RelationsScreen(
                         onFilterClicked = {
                             filterExpanded = true
                         },
-                        onDrawerIconClick = {}
+                        onDrawerIconClick = {
+                            coroutineScope.launch {
+                                scaffoldState.drawerState.open()
+                            }
+                        }
                     )
                     FilterDropdownMenu(
                         expanded = filterExpanded,
@@ -71,6 +88,9 @@ fun RelationsScreen(
                 }
 
             }
+        },
+        drawerContent = {
+            DrawerContent()
         }
     ) {
         LazyColumn(
