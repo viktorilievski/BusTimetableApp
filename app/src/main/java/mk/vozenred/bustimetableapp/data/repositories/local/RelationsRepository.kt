@@ -23,8 +23,16 @@ class RelationsRepository @Inject constructor(
         return relationsDao.getAllStartingPoints()
     }
 
+    fun getStartPointsForEnteredText(enteredText: String): Flow<List<String>> {
+        return relationsDao.getStartPointsForEnteredText(enteredText)
+    }
+
     fun getEndPointsForSelectedStartPoint(selectedStartPoint: String): Flow<List<String>> {
         return relationsDao.getEndPointsForSelected(selectedStartPoint)
+    }
+
+    fun getEndPointsForEnteredText(selectedStartPoint: String, enteredText: String): Flow<List<String>> {
+        return relationsDao.getEndPointsForEnteredText(selectedStartPoint, enteredText)
     }
 
     fun getCompaniesForRelation(startPoint: String, endPoint: String): Flow<List<String>> {

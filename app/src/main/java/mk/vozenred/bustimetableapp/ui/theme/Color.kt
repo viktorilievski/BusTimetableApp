@@ -38,3 +38,11 @@ get() = if (isLight) LightGray else LightGray
 val Colors.cardBorderColor: Color
 @Composable
 get() = if (isLight) SteelTeal else SteelTeal
+
+val Colors.topAppBarBackgroundColor: Color
+    @Composable
+    get() = if (isLight) Purple500 else Color.Black
+
+val Colors.topAppBarContentColor: Color
+    @Composable
+    get() = if (isLight) Color.White else LightGray

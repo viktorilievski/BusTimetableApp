@@ -10,11 +10,9 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
-import mk.vozenred.bustimetableapp.data.model.FavoriteRelation
 import mk.vozenred.bustimetableapp.data.model.Relation
-import mk.vozenred.bustimetableapp.data.repositories.local.FavoriteRelationsRepository
 import mk.vozenred.bustimetableapp.data.repositories.local.RelationsRepository
+import mk.vozenred.bustimetableapp.util.SearchAppBarState
 import javax.inject.Inject
 
 @HiltViewModel
@@ -28,10 +26,15 @@ class SharedViewModel @Inject constructor(
     private val _endPointSelected: MutableState<String> = mutableStateOf("")
     val endPointSelected: State<String> = _endPointSelected
 
-    val startPoints: MutableState<List<String>> = mutableStateOf(mutableListOf())
-    val endPoints: MutableState<List<String>> = mutableStateOf(mutableListOf())
+    private val startPoints: MutableState<List<String>> = mutableStateOf(mutableListOf())
+    private val endPoints: MutableState<List<String>> = mutableStateOf(mutableListOf())
+    var filteredStartPoints: MutableState<List<String>> = mutableStateOf(mutableListOf())
+    var filteredEndPoints: MutableState<List<String>> = mutableStateOf(mutableListOf())
     val companiesForRelation: MutableState<List<String>> = mutableStateOf(mutableListOf())
     val selectedCompany: MutableState<String> = mutableStateOf("Сите")
+
+    private val searchAppBarText: MutableState<String> = mutableStateOf("")
+    val searchAppBarState: MutableState<SearchAppBarState> = mutableStateOf(SearchAppBarState.CLOSED)
 
     private val _relations: MutableStateFlow<List<Relation>> = MutableStateFlow(mutableListOf())
     val relations: StateFlow<List<Relation>> = _relations
@@ -50,6 +53,7 @@ class SharedViewModel @Inject constructor(
         viewModelScope.launch(Dispatchers.IO) {
             relationsRepository.getAllStartingPoints().collect {
                 startPoints.value = it
+                filteredStartPoints.value = startPoints.value
             }
         }
     }
@@ -86,6 +90,7 @@ class SharedViewModel @Inject constructor(
             relationsRepository.getEndPointsForSelectedStartPoint(_startPointSelected.value)
                 .collect {
                     endPoints.value = it
+                    filteredEndPoints.value = endPoints.value
                 }
         }
     }
@@ -105,4 +110,42 @@ class SharedViewModel @Inject constructor(
             }
         }
     }
+
+
+    fun searchAppBarOnCloseClick() {
+        filteredStartPoints.value = startPoints.value
+        filteredEndPoints.value = endPoints.value
+        if (searchAppBarText.value.isEmpty()) {
+            closeSearchTopAppbar()
+        } else {
+            searchAppBarText.value = ""
+        }
+    }
+
+    fun getStartPointsForEnteredText(enteredText: String) {
+        searchAppBarText.value = enteredText
+        filteredStartPoints.value = startPoints.value.filter { startPoint ->
+            startPoint.lowercase().startsWith(enteredText.lowercase())
+        }
+    }
+
+    fun getEndPointsForEnteredText(enteredText: String) {
+        searchAppBarText.value = enteredText
+        filteredEndPoints.value = endPoints.value.filter { endPoint ->
+            endPoint.lowercase().startsWith(enteredText.lowercase())
+        }
+    }
+
+    fun clearSearchAppBarText() {
+        searchAppBarText.value = ""
+    }
+
+    fun topAppBarOnSearchClick() {
+        searchAppBarState.value = SearchAppBarState.OPENED
+    }
+
+    fun closeSearchTopAppbar() {
+        searchAppBarState.value = SearchAppBarState.CLOSED
+    }
+
 }

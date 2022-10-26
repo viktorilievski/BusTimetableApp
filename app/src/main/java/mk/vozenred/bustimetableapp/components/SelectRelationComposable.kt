@@ -6,9 +6,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.ExperimentalMaterialApi
-import androidx.compose.material.Surface
-import androidx.compose.material.Text
+import androidx.compose.material.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -27,22 +25,17 @@ fun SelectRelationField(
 ) {
     val textColor: Color
     val backgroundColor: Color
-    val borderColor: Color
     if (isStartPointSelected) {
         textColor = Color.Black
-        backgroundColor = Color.Gray
-        borderColor = Color.Red
+        backgroundColor = Color.LightGray
     } else {
         textColor = Color.Gray
         backgroundColor = Color.LightGray
-        borderColor = Color.Gray
     }
     Surface(
         modifier = Modifier
-            .padding(LARGEST_PADDING)
             .fillMaxWidth(),
-        shape = RoundedCornerShape(10.dp),
-        border = BorderStroke(2.dp, borderColor),
+        shape = MaterialTheme.shapes.small,
         enabled = isStartPointSelected,
         onClick = { onFieldClick() }
     ) {
@@ -55,6 +48,8 @@ fun SelectRelationField(
             Text(text = selectedPoint, color = textColor)
         }
     }
+
+
 }
 
 @Composable

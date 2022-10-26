@@ -14,4 +14,8 @@
     <string name="selected_company_icon">Selected option icon</string>
     <string name="drawer_icon">Drawer Icon</string>
     <string name="filter_icon">Filter Icon</string>
+    <string name="back_arrow_icon">Back Arrow Icon</string>
+    <string name="search_icon">Search Icon</string>
+    <string name="close_icon">Close Icon</string>
+    <string name="forward_arrow_icon">Forward Arrow Icon</string>
 </resources>
