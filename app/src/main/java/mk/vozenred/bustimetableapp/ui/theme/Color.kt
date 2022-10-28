@@ -1,12 +1,11 @@
 package mk.vozenred.bustimetableapp.ui.theme
 
-import android.hardware.lights.Light
 import androidx.compose.material.Colors
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Color
 
-val Purple200 = Color(0xFFBB86FC)
-val Purple500 = Color(0xFF6200EE)
+val primaryColorDark = Color(0xFFBB86FC)
+val primaryColorLight = Color(0xFF6200EE)
 val Purple700 = Color(0xFF3700B3)
 val Teal200 = Color(0xFF03DAC5)
 val Accent = Color(0xFF0CCA4A)
@@ -24,25 +23,29 @@ val Colors.searchRelationsScreenBackgroundColor: Color
     get() = if (isLight) Color.White else Color.Yellow
 
 val Colors.accentColor: Color
-@Composable
-get() = if (isLight) Accent else Accent
+    @Composable
+    get() = if (isLight) Accent else Accent
 
 val Colors.cardBackgroundColor: Color
-@Composable
-get() = if (isLight) AlmostPureWhite else AlmostPureWhite
+    @Composable
+    get() = if (isLight) AlmostPureWhite else AlmostPureWhite
 
 val Colors.relationBetweenIconColor: Color
-@Composable
-get() = if (isLight) LightGray else LightGray
+    @Composable
+    get() = if (isLight) LightGray else LightGray
 
 val Colors.cardBorderColor: Color
-@Composable
-get() = if (isLight) SteelTeal else SteelTeal
+    @Composable
+    get() = if (isLight) SteelTeal else SteelTeal
 
 val Colors.topAppBarBackgroundColor: Color
     @Composable
-    get() = if (isLight) Purple500 else Color.Black
+    get() = if (isLight) primaryColorLight else Color.Black
 
 val Colors.topAppBarContentColor: Color
     @Composable
     get() = if (isLight) Color.White else LightGray
+
+val Colors.drawerIconsColor: Color
+    @Composable
+    get() = if (isLight) primaryColorLight else primaryColorDark

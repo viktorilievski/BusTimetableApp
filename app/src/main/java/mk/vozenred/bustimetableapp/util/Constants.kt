@@ -11,6 +11,8 @@ object Constants {
     const val SPLASH_SCREEN = "splash"
     const val NO_CONNECTION_SCREEN = "no_connection"
     const val SEARCH_SCREEN = "search"
+    const val CONTACT_SCREEN = "contact"
+    const val REPORT_SCREEN = "report"
     const val RELATIONS_SCREEN = "relationsList"
     const val FAVORITES_SCREEN = "favorites"
     const val SELECT_FROM_DESTINATION_SCREEN = "selectFromDestination"

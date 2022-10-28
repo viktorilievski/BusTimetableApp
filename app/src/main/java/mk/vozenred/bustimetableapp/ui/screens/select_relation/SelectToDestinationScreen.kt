@@ -8,8 +8,12 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.material.Divider
 import androidx.compose.material.Scaffold
 import androidx.compose.runtime.*
+import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.focus.FocusRequester
+import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import mk.vozenred.bustimetableapp.components.topbars.SearchAppBar
 import mk.vozenred.bustimetableapp.components.topbars.SelectDestinationTopAppBar
 import mk.vozenred.bustimetableapp.ui.screens.select_relation.composables.PointListRowItemComposable
@@ -53,7 +57,9 @@ fun SelectToDestinationScreen(
                 SearchAppBarState.CLOSED -> {
                     SelectDestinationTopAppBar(
                         title = "End destination",
-                        onSearchIconClick = { sharedViewModel.topAppBarOnSearchClick() },
+                        onSearchIconClick = {
+                            sharedViewModel.topAppBarOnSearchClick()
+                        },
                         onBackArrowClick = {
                             navigateToSearchScreen(true)
                         }

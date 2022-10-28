@@ -1,8 +1,10 @@
 package mk.vozenred.bustimetableapp.navigation
 
 import androidx.navigation.NavHostController
+import mk.vozenred.bustimetableapp.util.Constants.CONTACT_SCREEN
 import mk.vozenred.bustimetableapp.util.Constants.NO_CONNECTION_SCREEN
 import mk.vozenred.bustimetableapp.util.Constants.RELATIONS_SCREEN
+import mk.vozenred.bustimetableapp.util.Constants.REPORT_SCREEN
 import mk.vozenred.bustimetableapp.util.Constants.SEARCH_SCREEN
 import mk.vozenred.bustimetableapp.util.Constants.SELECT_FROM_DESTINATION_SCREEN
 import mk.vozenred.bustimetableapp.util.Constants.SELECT_TO_DESTINATION_SCREEN
@@ -60,4 +62,16 @@ class Screens(navController: NavHostController) {
                 popUpTo(SEARCH_SCREEN) { inclusive = shouldClearBackstack }
             }
         }
+
+    val relationsToSearchScreen: () -> Unit = {
+        navController.navigate(route = SEARCH_SCREEN)
+    }
+
+    val relationsToContactScreen: () -> Unit = {
+        navController.navigate(route = CONTACT_SCREEN)
+    }
+
+    val relationsToReportScreen: () -> Unit = {
+        navController.navigate(route = REPORT_SCREEN)
+    }
 }

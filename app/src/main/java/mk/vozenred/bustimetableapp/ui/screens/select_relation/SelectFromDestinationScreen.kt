@@ -8,6 +8,7 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.material.Divider
 import androidx.compose.material.Scaffold
 import androidx.compose.runtime.*
+import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import mk.vozenred.bustimetableapp.components.topbars.SearchAppBar
@@ -52,7 +53,9 @@ fun SelectFromDestinationScreen(
                 SearchAppBarState.CLOSED -> {
                     SelectDestinationTopAppBar(
                         title = "Start destination",
-                        onSearchIconClick = { sharedViewModel.topAppBarOnSearchClick() },
+                        onSearchIconClick = {
+                            sharedViewModel.topAppBarOnSearchClick()
+                        },
                         onBackArrowClick = {
                             navigateToSearchScreen(true)
                         }

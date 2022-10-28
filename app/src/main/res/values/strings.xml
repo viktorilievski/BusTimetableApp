@@ -18,4 +18,7 @@
     <string name="search_icon">Search Icon</string>
     <string name="close_icon">Close Icon</string>
     <string name="forward_arrow_icon">Forward Arrow Icon</string>
+    <string name="search_new_relation">Барај нова релација</string>
+    <string name="contact">Контакт</string>
+    <string name="send_a_report">Пријави проблем</string>
 </resources>

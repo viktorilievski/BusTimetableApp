@@ -17,10 +17,14 @@ import mk.vozenred.bustimetableapp.components.topbars.FilterDropdownMenu
 import mk.vozenred.bustimetableapp.components.topbars.RelationsTopAppBar
 import mk.vozenred.bustimetableapp.ui.screens.relations.composables.RelationListRowItem
 import mk.vozenred.bustimetableapp.ui.viewmodels.SharedViewModel
+import mk.vozenred.bustimetableapp.util.Constants.RELATIONS_SCREEN
 
 @Composable
 fun RelationsScreen(
-    sharedViewModel: SharedViewModel
+    sharedViewModel: SharedViewModel,
+    navigateToSearchScreen: () -> Unit,
+    navigateToContactScreen: () -> Unit,
+    navigateToReportScreen: () -> Unit
 ) {
     val relations by sharedViewModel.relations.collectAsState()
     val selectedFromRelation = sharedViewModel.startPointSelected.value
@@ -32,7 +36,6 @@ fun RelationsScreen(
         mutableStateOf(false)
     }
     val scaffoldState = rememberScaffoldState()
-    val drawerState = rememberDrawerState(initialValue = DrawerValue.Closed)
     val coroutineScope = rememberCoroutineScope()
 
     LaunchedEffect(key1 = true) {
@@ -90,7 +93,23 @@ fun RelationsScreen(
             }
         },
         drawerContent = {
-            DrawerContent()
+            DrawerContent(
+                selectedFromRelation = selectedFromRelation,
+                selectedToRelation = selectedToRelation,
+                onCloseDrawerClick = {
+                    coroutineScope.launch {
+                        scaffoldState.drawerState.close()
+                    }
+                },
+                navigateToSearchScreen = {
+                    coroutineScope.launch {
+                        scaffoldState.drawerState.close()
+                    }
+                    navigateToSearchScreen()
+                },
+                navigateToContactScreen = { navigateToContactScreen() },
+                navigateToReportScreen = { navigateToReportScreen() }
+            )
         }
     ) {
         LazyColumn(

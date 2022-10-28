@@ -2,6 +2,7 @@ package mk.vozenred.bustimetableapp.ui.screens.search_relations
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowForward
@@ -33,14 +34,14 @@ fun SearchRelationsScreenContent(
         modifier = Modifier
             .fillMaxSize()
             .background(MaterialTheme.colors.background)
-            .padding(paddingValue),
+            .padding(LARGEST_PADDING),
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Row (
             horizontalArrangement = Arrangement.SpaceEvenly,
             verticalAlignment = Alignment.CenterVertically,
-            modifier = Modifier.fillMaxWidth(0.9f)
+            modifier = Modifier.fillMaxWidth()
         ) {
             Column(
                 modifier = Modifier.weight(0.3f)
@@ -68,16 +69,26 @@ fun SearchRelationsScreenContent(
                 )
             }
         }
+    }
+    Column(
+        verticalArrangement = Arrangement.Bottom,
+        horizontalAlignment = Alignment.CenterHorizontally,
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(LARGEST_PADDING)
+    ) {
         Row() {
             Button(
                 modifier = Modifier
-                    .fillMaxWidth(0.9f)
-                    .padding(top = LARGEST_PADDING),
+                    .fillMaxWidth()
+                    .height(70.dp)
+                    .padding(bottom = LARGEST_PADDING),
                 onClick = { navigateToRelationsScreen() },
-                enabled = isEndPointSelected
+                enabled = isEndPointSelected,
+                shape = RoundedCornerShape(24.dp)
             ) {
                 Text(
-                    text = "Барај",
+                    text = "БАРАЈ",
                     fontSize = TEXT_SIZE_MEDIUM
                 )
             }
@@ -89,8 +100,8 @@ fun SearchRelationsScreenContent(
 @Preview
 fun SearchRelationsScreenContentPreview() {
     SearchRelationsScreenContent(
-        startPoint = "Skopje",
-        endPoint = "Kumanovo",
+        startPoint = "Скопје",
+        endPoint = "Куманово",
         paddingValue = PaddingValues(),
         navigateToEndDestinationScreen = {},
         navigateToStartDestinationScreen = {},

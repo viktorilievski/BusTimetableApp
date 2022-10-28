@@ -40,7 +40,10 @@ fun SetupNavigation(
             sharedViewModel = sharedViewModel
         )
         relationsComposable(
-            sharedViewModel = sharedViewModel
+            sharedViewModel = sharedViewModel,
+            navigateToSearchScreen = screen.relationsToSearchScreen,
+            navigateToContactScreen = screen.relationsToContactScreen,
+            navigateToReportScreen = screen.relationsToReportScreen
         )
         selectFromDestinationComposable(
             navigateToSearchScreen = screen.selectFromDestinationToSearch,
@@ -50,5 +53,9 @@ fun SetupNavigation(
             navigateToSearchScreen = screen.selectToDestinationToSearch,
             sharedViewModel = sharedViewModel
         )
+        contactComposable(
+
+        )
+        reportComposable()
     }
 }
