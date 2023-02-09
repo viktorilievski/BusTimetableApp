@@ -14,35 +14,41 @@ import mk.vozenred.bustimetableapp.R
 
 @Composable
 fun SelectDestinationTopAppBar(
-    title: String,
-    onSearchIconClick: () -> Unit,
-    onBackArrowClick: () -> Unit,
+  title: String,
+  onSearchIconClick: () -> Unit,
+  onBackArrowClick: () -> Unit,
 ) {
-    TopAppBar(
-        title = {
-                Text(text = title)
-        },
-        navigationIcon = {
-            IconButton(onClick = {
-                onBackArrowClick()
-            }) {
-                Icon(imageVector = Icons.Filled.ArrowBack, contentDescription = stringResource(R.string.back_arrow_icon))
-            }
-        },
-        actions = {
-            IconButton(onClick = { onSearchIconClick() }) {
-                Icon(imageVector = Icons.Filled.Search, contentDescription = stringResource(R.string.search_icon) )
-            }
-        }
-    )
+  TopAppBar(
+    title = {
+      Text(text = title)
+    },
+    navigationIcon = {
+      IconButton(onClick = {
+        onBackArrowClick()
+      }) {
+        Icon(
+          imageVector = Icons.Filled.ArrowBack,
+          contentDescription = stringResource(R.string.back_arrow_icon)
+        )
+      }
+    },
+    actions = {
+      IconButton(onClick = { onSearchIconClick() }) {
+        Icon(
+          imageVector = Icons.Filled.Search,
+          contentDescription = stringResource(R.string.search_icon)
+        )
+      }
+    }
+  )
 }
 
 @Composable
 @Preview
 fun GeneralTopAppBarPreview() {
-    SelectDestinationTopAppBar(
-        title = "Select destination",
-        onSearchIconClick = {},
-        onBackArrowClick = {}
-    )
+  SelectDestinationTopAppBar(
+    title = "Select destination",
+    onSearchIconClick = {},
+    onBackArrowClick = {}
+  )
 }

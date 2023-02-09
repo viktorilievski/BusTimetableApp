@@ -1,5 +1,5 @@
-<resources>
-    <string name="app_name">BusTimetableApp</string>
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <string name="app_name">Возен Ред</string>
     <string name="no_connection_first_time">Connection is required for the first setup of the application. Please enable Internet Access and click on the Retry button!</string>
     <string name="no_connection_with_db">Connection is required for the latest relation updates, however you can use the application in Offline mode with your previous saved relations!</string>
     <string name="retry_connection_button_text">Retry</string>
@@ -21,4 +21,13 @@
     <string name="search_new_relation">Барај нова релација</string>
     <string name="contact">Контакт</string>
     <string name="send_a_report">Пријави проблем</string>
+    <string name="splash_screen_loading">Loading data from server…</string>
+    <string name="application_logo">Application Logo</string>
+    <string name="contact_screen_title">Contact</string>
+    <string name="general_top_app_bar_title" tools:ignore="ExtraTranslation">Мени</string>
+    <string name="top_app_bar_title_select_from_relation">Почетна точка</string>
+    <string name="top_app_bar_title_select_to_relation">Крајна точка</string>
+    <string name="dark_mode">Dark mode</string>
+    <string name="dark_mode_icon">Dark Mode Icon</string>
+    <string name="contact_info">За било какви информации и пријавување проблеми за апликацијата можете да не контактирате на info@bustimetable.mk или на телефонскиот број подолу.</string>
 </resources>

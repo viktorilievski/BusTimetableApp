@@ -7,21 +7,21 @@ import mk.vozenred.bustimetableapp.util.Constants.FIREBASE_CONFIG_DB_VERSION_KEY
 
 class FirebaseRemoteConfigDb {
 
-    private val config = Firebase.remoteConfig
+  private val config = Firebase.remoteConfig
 
-    init {
-        initializeRemoteConfig()
-    }
+  init {
+    initializeRemoteConfig()
+  }
 
-    private fun initializeRemoteConfig() {
-        val configSettings = remoteConfigSettings {
-            minimumFetchIntervalInSeconds = 3600
-        }
-        config.setConfigSettingsAsync(configSettings)
-        config.fetchAndActivate()
+  private fun initializeRemoteConfig() {
+    val configSettings = remoteConfigSettings {
+      minimumFetchIntervalInSeconds = 3600
     }
+    config.setConfigSettingsAsync(configSettings)
+    config.fetchAndActivate()
+  }
 
-    fun getDbVersion(): String {
-        return config.getString(FIREBASE_CONFIG_DB_VERSION_KEY)
-    }
+  fun getDbVersion(): String {
+    return config.getString(FIREBASE_CONFIG_DB_VERSION_KEY)
+  }
 }

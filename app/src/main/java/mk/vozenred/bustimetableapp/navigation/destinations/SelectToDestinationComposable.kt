@@ -7,15 +7,15 @@ import mk.vozenred.bustimetableapp.ui.viewmodels.SharedViewModel
 import mk.vozenred.bustimetableapp.util.Constants.SELECT_TO_DESTINATION_SCREEN
 
 fun NavGraphBuilder.selectToDestinationComposable(
-    navigateToSearchScreen: (shouldClearBackstack: Boolean) -> Unit,
-    sharedViewModel: SharedViewModel
+  navigateToSearchScreen: (shouldClearBackstack: Boolean) -> Unit,
+  sharedViewModel: SharedViewModel
 ) {
-    composable(
-        route = SELECT_TO_DESTINATION_SCREEN
-    ) {
-        SelectToDestinationScreen(
-            sharedViewModel = sharedViewModel,
-            navigateToSearchScreen = navigateToSearchScreen
-        )
-    }
+  composable(
+    route = SELECT_TO_DESTINATION_SCREEN
+  ) {
+    SelectToDestinationScreen(
+      sharedViewModel = sharedViewModel,
+      navigateToSearchScreen = navigateToSearchScreen
+    )
+  }
 }

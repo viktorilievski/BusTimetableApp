@@ -11,22 +11,22 @@ import javax.inject.Singleton
 
 @Singleton
 class FirestoreRepository @Inject constructor(
-    private val firestoreRelations: FirebaseFirestore
+  private val firestoreRelations: FirebaseFirestore
 ) {
-    suspend fun getRelationsFromFirestore(): FirestoreDataOrException<List<Relation>, Exception> {
-        val dataOrException = FirestoreDataOrException<List<Relation>, Exception>()
-        try {
-            dataOrException.data = firestoreRelations
-                .collection(RELATIONS_COLLECTION)
-                .get()
-                .await()
-                .map { document ->
-                    document.toObject(Relation::class.java)
-                }
-        } catch (exception: FirebaseFirestoreException) {
-            dataOrException.e = exception
+  suspend fun getRelationsFromFirestore(): FirestoreDataOrException<List<Relation>, Exception> {
+    val dataOrException = FirestoreDataOrException<List<Relation>, Exception>()
+    try {
+      dataOrException.data = firestoreRelations
+        .collection(RELATIONS_COLLECTION)
+        .get()
+        .await()
+        .map { document ->
+          document.toObject(Relation::class.java)
         }
-        return dataOrException
+    } catch (exception: FirebaseFirestoreException) {
+      dataOrException.e = exception
     }
+    return dataOrException
+  }
 
 }

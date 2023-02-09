@@ -17,36 +17,36 @@ import androidx.compose.ui.unit.dp
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
 fun SelectRelationField(
-    label: String,
-    selectedPoint: String,
-    onFieldClick: () -> Unit,
-    isStartPointSelected: Boolean
+  label: String,
+  selectedPoint: String,
+  onFieldClick: () -> Unit,
+  isStartPointSelected: Boolean
 ) {
-    val textColor: Color
-    val backgroundColor: Color
-    if (isStartPointSelected) {
-        textColor = Color.Black
-        backgroundColor = Color.LightGray
-    } else {
-        textColor = Color.Gray
-        backgroundColor = Color.LightGray
-    }
-    Surface(
-        modifier = Modifier
-            .fillMaxWidth(),
-        shape = MaterialTheme.shapes.small,
-        enabled = isStartPointSelected,
-        onClick = { onFieldClick() }
+  val textColor: Color
+  val backgroundColor: Color
+  if (isStartPointSelected) {
+    textColor = Color.Black
+    backgroundColor = Color.LightGray
+  } else {
+    textColor = Color.Gray
+    backgroundColor = Color.LightGray
+  }
+  Surface(
+    modifier = Modifier
+      .fillMaxWidth(),
+    shape = MaterialTheme.shapes.small,
+    enabled = isStartPointSelected,
+    onClick = { onFieldClick() }
+  ) {
+    Column(
+      modifier = Modifier
+        .background(backgroundColor)
+        .padding(26.dp)
     ) {
-        Column(
-            modifier = Modifier
-                .background(backgroundColor)
-                .padding(26.dp)
-        ) {
-            Text(text = label, color = textColor)
-            Text(text = selectedPoint, color = textColor)
-        }
+      Text(text = label, color = textColor)
+      Text(text = selectedPoint, color = textColor)
     }
+  }
 
 
 }
@@ -54,10 +54,10 @@ fun SelectRelationField(
 @Composable
 @Preview
 fun SelectRelationFieldPreview() {
-    SelectRelationField(
-        label = "LEAVING FROM",
-        selectedPoint = "Skopje",
-        onFieldClick = {},
-        isStartPointSelected = true
-    )
+  SelectRelationField(
+    label = "LEAVING FROM",
+    selectedPoint = "Skopje",
+    onFieldClick = {},
+    isStartPointSelected = true
+  )
 }

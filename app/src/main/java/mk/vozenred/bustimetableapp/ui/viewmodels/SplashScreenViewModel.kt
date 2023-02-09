@@ -21,61 +21,61 @@ import javax.inject.Inject
 
 @HiltViewModel
 class SplashScreenViewModel @Inject constructor(
-    private val relationsRepository: RelationsRepository,
-    private val firestoreRepository: FirestoreRepository,
-    private val dataStoreRepository: DataStoreRepository,
-    private val firebaseRemoteConfigDb: FirebaseRemoteConfigDb
+  private val relationsRepository: RelationsRepository,
+  private val firestoreRepository: FirestoreRepository,
+  private val dataStoreRepository: DataStoreRepository,
+  private val firebaseRemoteConfigDb: FirebaseRemoteConfigDb
 ) : ViewModel() {
 
-    var networkStatus: MutableState<Boolean> = mutableStateOf(false)
+  var networkStatus: MutableState<Boolean> = mutableStateOf(false)
 
-    private var _loading: MutableLiveData<LoadingState> = MutableLiveData(LoadingState.Loading)
-    val loading: LiveData<LoadingState> = _loading
+  private var _loading: MutableLiveData<LoadingState> = MutableLiveData(LoadingState.Loading)
+  val loading: LiveData<LoadingState> = _loading
 
-    private val _dataStoreValue: MutableStateFlow<String?> = MutableStateFlow(null)
-    val dataStoreValue: StateFlow<String?> = _dataStoreValue
+  private val _dataStoreValue: MutableStateFlow<String?> = MutableStateFlow(null)
+  val dataStoreValue: StateFlow<String?> = _dataStoreValue
 
-    init {
-        readFromDataStore(DB_VERSION_PREFERENCE_KEY)
-    }
+  init {
+    readDatabaseVersionFromDataStore(DB_VERSION_PREFERENCE_KEY)
+  }
 
-    fun fetchAndStoreRelationsToLocalDb() {
-        viewModelScope.launch {
-            _loading.value = LoadingState.Loading
-            withContext(Dispatchers.IO) {
-                val allRelations = firestoreRepository.getRelationsFromFirestore().data
-                for (relation in allRelations!!) {
-                    relationsRepository.addRelation(relation)
-                }
-            }
-            saveToDataStore(DB_VERSION_PREFERENCE_KEY, readFirestoreDatabaseVersion())
-            _loading.value = LoadingState.Success
+  fun fetchAndStoreRelationsToLocalDb() {
+    viewModelScope.launch {
+      _loading.value = LoadingState.Loading
+      withContext(Dispatchers.IO) {
+        val allRelations = firestoreRepository.getRelationsFromFirestore().data
+        for (relation in allRelations!!) {
+          relationsRepository.addRelation(relation)
         }
+      }
+      saveDatabaseVersionToDataStore(DB_VERSION_PREFERENCE_KEY, readFirestoreDatabaseVersion())
+      _loading.value = LoadingState.Success
     }
+  }
 
-    fun saveToDataStore(key: String, value: String) {
-        viewModelScope.launch(Dispatchers.IO) {
-            dataStoreRepository.save(key, value)
-        }
+  fun saveDatabaseVersionToDataStore(key: String, value: String) {
+    viewModelScope.launch(Dispatchers.IO) {
+      dataStoreRepository.save(key, value)
     }
+  }
 
-    fun readFromDataStore(key: String) {
-        viewModelScope.launch(Dispatchers.IO) {
-            _dataStoreValue.value = dataStoreRepository.read(key)
-        }
+  fun readDatabaseVersionFromDataStore(key: String) {
+    viewModelScope.launch(Dispatchers.IO) {
+      _dataStoreValue.value = dataStoreRepository.read(key)
     }
+  }
 
-    fun setLoadingState(value: LoadingState) {
-        _loading.value = value
-    }
+  fun setLoadingState(value: LoadingState) {
+    _loading.value = value
+  }
 
-    fun readFirestoreDatabaseVersion(): String {
-        return firebaseRemoteConfigDb.getDbVersion()
-    }
+  fun readFirestoreDatabaseVersion(): String {
+    return firebaseRemoteConfigDb.getDbVersion()
+  }
 }
 
 sealed class LoadingState {
-    object Success : LoadingState()
-    object Loading : LoadingState()
-    object Failed : LoadingState()
+  object Success : LoadingState()
+  object Loading : LoadingState()
+  object Failed : LoadingState()
 }

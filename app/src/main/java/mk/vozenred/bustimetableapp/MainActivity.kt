@@ -16,30 +16,30 @@ import mk.vozenred.bustimetableapp.util.NetworkConnectionLiveData
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
 
-    private lateinit var navController: NavHostController
-    private val sharedViewModel: SharedViewModel by viewModels()
-    private val splashScreenViewModel: SplashScreenViewModel by viewModels()
+  private lateinit var navController: NavHostController
+  private val sharedViewModel: SharedViewModel by viewModels()
+  private val splashScreenViewModel: SplashScreenViewModel by viewModels()
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        checkInternetConnection()
-        setContent {
-            BusTimetableAppTheme {
-                navController = rememberNavController()
-                SetupNavigation(
-                    navController = navController,
-                    sharedViewModel = sharedViewModel,
-                    splashScreenViewModel = splashScreenViewModel
-                )
-            }
-        }
+  override fun onCreate(savedInstanceState: Bundle?) {
+    super.onCreate(savedInstanceState)
+    checkInternetConnection()
+    setContent {
+      BusTimetableAppTheme {
+        navController = rememberNavController()
+        SetupNavigation(
+          navController = navController,
+          sharedViewModel = sharedViewModel,
+          splashScreenViewModel = splashScreenViewModel
+        )
+      }
     }
+  }
 
-    private fun checkInternetConnection() {
-        val connection = NetworkConnectionLiveData(this)
-        connection.observe(this) { isConnected ->
-            splashScreenViewModel.networkStatus.value = isConnected
-        }
+  private fun checkInternetConnection() {
+    val connection = NetworkConnectionLiveData(this)
+    connection.observe(this) { isConnected ->
+      splashScreenViewModel.networkStatus.value = isConnected
     }
+  }
 
 }

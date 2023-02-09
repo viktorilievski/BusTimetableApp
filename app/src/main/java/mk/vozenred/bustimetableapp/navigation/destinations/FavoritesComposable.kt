@@ -5,9 +5,9 @@ import androidx.navigation.compose.composable
 import mk.vozenred.bustimetableapp.util.Constants.FAVORITES_SCREEN
 
 fun NavGraphBuilder.favoritesComposable() {
-    composable(
-        route = FAVORITES_SCREEN
-    ) {
-        // favorites composable design
-    }
+  composable(
+    route = FAVORITES_SCREEN
+  ) {
+    // favorites composable design
+  }
 }
