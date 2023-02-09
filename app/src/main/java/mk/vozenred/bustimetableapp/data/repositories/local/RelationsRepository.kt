@@ -8,30 +8,45 @@ import javax.inject.Inject
 
 @ViewModelScoped
 class RelationsRepository @Inject constructor(
-    private val relationsDao: RelationsDao
+  private val relationsDao: RelationsDao
 ) {
 
-    fun getRelations(departure: String, arrival: String): Flow<List<Relation>> {
-        return relationsDao.getRelations(departure, arrival)
-    }
+  fun getRelations(departure: String, arrival: String): Flow<List<Relation>> {
+    return relationsDao.getRelations(departure, arrival)
+  }
 
-    suspend fun addRelation(relation: Relation) {
-        relationsDao.addRelation(relation = relation)
-    }
+  suspend fun addRelation(relation: Relation) {
+    relationsDao.addRelation(relation = relation)
+  }
 
-    fun getAllStartingPoints(): Flow<List<String>> {
-        return relationsDao.getAllStartingPoints()
-    }
+  fun getAllStartingPoints(): Flow<List<String>> {
+    return relationsDao.getAllStartingPoints()
+  }
 
-    fun getEndPointsForSelectedStartPoint(selectedStartPoint: String): Flow<List<String>> {
-        return relationsDao.getEndPointsForSelected(selectedStartPoint)
-    }
+  fun getStartPointsForEnteredText(enteredText: String): Flow<List<String>> {
+    return relationsDao.getStartPointsForEnteredText(enteredText)
+  }
 
-    fun getCompaniesForRelation(startPoint: String, endPoint: String): Flow<List<String>> {
-        return relationsDao.getCompaniesForRelation(startPoint, endPoint)
-    }
+  fun getEndPointsForSelectedStartPoint(selectedStartPoint: String): Flow<List<String>> {
+    return relationsDao.getEndPointsForSelected(selectedStartPoint)
+  }
 
-    fun getRelationsForSelectedCompany(startPoint: String, endPoint: String, companyName: String): Flow<List<Relation>> {
-        return relationsDao.getRelationsForCompany(startPoint, endPoint, companyName)
-    }
+  fun getEndPointsForEnteredText(
+    selectedStartPoint: String,
+    enteredText: String
+  ): Flow<List<String>> {
+    return relationsDao.getEndPointsForEnteredText(selectedStartPoint, enteredText)
+  }
+
+  fun getCompaniesForRelation(startPoint: String, endPoint: String): Flow<List<String>> {
+    return relationsDao.getCompaniesForRelation(startPoint, endPoint)
+  }
+
+  fun getRelationsForSelectedCompany(
+    startPoint: String,
+    endPoint: String,
+    companyName: String
+  ): Flow<List<Relation>> {
+    return relationsDao.getRelationsForCompany(startPoint, endPoint, companyName)
+  }
 }

@@ -19,18 +19,18 @@ class DataStoreRepository @Inject constructor(
     @ApplicationContext private val context: Context
 ) {
 
-    private val dataStore = context.dataStore
+  private val dataStore = context.dataStore
 
-    suspend fun save(key: String, value: String) {
-        val dataStoreKey = stringPreferencesKey(key)
-        dataStore.edit { preference ->
-            preference[dataStoreKey] = value
-        }
+  suspend fun save(key: String, value: String) {
+    val dataStoreKey = stringPreferencesKey(key)
+    dataStore.edit { preference ->
+      preference[dataStoreKey] = value
     }
+  }
 
-    suspend fun read(key: String): String? {
-        val dataStoreKey = stringPreferencesKey(key)
-        val preferences = dataStore.data.first()
-        return preferences[dataStoreKey]
-    }
+  suspend fun read(key: String): String? {
+    val dataStoreKey = stringPreferencesKey(key)
+    val preferences = dataStore.data.first()
+    return preferences[dataStoreKey]
+  }
 }

@@ -12,15 +12,15 @@ import javax.inject.Singleton
 @InstallIn(SingletonComponent::class)
 object FirebaseModule {
 
-    @Singleton
-    @Provides
-    fun provideFirestore(): FirebaseFirestore {
-        return FirebaseFirestore.getInstance()
-    }
+  @Singleton
+  @Provides
+  fun provideFirestore(): FirebaseFirestore {
+    return FirebaseFirestore.getInstance()
+  }
 
-    @Singleton
-    @Provides
-    fun provideFirebaseRemoteConfig(): FirebaseRemoteConfigDb {
-        return FirebaseRemoteConfigDb()
-    }
+  @Singleton
+  @Provides
+  fun provideFirebaseRemoteConfig(): FirebaseRemoteConfigDb {
+    return FirebaseRemoteConfigDb()
+  }
 }

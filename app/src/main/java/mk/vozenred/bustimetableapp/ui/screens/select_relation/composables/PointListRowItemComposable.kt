@@ -15,27 +15,27 @@ import mk.vozenred.bustimetableapp.ui.theme.POINT_ROW_ITEM_HEIGHT
 
 @Composable
 fun PointListRowItemComposable(
-    pointName: String,
-    navigateToSearchScreen: () -> Unit
+  pointName: String,
+  navigateToSearchScreen: () -> Unit
 ) {
-    Row(
-        modifier = Modifier
-            .fillMaxWidth()
-            .height(POINT_ROW_ITEM_HEIGHT)
-            .clickable {
-                navigateToSearchScreen()
-            },
-        verticalAlignment = Alignment.CenterVertically
-    ) {
-        Text(
-            modifier = Modifier.padding(start = MEDIUM_PADDING),
-            text = pointName
-        )
-    }
+  Row(
+    modifier = Modifier
+      .fillMaxWidth()
+      .height(POINT_ROW_ITEM_HEIGHT)
+      .clickable {
+        navigateToSearchScreen()
+      },
+    verticalAlignment = Alignment.CenterVertically
+  ) {
+    Text(
+      modifier = Modifier.padding(start = MEDIUM_PADDING),
+      text = pointName
+    )
+  }
 }
 
 @Composable
 @Preview
 fun PointListRowItemComposablePreview() {
-    PointListRowItemComposable(pointName = "Skopje", navigateToSearchScreen = {})
+  PointListRowItemComposable(pointName = "Skopje", navigateToSearchScreen = {})
 }

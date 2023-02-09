@@ -8,6 +8,7 @@ import dagger.hilt.InstallIn
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import mk.vozenred.bustimetableapp.data.RelationsDatabase
+import mk.vozenred.bustimetableapp.data.repositories.local.DataStoreRepository
 import mk.vozenred.bustimetableapp.util.Constants.RELATIONS_DATABASE_NAME
 import javax.inject.Singleton
 
@@ -15,21 +16,21 @@ import javax.inject.Singleton
 @InstallIn(SingletonComponent::class)
 object DatabaseModule {
 
-    @Singleton
-    @Provides
-    fun provideDatabase(
-        @ApplicationContext context: Context
-    ) = Room.databaseBuilder(
-        context,
-        RelationsDatabase::class.java,
-        RELATIONS_DATABASE_NAME
-    ).fallbackToDestructiveMigration().build()
+  @Singleton
+  @Provides
+  fun provideDatabase(
+    @ApplicationContext context: Context
+  ) = Room.databaseBuilder(
+    context,
+    RelationsDatabase::class.java,
+    RELATIONS_DATABASE_NAME
+  ).fallbackToDestructiveMigration().build()
 
-    @Singleton
-    @Provides
-    fun provideRelationsDao(database: RelationsDatabase) = database.relationsDao()
+  @Singleton
+  @Provides
+  fun provideRelationsDao(database: RelationsDatabase) = database.relationsDao()
 
-    @Singleton
-    @Provides
-    fun provideFavoritesDao(database: RelationsDatabase) = database.favoritesDao()
+  @Singleton
+  @Provides
+  fun provideFavoritesDao(database: RelationsDatabase) = database.favoritesDao()
 }

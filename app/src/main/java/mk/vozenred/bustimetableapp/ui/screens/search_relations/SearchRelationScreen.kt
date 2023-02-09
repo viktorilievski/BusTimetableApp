@@ -1,40 +1,79 @@
 package mk.vozenred.bustimetableapp.ui.screens.search_relations
 
 import androidx.compose.material.Scaffold
-import androidx.compose.material.Text
-import androidx.compose.material.TopAppBar
+import androidx.compose.material.rememberScaffoldState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.res.stringResource
+import kotlinx.coroutines.launch
 import mk.vozenred.bustimetableapp.R
+import mk.vozenred.bustimetableapp.components.topbars.DrawerContent
+import mk.vozenred.bustimetableapp.components.topbars.GeneralTopAppBar
 import mk.vozenred.bustimetableapp.ui.viewmodels.SharedViewModel
 
 @Composable
 fun SearchRelationsScreen(
-    navigateToRelationsScreen: () -> Unit,
-    navigateToStartDestinationScreen: () -> Unit,
-    navigateToEndDestinationScreen: () -> Unit,
-    sharedViewModel: SharedViewModel
+  navigateToRelationsScreen: () -> Unit,
+  navigateToStartDestinationScreen: () -> Unit,
+  navigateToEndDestinationScreen: () -> Unit,
+  navigateToReportScreen: () -> Unit,
+  navigateToContactScreen: () -> Unit,
+  sharedViewModel: SharedViewModel
 ) {
-    val startPoint: String by sharedViewModel.startPointSelected
-    val endPoint: String by sharedViewModel.endPointSelected
+  val startPoint: String by sharedViewModel.startPointSelected
+  val endPoint: String by sharedViewModel.endPointSelected
 
-    Scaffold(
-        topBar = {
-            TopAppBar(title = {
-                Text(text = stringResource(R.string.search_relations_screen_topbar_title))
-            })
+  val scaffoldState = rememberScaffoldState()
+  val coroutineScope = rememberCoroutineScope()
+
+  Scaffold(
+    scaffoldState = scaffoldState,
+    topBar = {
+      GeneralTopAppBar(
+        title = stringResource(id = R.string.search_relations_screen_topbar_title),
+        onDrawerIconClick = {
+          coroutineScope.launch {
+            scaffoldState.drawerState.open()
+          }
+        })
+    },
+    content = { padding ->
+      SearchRelationsScreenContent(
+        paddingValue = padding,
+        startPoint = startPoint,
+        endPoint = endPoint,
+        navigateToStartDestinationScreen = { navigateToStartDestinationScreen() },
+        navigateToEndDestinationScreen = { navigateToEndDestinationScreen() },
+        navigateToRelationsScreen = { navigateToRelationsScreen() }
+      )
+    },
+    drawerContent = {
+      DrawerContent(
+        title = stringResource(id = R.string.general_top_app_bar_title),
+        onCloseDrawerClick = {
+          coroutineScope.launch {
+            scaffoldState.drawerState.close()
+          }
         },
-        content = { padding ->
-            SearchRelationsScreenContent(
-                paddingValue = padding,
-                startPoint = startPoint,
-                endPoint = endPoint,
-                navigateToStartDestinationScreen = { navigateToStartDestinationScreen() },
-                navigateToEndDestinationScreen = { navigateToEndDestinationScreen() },
-                navigateToRelationsScreen = { navigateToRelationsScreen() }
-            )
+        navigateToSearchScreen = {
+          coroutineScope.launch {
+            scaffoldState.drawerState.close()
+          }
         },
-        bottomBar = {}
-    )
+        navigateToContactScreen = {
+          coroutineScope.launch {
+            scaffoldState.drawerState.close()
+          }
+          navigateToContactScreen()
+        },
+        navigateToReportScreen = {
+          coroutineScope.launch {
+            scaffoldState.drawerState.close()
+          }
+          navigateToReportScreen()
+        }
+      )
+    }
+  )
 }

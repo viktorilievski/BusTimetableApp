@@ -7,19 +7,23 @@ import mk.vozenred.bustimetableapp.ui.viewmodels.SharedViewModel
 import mk.vozenred.bustimetableapp.util.Constants.SEARCH_SCREEN
 
 fun NavGraphBuilder.searchComposable(
-    navigateToListRelations: () -> Unit,
-    navigateToStartDestination: () -> Unit,
-    navigateToEndDestination: () -> Unit,
-    sharedViewModel: SharedViewModel
+  navigateToListRelations: () -> Unit,
+  navigateToStartDestination: () -> Unit,
+  navigateToEndDestination: () -> Unit,
+  navigateToContactScreen: () -> Unit,
+  navigateToReportScreen: () -> Unit,
+  sharedViewModel: SharedViewModel
 ) {
-    composable(
-        route = SEARCH_SCREEN
-    ) {
-        SearchRelationsScreen(
-            navigateToRelationsScreen = navigateToListRelations,
-            navigateToStartDestinationScreen = navigateToStartDestination,
-            navigateToEndDestinationScreen = navigateToEndDestination,
-            sharedViewModel = sharedViewModel
-        )
-    }
+  composable(
+    route = SEARCH_SCREEN
+  ) {
+    SearchRelationsScreen(
+      navigateToRelationsScreen = navigateToListRelations,
+      navigateToStartDestinationScreen = navigateToStartDestination,
+      navigateToEndDestinationScreen = navigateToEndDestination,
+      navigateToContactScreen = navigateToContactScreen,
+      navigateToReportScreen = navigateToReportScreen,
+      sharedViewModel = sharedViewModel
+    )
+  }
 }

@@ -10,99 +10,142 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
-import mk.vozenred.bustimetableapp.data.model.FavoriteRelation
 import mk.vozenred.bustimetableapp.data.model.Relation
-import mk.vozenred.bustimetableapp.data.repositories.local.FavoriteRelationsRepository
 import mk.vozenred.bustimetableapp.data.repositories.local.RelationsRepository
+import mk.vozenred.bustimetableapp.util.SearchAppBarState
 import javax.inject.Inject
 
 @HiltViewModel
 class SharedViewModel @Inject constructor(
-    private val relationsRepository: RelationsRepository
+  private val relationsRepository: RelationsRepository
 ) : ViewModel() {
 
-    private val _startPointSelected: MutableState<String> = mutableStateOf("")
-    val startPointSelected: State<String> = _startPointSelected
+  private val _startPointSelected: MutableState<String> = mutableStateOf("")
+  val startPointSelected: State<String> = _startPointSelected
 
-    private val _endPointSelected: MutableState<String> = mutableStateOf("")
-    val endPointSelected: State<String> = _endPointSelected
+  private val _endPointSelected: MutableState<String> = mutableStateOf("")
+  val endPointSelected: State<String> = _endPointSelected
 
-    val startPoints: MutableState<List<String>> = mutableStateOf(mutableListOf())
-    val endPoints: MutableState<List<String>> = mutableStateOf(mutableListOf())
-    val companiesForRelation: MutableState<List<String>> = mutableStateOf(mutableListOf())
-    val selectedCompany: MutableState<String> = mutableStateOf("Сите")
+  private val startPoints: MutableState<List<String>> = mutableStateOf(mutableListOf())
+  private val endPoints: MutableState<List<String>> = mutableStateOf(mutableListOf())
+  var filteredStartPoints: MutableState<List<String>> = mutableStateOf(mutableListOf())
+  var filteredEndPoints: MutableState<List<String>> = mutableStateOf(mutableListOf())
+  val companiesForRelation: MutableState<List<String>> = mutableStateOf(mutableListOf())
+  val selectedCompany: MutableState<String> = mutableStateOf("Сите")
 
-    private val _relations: MutableStateFlow<List<Relation>> = MutableStateFlow(mutableListOf())
-    val relations: StateFlow<List<Relation>> = _relations
+  private val searchAppBarText: MutableState<String> = mutableStateOf("")
+  val searchAppBarState: MutableState<SearchAppBarState> = mutableStateOf(SearchAppBarState.CLOSED)
 
-    fun getRelations() {
-        selectedCompany.value = "Сите"
-        viewModelScope.launch(Dispatchers.IO) {
-            relationsRepository.getRelations(_startPointSelected.value, _endPointSelected.value)
-                .collect {
-                    _relations.value = it
-                }
+  private val _relations: MutableStateFlow<List<Relation>> = MutableStateFlow(mutableListOf())
+  val relations: StateFlow<List<Relation>> = _relations
+
+  fun getRelations() {
+    selectedCompany.value = "Сите"
+    viewModelScope.launch(Dispatchers.IO) {
+      relationsRepository.getRelations(_startPointSelected.value, _endPointSelected.value)
+        .collect {
+          _relations.value = it
         }
     }
+  }
 
-    fun getAllStartPoints() {
-        viewModelScope.launch(Dispatchers.IO) {
-            relationsRepository.getAllStartingPoints().collect {
-                startPoints.value = it
-            }
+  fun getAllStartPoints() {
+    viewModelScope.launch(Dispatchers.IO) {
+      relationsRepository.getAllStartingPoints().collect {
+        startPoints.value = it
+        filteredStartPoints.value = startPoints.value
+      }
+    }
+  }
+
+  fun getCompaniesForSelectedRelation() {
+    viewModelScope.launch(Dispatchers.IO) {
+      relationsRepository.getCompaniesForRelation(
+        _startPointSelected.value,
+        _endPointSelected.value
+      ).collect {
+        companiesForRelation.value = it
+      }
+    }
+  }
+
+  fun setStartPoint(startPoint: String) {
+    _startPointSelected.value = startPoint
+  }
+
+  fun setEndPoint(endPoint: String) {
+    _endPointSelected.value = endPoint
+  }
+
+  fun setSelectedCompany(companyName: String) {
+    selectedCompany.value = companyName
+  }
+
+  fun clearEndPoint() {
+    _endPointSelected.value = ""
+  }
+
+  fun getEndPointsForSelectedStartPoint() {
+    viewModelScope.launch(Dispatchers.IO) {
+      relationsRepository.getEndPointsForSelectedStartPoint(_startPointSelected.value)
+        .collect {
+          endPoints.value = it
+          filteredEndPoints.value = endPoints.value
         }
     }
+  }
 
-    fun getCompaniesForSelectedRelation() {
-        viewModelScope.launch(Dispatchers.IO) {
-            relationsRepository.getCompaniesForRelation(
-                _startPointSelected.value,
-                _endPointSelected.value
-            ).collect {
-                companiesForRelation.value = it
-            }
+  fun getRelationsForSelectedCompany(companyName: String) {
+    if (companyName.isEmpty()) {
+      getRelations()
+    } else {
+      viewModelScope.launch(Dispatchers.IO) {
+        relationsRepository.getRelationsForSelectedCompany(
+          _startPointSelected.value,
+          _endPointSelected.value,
+          companyName
+        ).collect {
+          _relations.value = it
         }
+      }
     }
+  }
 
-    fun setStartPoint(startPoint: String) {
-        _startPointSelected.value = startPoint
-    }
 
-    fun setEndPoint(endPoint: String) {
-        _endPointSelected.value = endPoint
+  fun searchAppBarOnCloseClick() {
+    filteredStartPoints.value = startPoints.value
+    filteredEndPoints.value = endPoints.value
+    if (searchAppBarText.value.isEmpty()) {
+      closeSearchTopAppbar()
+    } else {
+      searchAppBarText.value = ""
     }
+  }
 
-    fun setSelectedCompany(companyName: String) {
-        selectedCompany.value = companyName
+  fun getStartPointsForEnteredText(enteredText: String) {
+    searchAppBarText.value = enteredText
+    filteredStartPoints.value = startPoints.value.filter { startPoint ->
+      startPoint.lowercase().startsWith(enteredText.lowercase())
     }
+  }
 
-    fun clearEndPoint() {
-        _endPointSelected.value = ""
+  fun getEndPointsForEnteredText(enteredText: String) {
+    searchAppBarText.value = enteredText
+    filteredEndPoints.value = endPoints.value.filter { endPoint ->
+      endPoint.lowercase().startsWith(enteredText.lowercase())
     }
+  }
 
-    fun getEndPointsForSelectedStartPoint() {
-        viewModelScope.launch(Dispatchers.IO) {
-            relationsRepository.getEndPointsForSelectedStartPoint(_startPointSelected.value)
-                .collect {
-                    endPoints.value = it
-                }
-        }
-    }
+  fun clearSearchAppBarText() {
+    searchAppBarText.value = ""
+  }
 
-    fun getRelationsForSelectedCompany(companyName: String) {
-        if (companyName.isEmpty()) {
-            getRelations()
-        } else {
-            viewModelScope.launch(Dispatchers.IO) {
-                relationsRepository.getRelationsForSelectedCompany(
-                    _startPointSelected.value,
-                    _endPointSelected.value,
-                    companyName
-                ).collect {
-                    _relations.value = it
-                }
-            }
-        }
-    }
+  fun topAppBarOnSearchClick() {
+    searchAppBarState.value = SearchAppBarState.OPENED
+  }
+
+  fun closeSearchTopAppbar() {
+    searchAppBarState.value = SearchAppBarState.CLOSED
+  }
+
 }
