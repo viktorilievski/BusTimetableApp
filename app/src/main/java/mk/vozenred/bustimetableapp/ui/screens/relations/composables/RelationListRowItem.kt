@@ -24,8 +24,8 @@ fun RelationListRowItem(
 
   Card(
     modifier = Modifier
-        .fillMaxWidth()
-        .padding(LARGEST_PADDING),
+      .fillMaxWidth()
+      .padding(LARGEST_PADDING),
     shape = RoundedCornerShape(CARD_CORNER_RADIUS),
     backgroundColor = MaterialTheme.colors.accentColor,
     elevation = CARD_ELEVATION
@@ -37,8 +37,8 @@ fun RelationListRowItem(
       Column(verticalArrangement = Arrangement.SpaceBetween) {
         Row(
           modifier = Modifier
-              .fillMaxWidth()
-              .padding(bottom = LARGEST_PADDING),
+            .fillMaxWidth()
+            .padding(bottom = LARGEST_PADDING),
           verticalAlignment = Alignment.CenterVertically,
           horizontalArrangement = Arrangement.Center
         ) {

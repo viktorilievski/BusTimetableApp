@@ -35,9 +35,9 @@ fun SearchRelationsScreenContent(
 
   Column(
     modifier = Modifier
-        .fillMaxSize()
-        .background(MaterialTheme.colors.background)
-        .padding(LARGEST_PADDING),
+      .fillMaxSize()
+      .background(MaterialTheme.colors.background)
+      .padding(LARGEST_PADDING),
     verticalArrangement = Arrangement.Center,
     horizontalAlignment = Alignment.CenterHorizontally
   ) {
@@ -77,15 +77,15 @@ fun SearchRelationsScreenContent(
     verticalArrangement = Arrangement.Bottom,
     horizontalAlignment = Alignment.CenterHorizontally,
     modifier = Modifier
-        .fillMaxSize()
-        .padding(LARGEST_PADDING)
+      .fillMaxSize()
+      .padding(LARGEST_PADDING)
   ) {
     Row() {
       Button(
         modifier = Modifier
-            .fillMaxWidth()
-            .height(70.dp)
-            .padding(bottom = LARGEST_PADDING),
+          .fillMaxWidth()
+          .height(70.dp)
+          .padding(bottom = LARGEST_PADDING),
         onClick = { navigateToRelationsScreen() },
         enabled = isEndPointSelected,
         shape = RoundedCornerShape(24.dp)
