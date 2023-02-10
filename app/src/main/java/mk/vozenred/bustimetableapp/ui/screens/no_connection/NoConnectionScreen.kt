@@ -2,10 +2,9 @@ package mk.vozenred.bustimetableapp.ui.screens.no_connection
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
-import androidx.compose.material.Button
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Surface
-import androidx.compose.material.Text
+import androidx.compose.material.*
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Refresh
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
@@ -81,6 +80,8 @@ fun NoConnectionScreenContent(
         onClick = { onRetryButtonClick() }
       ) {
         Text(text = stringResource(R.string.retry_connection_button_text))
+        Spacer(modifier = Modifier.size(ButtonDefaults.IconSize))
+        Icon(imageVector = Icons.Filled.Refresh, contentDescription = "")
       }
       if (localDbVersionIsPresent) {
         Button(onClick = { onContinueButtonClick() }) {

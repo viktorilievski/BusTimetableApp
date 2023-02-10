@@ -16,7 +16,7 @@ val Context.dataStore: DataStore<Preferences> by preferencesDataStore(name = PRE
 
 @ViewModelScoped
 class DataStoreRepository @Inject constructor(
-    @ApplicationContext private val context: Context
+  @ApplicationContext private val context: Context
 ) {
 
   private val dataStore = context.dataStore

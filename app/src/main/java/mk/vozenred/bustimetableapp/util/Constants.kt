@@ -12,7 +12,7 @@ object Constants {
   const val NO_CONNECTION_SCREEN = "no_connection"
   const val SEARCH_SCREEN = "search"
   const val CONTACT_SCREEN = "contact"
-  const val REPORT_SCREEN = "report"
+  const val REPORT_SCREEN = "report/{relationId}"
   const val RELATIONS_SCREEN = "relationsList"
   const val FAVORITES_SCREEN = "favorites"
   const val SELECT_FROM_DESTINATION_SCREEN = "selectFromDestination"
@@ -29,4 +29,7 @@ object Constants {
 
   // Utils
   const val SPLASH_SCREEN_DELAY = 500L
+
+  // Argument Key
+  const val RELATION_ARGUMENT_KEY = "relationId"
 }

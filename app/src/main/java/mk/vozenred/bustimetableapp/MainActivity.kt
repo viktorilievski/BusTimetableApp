@@ -4,8 +4,9 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
+import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.navigation.NavHostController
-import androidx.navigation.compose.rememberNavController
+import com.google.accompanist.navigation.animation.rememberAnimatedNavController
 import dagger.hilt.android.AndroidEntryPoint
 import mk.vozenred.bustimetableapp.navigation.SetupNavigation
 import mk.vozenred.bustimetableapp.ui.theme.BusTimetableAppTheme
@@ -20,12 +21,13 @@ class MainActivity : ComponentActivity() {
   private val sharedViewModel: SharedViewModel by viewModels()
   private val splashScreenViewModel: SplashScreenViewModel by viewModels()
 
+  @OptIn(ExperimentalAnimationApi::class)
   override fun onCreate(savedInstanceState: Bundle?) {
     super.onCreate(savedInstanceState)
     checkInternetConnection()
     setContent {
       BusTimetableAppTheme {
-        navController = rememberNavController()
+        navController = rememberAnimatedNavController()
         SetupNavigation(
           navController = navController,
           sharedViewModel = sharedViewModel,

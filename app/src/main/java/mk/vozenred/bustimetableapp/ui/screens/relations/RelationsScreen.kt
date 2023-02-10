@@ -1,5 +1,6 @@
 package mk.vozenred.bustimetableapp.ui.screens.relations
 
+import android.util.Log
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
@@ -21,7 +22,7 @@ fun RelationsScreen(
   sharedViewModel: SharedViewModel,
   navigateToSearchScreen: () -> Unit,
   navigateToContactScreen: () -> Unit,
-  navigateToReportScreen: () -> Unit
+  navigateToReportScreen: (Int) -> Unit
 ) {
   val relations by sharedViewModel.relations.collectAsState()
   val selectedFromRelation = sharedViewModel.startPointSelected.value
@@ -54,6 +55,7 @@ fun RelationsScreen(
             onDrawerIconClick = {
               coroutineScope.launch {
                 scaffoldState.drawerState.open()
+                Log.d("RelationsScreen", "Drawer Open")
               }
             }
           )
@@ -67,6 +69,7 @@ fun RelationsScreen(
             onDrawerIconClick = {
               coroutineScope.launch {
                 scaffoldState.drawerState.open()
+                Log.d("RelationsScreen", "Drawer Open")
               }
             }
           )
@@ -95,25 +98,22 @@ fun RelationsScreen(
         onCloseDrawerClick = {
           coroutineScope.launch {
             scaffoldState.drawerState.close()
+            Log.d("RelationsScreen", "Drawer Close")
           }
         },
         navigateToSearchScreen = {
           coroutineScope.launch {
             scaffoldState.drawerState.close()
+            Log.d("RelationsScreen", "Drawer Close")
           }
           navigateToSearchScreen()
         },
         navigateToContactScreen = {
           coroutineScope.launch {
             scaffoldState.drawerState.close()
+            Log.d("RelationsScreen", "Drawer Close")
           }
           navigateToContactScreen()
-        },
-        navigateToReportScreen = {
-          coroutineScope.launch {
-            scaffoldState.drawerState.close()
-          }
-          navigateToReportScreen()
         }
       )
     }
@@ -123,7 +123,10 @@ fun RelationsScreen(
     ) {
       items(relations) { relation ->
         RelationListRowItem(
-          relation = relation
+          relation = relation,
+          onReportRelationClicked = { relationId ->
+            navigateToReportScreen(relationId)
+          }
         )
       }
     }

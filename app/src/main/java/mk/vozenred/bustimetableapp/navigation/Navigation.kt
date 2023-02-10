@@ -1,14 +1,16 @@
 package mk.vozenred.bustimetableapp.navigation
 
+import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.navigation.NavHostController
-import androidx.navigation.compose.NavHost
+import com.google.accompanist.navigation.animation.AnimatedNavHost
 import mk.vozenred.bustimetableapp.navigation.destinations.*
 import mk.vozenred.bustimetableapp.ui.viewmodels.SharedViewModel
 import mk.vozenred.bustimetableapp.ui.viewmodels.SplashScreenViewModel
 import mk.vozenred.bustimetableapp.util.Constants.SPLASH_SCREEN
 
+@OptIn(ExperimentalAnimationApi::class)
 @Composable
 fun SetupNavigation(
   navController: NavHostController,
@@ -19,10 +21,11 @@ fun SetupNavigation(
     Screens(navController = navController)
   }
 
-  NavHost(
+  AnimatedNavHost(
     navController = navController,
-    startDestination = SPLASH_SCREEN
-  ) {
+    startDestination = SPLASH_SCREEN,
+
+    ) {
     splashComposable(
       navigateToSearchScreen = screen.splashToSearchScreen,
       navigateToNoConnectionScreen = screen.splashToNoConnectionScreen,
@@ -38,14 +41,13 @@ fun SetupNavigation(
       navigateToStartDestination = screen.searchToStartDestinationScreen,
       navigateToEndDestination = screen.searchToEndDestinationScreen,
       navigateToContactScreen = screen.navigateToContactScreenFromDrawer,
-      navigateToReportScreen = screen.navigateToReportScreenFromDrawer,
       sharedViewModel = sharedViewModel
     )
     relationsComposable(
       sharedViewModel = sharedViewModel,
       navigateToSearchScreen = screen.navigateToSearchScreenFromDrawer,
       navigateToContactScreen = screen.navigateToContactScreenFromDrawer,
-      navigateToReportScreen = screen.navigateToReportScreenFromDrawer
+      navigateToReportScreen = screen.navigateToReportScreen
     )
     selectFromDestinationComposable(
       navigateToSearchScreen = screen.selectFromDestinationToSearch,
@@ -57,8 +59,10 @@ fun SetupNavigation(
     )
     contactComposable(
       navigateToSearchScreen = screen.navigateToSearchScreenFromDrawer,
-      navigateToReportScreen = screen.navigateToReportScreenFromDrawer
     )
-    reportComposable()
+    reportComposable(
+      sharedViewModel = sharedViewModel,
+      navigateToRelationsScreen = screen.navigateToRelationsScreen
+    )
   }
 }

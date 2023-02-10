@@ -3,9 +3,9 @@ package mk.vozenred.bustimetableapp.ui.screens.relations.composables
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.Card
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Text
+import androidx.compose.material.*
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Warning
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -19,13 +19,14 @@ import mk.vozenred.bustimetableapp.ui.theme.*
 
 @Composable
 fun RelationListRowItem(
-  relation: Relation
+  relation: Relation,
+  onReportRelationClicked: (Int) -> Unit
 ) {
 
   Card(
     modifier = Modifier
-        .fillMaxWidth()
-        .padding(LARGEST_PADDING),
+      .fillMaxWidth()
+      .padding(LARGEST_PADDING),
     shape = RoundedCornerShape(CARD_CORNER_RADIUS),
     backgroundColor = MaterialTheme.colors.accentColor,
     elevation = CARD_ELEVATION
@@ -37,15 +38,21 @@ fun RelationListRowItem(
       Column(verticalArrangement = Arrangement.SpaceBetween) {
         Row(
           modifier = Modifier
-              .fillMaxWidth()
-              .padding(bottom = LARGEST_PADDING),
+            .fillMaxWidth()
+            .padding(bottom = LARGEST_PADDING),
           verticalAlignment = Alignment.CenterVertically,
-          horizontalArrangement = Arrangement.Center
+          horizontalArrangement = Arrangement.SpaceBetween
         ) {
           Text(
             text = relation.companyName,
             fontSize = TEXT_SIZE_LARGE,
           )
+          IconButton(onClick = { onReportRelationClicked(relation.id) }) {
+            Icon(
+              imageVector = Icons.Filled.Warning,
+              contentDescription = stringResource(R.string.report_relation_icon)
+            )
+          }
         }
         Row(
           verticalAlignment = Alignment.CenterVertically,
@@ -117,7 +124,6 @@ fun RelationPointWithIcon(point: String, painterResourceId: Int) {
       text = point,
       modifier = Modifier
         .padding(start = SMALL_PADDING),
-//            color = MaterialTheme.colors.cardContentColor
     )
   }
 }
@@ -141,7 +147,8 @@ fun RelationListRowItemPreview() {
         arrivalTime = "12:00",
         note = "This is a note",
         isRelationFavorite = true
-      )
+      ),
+      onReportRelationClicked = {}
     )
   }
 }

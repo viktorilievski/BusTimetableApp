@@ -78,10 +78,14 @@ class Screens(navController: NavHostController) {
     }
   }
 
-  val navigateToReportScreenFromDrawer: () -> Unit = {
-    navController.navigate(route = REPORT_SCREEN) {
+  val navigateToReportScreen: (Int) -> Unit = { relationId ->
+    navController.navigate(route = "report/${relationId}") {
       popUpTo(RELATIONS_SCREEN) { inclusive = true }
       popUpTo(CONTACT_SCREEN) { inclusive = true }
     }
+  }
+
+  val navigateToRelationsScreen: () -> Unit = {
+    navController.navigateUp()
   }
 }

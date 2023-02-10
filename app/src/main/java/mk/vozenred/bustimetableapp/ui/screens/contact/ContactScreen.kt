@@ -3,10 +3,6 @@ package mk.vozenred.bustimetableapp.ui.screens.contact
 import android.app.Activity
 import android.content.Intent
 import android.net.Uri
-import android.util.Log
-import androidx.activity.compose.rememberLauncherForActivityResult
-import androidx.activity.result.contract.ActivityResultContracts
-
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
@@ -28,18 +24,17 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.core.content.ContextCompat.startActivity
 import kotlinx.coroutines.launch
-import mk.vozenred.bustimetableapp.MainActivity
 import mk.vozenred.bustimetableapp.R
 import mk.vozenred.bustimetableapp.components.topbars.DrawerContent
-import mk.vozenred.bustimetableapp.components.topbars.GeneralTopAppBar
-import mk.vozenred.bustimetableapp.ui.theme.*
-
+import mk.vozenred.bustimetableapp.components.topbars.TopAppBarWithDrawer
+import mk.vozenred.bustimetableapp.ui.theme.BusTimetableAppTheme
+import mk.vozenred.bustimetableapp.ui.theme.LARGEST_PADDING
+import mk.vozenred.bustimetableapp.ui.theme.MEDIUM_PADDING
+import mk.vozenred.bustimetableapp.ui.theme.POINT_ROW_ITEM_HEIGHT
 
 @Composable
 fun ContactScreen(
-  navigateToReportScreen: () -> Unit,
   navigateToSearchScreen: () -> Unit
 ) {
   val scaffoldState = rememberScaffoldState()
@@ -50,7 +45,7 @@ fun ContactScreen(
       .fillMaxSize(),
     scaffoldState = scaffoldState,
     topBar = {
-      GeneralTopAppBar(
+      TopAppBarWithDrawer(
         title = stringResource(R.string.contact_screen_title),
         onDrawerIconClick = {
           coroutineScope.launch {
@@ -73,12 +68,6 @@ fun ContactScreen(
           }
         },
         navigateToContactScreen = {
-          coroutineScope.launch {
-            scaffoldState.drawerState.close()
-          }
-        },
-        navigateToReportScreen = {
-          navigateToReportScreen()
           coroutineScope.launch {
             scaffoldState.drawerState.close()
           }
@@ -150,15 +139,16 @@ fun ContactScreenRowButton(
     .border(width = 2.dp, color = iconBackgroundColor, shape = RoundedCornerShape(10.dp)),
     verticalAlignment = Alignment.CenterVertically
   ) {
-    Surface(modifier = Modifier
-      .height(POINT_ROW_ITEM_HEIGHT)
-      .background(color = iconBackgroundColor)
-      .weight(1f),
+    Surface(
+      modifier = Modifier
+        .height(POINT_ROW_ITEM_HEIGHT)
+        .background(color = iconBackgroundColor)
+        .weight(1f),
       color = iconBackgroundColor
     ) {
       Icon(
         imageVector = icon,
-        contentDescription = "Icon Button",
+        contentDescription = stringResource(R.string.icon_button_content_description),
         tint = Color.White
       )
     }
@@ -175,7 +165,6 @@ fun ContactScreenRowButton(
 fun ContactScreenPreview() {
   BusTimetableAppTheme {
     ContactScreen(
-      navigateToReportScreen = {},
       navigateToSearchScreen = {}
     )
   }

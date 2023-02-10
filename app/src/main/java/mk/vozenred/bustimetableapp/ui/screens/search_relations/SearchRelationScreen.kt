@@ -1,5 +1,6 @@
 package mk.vozenred.bustimetableapp.ui.screens.search_relations
 
+import android.util.Log
 import androidx.compose.material.Scaffold
 import androidx.compose.material.rememberScaffoldState
 import androidx.compose.runtime.Composable
@@ -9,7 +10,7 @@ import androidx.compose.ui.res.stringResource
 import kotlinx.coroutines.launch
 import mk.vozenred.bustimetableapp.R
 import mk.vozenred.bustimetableapp.components.topbars.DrawerContent
-import mk.vozenred.bustimetableapp.components.topbars.GeneralTopAppBar
+import mk.vozenred.bustimetableapp.components.topbars.TopAppBarWithDrawer
 import mk.vozenred.bustimetableapp.ui.viewmodels.SharedViewModel
 
 @Composable
@@ -17,7 +18,6 @@ fun SearchRelationsScreen(
   navigateToRelationsScreen: () -> Unit,
   navigateToStartDestinationScreen: () -> Unit,
   navigateToEndDestinationScreen: () -> Unit,
-  navigateToReportScreen: () -> Unit,
   navigateToContactScreen: () -> Unit,
   sharedViewModel: SharedViewModel
 ) {
@@ -30,11 +30,12 @@ fun SearchRelationsScreen(
   Scaffold(
     scaffoldState = scaffoldState,
     topBar = {
-      GeneralTopAppBar(
+      TopAppBarWithDrawer(
         title = stringResource(id = R.string.search_relations_screen_topbar_title),
         onDrawerIconClick = {
           coroutineScope.launch {
             scaffoldState.drawerState.open()
+            Log.d("RelationsScreen", "Drawer Open")
           }
         })
     },
@@ -54,24 +55,21 @@ fun SearchRelationsScreen(
         onCloseDrawerClick = {
           coroutineScope.launch {
             scaffoldState.drawerState.close()
+            Log.d("RelationsScreen", "Drawer Close")
           }
         },
         navigateToSearchScreen = {
           coroutineScope.launch {
             scaffoldState.drawerState.close()
+            Log.d("RelationsScreen", "Drawer Close")
           }
         },
         navigateToContactScreen = {
           coroutineScope.launch {
             scaffoldState.drawerState.close()
+            Log.d("RelationsScreen", "Drawer Close")
           }
           navigateToContactScreen()
-        },
-        navigateToReportScreen = {
-          coroutineScope.launch {
-            scaffoldState.drawerState.close()
-          }
-          navigateToReportScreen()
         }
       )
     }

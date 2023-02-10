@@ -8,7 +8,6 @@ import dagger.hilt.InstallIn
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import mk.vozenred.bustimetableapp.data.RelationsDatabase
-import mk.vozenred.bustimetableapp.data.repositories.local.DataStoreRepository
 import mk.vozenred.bustimetableapp.util.Constants.RELATIONS_DATABASE_NAME
 import javax.inject.Singleton
 
