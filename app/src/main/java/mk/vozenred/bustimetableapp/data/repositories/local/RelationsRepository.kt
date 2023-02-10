@@ -15,6 +15,10 @@ class RelationsRepository @Inject constructor(
     return relationsDao.getRelations(departure, arrival)
   }
 
+  fun getRelation(relationId: Int): Flow<Relation> {
+    return relationsDao.getRelation(relationId)
+  }
+
   suspend fun addRelation(relation: Relation) {
     relationsDao.addRelation(relation = relation)
   }

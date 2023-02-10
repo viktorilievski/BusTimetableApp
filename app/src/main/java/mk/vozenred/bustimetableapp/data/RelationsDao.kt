@@ -8,7 +8,7 @@ import mk.vozenred.bustimetableapp.data.model.Relation
 interface RelationsDao {
 
   @Query("SELECT * FROM relations_table WHERE id = :relationId")
-  fun fetchRelation(relationId: Int): Relation
+  fun getRelation(relationId: Int): Flow<Relation>
 
   @Query("SELECT * FROM relations_table ORDER BY departureTime ASC")
   fun getAllRelations(): Flow<List<Relation>>

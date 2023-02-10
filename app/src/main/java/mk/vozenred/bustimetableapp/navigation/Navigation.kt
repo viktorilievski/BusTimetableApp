@@ -41,14 +41,13 @@ fun SetupNavigation(
       navigateToStartDestination = screen.searchToStartDestinationScreen,
       navigateToEndDestination = screen.searchToEndDestinationScreen,
       navigateToContactScreen = screen.navigateToContactScreenFromDrawer,
-      navigateToReportScreen = screen.navigateToReportScreenFromDrawer,
       sharedViewModel = sharedViewModel
     )
     relationsComposable(
       sharedViewModel = sharedViewModel,
       navigateToSearchScreen = screen.navigateToSearchScreenFromDrawer,
       navigateToContactScreen = screen.navigateToContactScreenFromDrawer,
-      navigateToReportScreen = screen.navigateToReportScreenFromDrawer
+      navigateToReportScreen = screen.navigateToReportScreen
     )
     selectFromDestinationComposable(
       navigateToSearchScreen = screen.selectFromDestinationToSearch,
@@ -60,8 +59,10 @@ fun SetupNavigation(
     )
     contactComposable(
       navigateToSearchScreen = screen.navigateToSearchScreenFromDrawer,
-      navigateToReportScreen = screen.navigateToReportScreenFromDrawer
     )
-    reportComposable()
+    reportComposable(
+      sharedViewModel = sharedViewModel,
+      navigateToRelationsScreen = screen.navigateToRelationsScreen
+    )
   }
 }

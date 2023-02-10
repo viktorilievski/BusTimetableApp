@@ -8,7 +8,6 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Call
 import androidx.compose.material.icons.filled.Close
 import androidx.compose.material.icons.filled.Search
-import androidx.compose.material.icons.filled.Warning
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -23,8 +22,7 @@ fun DrawerContent(
   title: String,
   onCloseDrawerClick: () -> Unit,
   navigateToSearchScreen: () -> Unit,
-  navigateToContactScreen: () -> Unit,
-  navigateToReportScreen: () -> Unit,
+  navigateToContactScreen: () -> Unit
 ) {
 
   Column(modifier = Modifier.fillMaxSize()) {
@@ -40,8 +38,7 @@ fun DrawerContent(
     ) {
       DrawerBody(
         navigateToSearchScreen = navigateToSearchScreen,
-        navigateToContactScreen = navigateToContactScreen,
-        navigateToReportScreen = navigateToReportScreen
+        navigateToContactScreen = navigateToContactScreen
       )
     }
 
@@ -83,8 +80,7 @@ fun DrawerHeader(
 @Composable
 fun DrawerBody(
   navigateToSearchScreen: () -> Unit,
-  navigateToContactScreen: () -> Unit,
-  navigateToReportScreen: () -> Unit
+  navigateToContactScreen: () -> Unit
 ) {
   Column(
     modifier = Modifier
@@ -99,11 +95,6 @@ fun DrawerBody(
       icon = Icons.Filled.Call,
       title = stringResource(R.string.contact),
       onItemClick = navigateToContactScreen
-    )
-    DrawerNavigationItem(
-      icon = Icons.Filled.Warning,
-      title = stringResource(R.string.send_a_report),
-      onItemClick = navigateToReportScreen
     )
   }
 }
@@ -143,7 +134,6 @@ fun DrawerContentPreview() {
     title = "Title",
     onCloseDrawerClick = {},
     navigateToSearchScreen = {},
-    navigateToContactScreen = {},
-    navigateToReportScreen = {},
+    navigateToContactScreen = {}
   )
 }

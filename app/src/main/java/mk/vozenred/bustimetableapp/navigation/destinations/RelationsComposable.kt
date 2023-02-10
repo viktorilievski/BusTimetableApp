@@ -13,7 +13,7 @@ fun NavGraphBuilder.relationsComposable(
   sharedViewModel: SharedViewModel,
   navigateToSearchScreen: () -> Unit,
   navigateToContactScreen: () -> Unit,
-  navigateToReportScreen: () -> Unit
+  navigateToReportScreen: (Int) -> Unit
 ) {
   composable(
     route = RELATIONS_SCREEN,

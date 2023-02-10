@@ -20,6 +20,7 @@ class SharedViewModel @Inject constructor(
   private val relationsRepository: RelationsRepository
 ) : ViewModel() {
 
+
   private val _startPointSelected: MutableState<String> = mutableStateOf("")
   val startPointSelected: State<String> = _startPointSelected
 
@@ -38,6 +39,9 @@ class SharedViewModel @Inject constructor(
 
   private val _relations: MutableStateFlow<List<Relation>> = MutableStateFlow(mutableListOf())
   val relations: StateFlow<List<Relation>> = _relations
+
+  private val _selectedRelation: MutableStateFlow<Relation> = MutableStateFlow(Relation())
+  val selectedRelation: StateFlow<Relation> = _selectedRelation
 
   fun getRelations() {
     selectedCompany.value = "Сите"
@@ -146,6 +150,18 @@ class SharedViewModel @Inject constructor(
 
   fun closeSearchTopAppbar() {
     searchAppBarState.value = SearchAppBarState.CLOSED
+  }
+
+  fun getSelectedRelation(relationId: Int) {
+    viewModelScope.launch(Dispatchers.IO) {
+      relationsRepository.getRelation(relationId).collect {
+        _selectedRelation.value = it
+      }
+    }
+  }
+
+  fun updateReportRelationFields(selectedRelation: Relation?) {
+    TODO("Not yet implemented")
   }
 
 }

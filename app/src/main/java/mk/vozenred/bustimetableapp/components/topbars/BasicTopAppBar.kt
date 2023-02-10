@@ -4,17 +4,16 @@ import androidx.compose.material.Icon
 import androidx.compose.material.IconButton
 import androidx.compose.material.Text
 import androidx.compose.material.TopAppBar
-
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Menu
+import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.res.stringResource
 import mk.vozenred.bustimetableapp.R
 
 @Composable
-fun TopAppBarWithDrawer(
+fun BasicTopAppBar(
   title: String,
-  onDrawerIconClick: () -> Unit,
+  onBackArrowClick: () -> Unit,
 ) {
   TopAppBar(
     title = {
@@ -22,11 +21,11 @@ fun TopAppBarWithDrawer(
     },
     navigationIcon = {
       IconButton(
-        onClick = { onDrawerIconClick() }
+        onClick = { onBackArrowClick() }
       ) {
         Icon(
-          imageVector = Icons.Filled.Menu,
-          contentDescription = stringResource(R.string.drawer_icon)
+          imageVector = Icons.Filled.ArrowBack,
+          contentDescription = stringResource(R.string.back_arrow_icon)
         )
       }
     }

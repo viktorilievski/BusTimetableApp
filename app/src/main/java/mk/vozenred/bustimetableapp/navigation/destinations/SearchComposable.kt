@@ -13,7 +13,6 @@ fun NavGraphBuilder.searchComposable(
   navigateToStartDestination: () -> Unit,
   navigateToEndDestination: () -> Unit,
   navigateToContactScreen: () -> Unit,
-  navigateToReportScreen: () -> Unit,
   sharedViewModel: SharedViewModel
 ) {
   composable(
@@ -30,7 +29,6 @@ fun NavGraphBuilder.searchComposable(
       navigateToStartDestinationScreen = navigateToStartDestination,
       navigateToEndDestinationScreen = navigateToEndDestination,
       navigateToContactScreen = navigateToContactScreen,
-      navigateToReportScreen = navigateToReportScreen,
       sharedViewModel = sharedViewModel
     )
   }

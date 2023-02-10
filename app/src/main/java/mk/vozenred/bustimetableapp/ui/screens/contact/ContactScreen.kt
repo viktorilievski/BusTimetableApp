@@ -27,16 +27,14 @@ import androidx.compose.ui.unit.dp
 import kotlinx.coroutines.launch
 import mk.vozenred.bustimetableapp.R
 import mk.vozenred.bustimetableapp.components.topbars.DrawerContent
-import mk.vozenred.bustimetableapp.components.topbars.GeneralTopAppBar
+import mk.vozenred.bustimetableapp.components.topbars.TopAppBarWithDrawer
 import mk.vozenred.bustimetableapp.ui.theme.BusTimetableAppTheme
 import mk.vozenred.bustimetableapp.ui.theme.LARGEST_PADDING
 import mk.vozenred.bustimetableapp.ui.theme.MEDIUM_PADDING
 import mk.vozenred.bustimetableapp.ui.theme.POINT_ROW_ITEM_HEIGHT
 
-
 @Composable
 fun ContactScreen(
-  navigateToReportScreen: () -> Unit,
   navigateToSearchScreen: () -> Unit
 ) {
   val scaffoldState = rememberScaffoldState()
@@ -47,7 +45,7 @@ fun ContactScreen(
       .fillMaxSize(),
     scaffoldState = scaffoldState,
     topBar = {
-      GeneralTopAppBar(
+      TopAppBarWithDrawer(
         title = stringResource(R.string.contact_screen_title),
         onDrawerIconClick = {
           coroutineScope.launch {
@@ -70,12 +68,6 @@ fun ContactScreen(
           }
         },
         navigateToContactScreen = {
-          coroutineScope.launch {
-            scaffoldState.drawerState.close()
-          }
-        },
-        navigateToReportScreen = {
-          navigateToReportScreen()
           coroutineScope.launch {
             scaffoldState.drawerState.close()
           }
@@ -156,7 +148,7 @@ fun ContactScreenRowButton(
     ) {
       Icon(
         imageVector = icon,
-        contentDescription = "Icon Button",
+        contentDescription = stringResource(R.string.icon_button_content_description),
         tint = Color.White
       )
     }
@@ -173,7 +165,6 @@ fun ContactScreenRowButton(
 fun ContactScreenPreview() {
   BusTimetableAppTheme {
     ContactScreen(
-      navigateToReportScreen = {},
       navigateToSearchScreen = {}
     )
   }
