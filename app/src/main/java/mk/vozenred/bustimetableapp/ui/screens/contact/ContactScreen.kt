@@ -27,7 +27,7 @@ import androidx.compose.ui.unit.dp
 import kotlinx.coroutines.launch
 import mk.vozenred.bustimetableapp.R
 import mk.vozenred.bustimetableapp.components.topbars.DrawerContent
-import mk.vozenred.bustimetableapp.components.topbars.TopAppBarWithDrawer
+import mk.vozenred.bustimetableapp.components.topbars.DrawerTopAppBar
 import mk.vozenred.bustimetableapp.ui.theme.BusTimetableAppTheme
 import mk.vozenred.bustimetableapp.ui.theme.LARGEST_PADDING
 import mk.vozenred.bustimetableapp.ui.theme.MEDIUM_PADDING
@@ -35,7 +35,8 @@ import mk.vozenred.bustimetableapp.ui.theme.POINT_ROW_ITEM_HEIGHT
 
 @Composable
 fun ContactScreen(
-  navigateToSearchScreen: () -> Unit
+  navigateToSearchScreen: () -> Unit,
+  navigateToFavoriteRelationsScreen: () -> Unit
 ) {
   val scaffoldState = rememberScaffoldState()
   val coroutineScope = rememberCoroutineScope()
@@ -45,7 +46,7 @@ fun ContactScreen(
       .fillMaxSize(),
     scaffoldState = scaffoldState,
     topBar = {
-      TopAppBarWithDrawer(
+      DrawerTopAppBar(
         title = stringResource(R.string.contact_screen_title),
         onDrawerIconClick = {
           coroutineScope.launch {
@@ -68,6 +69,12 @@ fun ContactScreen(
           }
         },
         navigateToContactScreen = {
+          coroutineScope.launch {
+            scaffoldState.drawerState.close()
+          }
+        },
+        navigateToFavoriteRelationsScreen = {
+          navigateToFavoriteRelationsScreen()
           coroutineScope.launch {
             scaffoldState.drawerState.close()
           }
@@ -165,7 +172,8 @@ fun ContactScreenRowButton(
 fun ContactScreenPreview() {
   BusTimetableAppTheme {
     ContactScreen(
-      navigateToSearchScreen = {}
+      navigateToSearchScreen = {},
+      navigateToFavoriteRelationsScreen = {}
     )
   }
 }

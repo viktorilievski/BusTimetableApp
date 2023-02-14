@@ -7,6 +7,7 @@ import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Call
 import androidx.compose.material.icons.filled.Close
+import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -22,7 +23,8 @@ fun DrawerContent(
   title: String,
   onCloseDrawerClick: () -> Unit,
   navigateToSearchScreen: () -> Unit,
-  navigateToContactScreen: () -> Unit
+  navigateToContactScreen: () -> Unit,
+  navigateToFavoriteRelationsScreen: () -> Unit,
 ) {
 
   Column(modifier = Modifier.fillMaxSize()) {
@@ -38,7 +40,8 @@ fun DrawerContent(
     ) {
       DrawerBody(
         navigateToSearchScreen = navigateToSearchScreen,
-        navigateToContactScreen = navigateToContactScreen
+        navigateToContactScreen = navigateToContactScreen,
+        navigateToFavoriteRelationsScreen = navigateToFavoriteRelationsScreen
       )
     }
 
@@ -80,7 +83,8 @@ fun DrawerHeader(
 @Composable
 fun DrawerBody(
   navigateToSearchScreen: () -> Unit,
-  navigateToContactScreen: () -> Unit
+  navigateToContactScreen: () -> Unit,
+  navigateToFavoriteRelationsScreen: () -> Unit
 ) {
   Column(
     modifier = Modifier
@@ -90,6 +94,11 @@ fun DrawerBody(
       icon = Icons.Filled.Search,
       title = stringResource(R.string.search_new_relation),
       onItemClick = navigateToSearchScreen
+    )
+    DrawerNavigationItem(
+      icon = Icons.Filled.Favorite,
+      title = stringResource(R.string.favorite_relations_top_app_bar_title),
+      onItemClick = navigateToFavoriteRelationsScreen
     )
     DrawerNavigationItem(
       icon = Icons.Filled.Call,
@@ -134,6 +143,7 @@ fun DrawerContentPreview() {
     title = "Title",
     onCloseDrawerClick = {},
     navigateToSearchScreen = {},
-    navigateToContactScreen = {}
+    navigateToContactScreen = {},
+    navigateToFavoriteRelationsScreen = {}
   )
 }

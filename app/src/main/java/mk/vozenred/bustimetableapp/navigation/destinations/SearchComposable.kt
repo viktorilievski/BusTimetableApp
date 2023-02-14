@@ -13,22 +13,18 @@ fun NavGraphBuilder.searchComposable(
   navigateToStartDestination: () -> Unit,
   navigateToEndDestination: () -> Unit,
   navigateToContactScreen: () -> Unit,
+  navigateToFavoriteRelationsScreen: () -> Unit,
   sharedViewModel: SharedViewModel
 ) {
   composable(
     route = SEARCH_SCREEN,
-//    exitTransition = {
-//      slideOutHorizontally(
-//        targetOffsetX = { fullWidth -> -fullWidth },
-//        animationSpec = tween(durationMillis = 300)
-//      )
-//    }
   ) {
     SearchRelationsScreen(
       navigateToRelationsScreen = navigateToListRelations,
       navigateToStartDestinationScreen = navigateToStartDestination,
       navigateToEndDestinationScreen = navigateToEndDestination,
       navigateToContactScreen = navigateToContactScreen,
+      navigateToFavoriteRelationsScreen = navigateToFavoriteRelationsScreen,
       sharedViewModel = sharedViewModel
     )
   }

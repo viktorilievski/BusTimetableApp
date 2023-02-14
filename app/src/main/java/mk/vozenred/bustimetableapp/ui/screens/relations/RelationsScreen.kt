@@ -1,6 +1,5 @@
 package mk.vozenred.bustimetableapp.ui.screens.relations
 
-import android.util.Log
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
@@ -14,6 +13,7 @@ import kotlinx.coroutines.launch
 import mk.vozenred.bustimetableapp.components.topbars.DrawerContent
 import mk.vozenred.bustimetableapp.components.topbars.FilterDropdownMenu
 import mk.vozenred.bustimetableapp.components.topbars.RelationsTopAppBar
+import mk.vozenred.bustimetableapp.data.model.Relation
 import mk.vozenred.bustimetableapp.ui.screens.relations.composables.RelationListRowItem
 import mk.vozenred.bustimetableapp.ui.viewmodels.SharedViewModel
 
@@ -22,9 +22,10 @@ fun RelationsScreen(
   sharedViewModel: SharedViewModel,
   navigateToSearchScreen: () -> Unit,
   navigateToContactScreen: () -> Unit,
-  navigateToReportScreen: (Int) -> Unit
+  navigateToReportScreen: (Int) -> Unit,
+  navigateToFavoriteRelationsScreen: () -> Unit
 ) {
-  val relations by sharedViewModel.relations.collectAsState()
+  val relations by sharedViewModel.relations.collectAsState(initial = mutableListOf())
   val selectedFromRelation = sharedViewModel.startPointSelected.value
   val selectedToRelation = sharedViewModel.endPointSelected.value
   val companiesList = sharedViewModel.companiesForRelation.value
@@ -36,8 +37,8 @@ fun RelationsScreen(
   val scaffoldState = rememberScaffoldState()
   val coroutineScope = rememberCoroutineScope()
 
-  LaunchedEffect(key1 = true) {
-    sharedViewModel.getRelations()
+  LaunchedEffect(Unit) {
+    sharedViewModel.getRelations(null)
     sharedViewModel.getCompaniesForSelectedRelation()
   }
 
@@ -55,7 +56,6 @@ fun RelationsScreen(
             onDrawerIconClick = {
               coroutineScope.launch {
                 scaffoldState.drawerState.open()
-                Log.d("RelationsScreen", "Drawer Open")
               }
             }
           )
@@ -69,7 +69,6 @@ fun RelationsScreen(
             onDrawerIconClick = {
               coroutineScope.launch {
                 scaffoldState.drawerState.open()
-                Log.d("RelationsScreen", "Drawer Open")
               }
             }
           )
@@ -77,12 +76,11 @@ fun RelationsScreen(
             expanded = filterExpanded,
             onDismissRequested = { filterExpanded = false },
             onFilterIconClicked = { companyNameClicked ->
-              sharedViewModel.getRelationsForSelectedCompany(companyNameClicked)
-              sharedViewModel.setSelectedCompany(companyNameClicked)
+              sharedViewModel.getRelations(companyNameClicked)
               filterExpanded = false
             },
             onShowAllRelationsClicked = {
-              sharedViewModel.getRelations()
+              sharedViewModel.getRelations(null)
               filterExpanded = false
             },
             companies = companiesList,
@@ -98,22 +96,25 @@ fun RelationsScreen(
         onCloseDrawerClick = {
           coroutineScope.launch {
             scaffoldState.drawerState.close()
-            Log.d("RelationsScreen", "Drawer Close")
           }
         },
         navigateToSearchScreen = {
           coroutineScope.launch {
             scaffoldState.drawerState.close()
-            Log.d("RelationsScreen", "Drawer Close")
           }
           navigateToSearchScreen()
         },
         navigateToContactScreen = {
           coroutineScope.launch {
             scaffoldState.drawerState.close()
-            Log.d("RelationsScreen", "Drawer Close")
           }
           navigateToContactScreen()
+        },
+        navigateToFavoriteRelationsScreen = {
+          navigateToFavoriteRelationsScreen()
+          coroutineScope.launch {
+            scaffoldState.drawerState.close()
+          }
         }
       )
     }
@@ -121,11 +122,14 @@ fun RelationsScreen(
     LazyColumn(
       modifier = Modifier.padding(it)
     ) {
-      items(relations) { relation ->
+      items(items = relations, key = { item: Relation -> item.id }) { relation ->
         RelationListRowItem(
           relation = relation,
           onReportRelationClicked = { relationId ->
             navigateToReportScreen(relationId)
+          },
+          onFavoriteClicked = { relationId, isRelationFavorite ->
+            sharedViewModel.setRelationFavoriteStatus(relationId, isRelationFavorite)
           }
         )
       }

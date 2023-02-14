@@ -5,6 +5,8 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Favorite
+import androidx.compose.material.icons.filled.FavoriteBorder
 import androidx.compose.material.icons.filled.Warning
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -20,7 +22,8 @@ import mk.vozenred.bustimetableapp.ui.theme.*
 @Composable
 fun RelationListRowItem(
   relation: Relation,
-  onReportRelationClicked: (Int) -> Unit
+  onReportRelationClicked: (Int) -> Unit,
+  onFavoriteClicked: (Int, Boolean) -> Unit
 ) {
 
   Card(
@@ -33,7 +36,7 @@ fun RelationListRowItem(
   ) {
     Row(
       Modifier
-        .padding(horizontal = CARD_CONTENT_PADDING, vertical = LARGE_PADDING)
+        .padding(horizontal = CARD_CONTENT_PADDING / 2, vertical = LARGE_PADDING)
     ) {
       Column(verticalArrangement = Arrangement.SpaceBetween) {
         Row(
@@ -41,17 +44,33 @@ fun RelationListRowItem(
             .fillMaxWidth()
             .padding(bottom = LARGEST_PADDING),
           verticalAlignment = Alignment.CenterVertically,
-          horizontalArrangement = Arrangement.SpaceBetween
         ) {
-          Text(
-            text = relation.companyName,
-            fontSize = TEXT_SIZE_LARGE,
-          )
-          IconButton(onClick = { onReportRelationClicked(relation.id) }) {
-            Icon(
-              imageVector = Icons.Filled.Warning,
-              contentDescription = stringResource(R.string.report_relation_icon)
+          Row(
+            horizontalArrangement = Arrangement.Center,
+            modifier = Modifier.weight(6f)
+          ) {
+            Text(
+              text = relation.companyName,
+              fontSize = TEXT_SIZE_LARGE,
             )
+          }
+          Row(
+            horizontalArrangement = Arrangement.End,
+            modifier = Modifier.weight(1f)
+          ) {
+            IconButton(onClick = { onFavoriteClicked(relation.id, !relation.isRelationFavorite) }) {
+              if (relation.isRelationFavorite) {
+                Icon(
+                  imageVector = Icons.Filled.Favorite,
+                  contentDescription = stringResource(R.string.report_relation_icon),
+                )
+              } else {
+                Icon(
+                  imageVector = Icons.Filled.FavoriteBorder,
+                  contentDescription = stringResource(R.string.report_relation_icon),
+                )
+              }
+            }
           }
         }
         Row(
@@ -92,23 +111,39 @@ fun RelationListRowItem(
         }
         Row(
           modifier = Modifier
+            .fillMaxWidth()
             .padding(top = LARGEST_PADDING),
           verticalAlignment = Alignment.CenterVertically
         ) {
-          Image(
-            painter = painterResource(id = R.drawable.ic_info_outlined),
-            contentDescription = stringResource(R.string.note_info_icon),
-            colorFilter = ColorFilter.tint(MaterialTheme.colors.iconColor)
-          )
-          Text(
-            modifier = Modifier.padding(start = SMALL_PADDING),
-            text = relation.note,
-          )
+          Row(
+            modifier = Modifier
+              .weight(6f)
+          ) {
+            Image(
+              painter = painterResource(id = R.drawable.ic_info_outlined),
+              contentDescription = stringResource(R.string.note_info_icon),
+              colorFilter = ColorFilter.tint(MaterialTheme.colors.iconColor)
+            )
+            Text(
+              modifier = Modifier.padding(start = SMALL_PADDING),
+              text = relation.note,
+            )
+          }
+          Row(
+            modifier = Modifier.weight(1f),
+            horizontalArrangement = Arrangement.End,
+            verticalAlignment = Alignment.CenterVertically
+          ) {
+            IconButton(onClick = { onReportRelationClicked(relation.id) }) {
+              Icon(
+                imageVector = Icons.Filled.Warning,
+                contentDescription = stringResource(R.string.report_relation_icon)
+              )
+            }
+          }
         }
-
       }
     }
-
   }
 }
 
@@ -140,15 +175,16 @@ fun RelationListRowItemPreview() {
   BusTimetableAppTheme(darkTheme = true) {
     RelationListRowItem(
       relation = Relation(
-        companyName = "Штуз",
+        companyName = "МАМЛИ - ТРАВЕЛ",
         startPoint = "Скопје",
         endPoint = "Куманово",
         departureTime = "11:00",
         arrivalTime = "12:00",
         note = "This is a note",
-        isRelationFavorite = true
+        isRelationFavorite = false
       ),
-      onReportRelationClicked = {}
+      onReportRelationClicked = {},
+      onFavoriteClicked = { _, _ -> }
     )
   }
 }

@@ -15,6 +15,8 @@ import androidx.compose.ui.res.stringResource
 import mk.vozenred.bustimetableapp.R
 import mk.vozenred.bustimetableapp.components.topbars.SearchAppBar
 import mk.vozenred.bustimetableapp.components.topbars.SelectDestinationTopAppBar
+import mk.vozenred.bustimetableapp.components.topbars.utils.PointType
+import mk.vozenred.bustimetableapp.components.topbars.utils.SortOption
 import mk.vozenred.bustimetableapp.ui.screens.select_relation.composables.PointListRowItemComposable
 import mk.vozenred.bustimetableapp.ui.theme.accentColor
 import mk.vozenred.bustimetableapp.ui.viewmodels.SharedViewModel
@@ -27,6 +29,9 @@ fun SelectFromDestinationScreen(
 ) {
   val filteredStartPoints by sharedViewModel.filteredStartPoints
   val searchAppBarState by sharedViewModel.searchAppBarState
+  var sortDropDownMenuExpanded by remember {
+    mutableStateOf(false)
+  }
 
   var searchAppBarText by remember {
     mutableStateOf("")
@@ -61,11 +66,34 @@ fun SelectFromDestinationScreen(
             },
             onBackArrowClick = {
               navigateToSearchScreen(true)
+            },
+            onSortIconClick = {
+              sortDropDownMenuExpanded = !sortDropDownMenuExpanded
+            },
+            onDismissedSortDropdown = {
+              sortDropDownMenuExpanded = false
+            },
+            sortDropDownMenuExpanded = sortDropDownMenuExpanded,
+            closeSortDropdownMenu = { sortOption ->
+              sortDropDownMenuExpanded = false
+              when (sortOption) {
+                SortOption.ALPHABETICAL -> {
+                  sharedViewModel.sortPoints(SortOption.ALPHABETICAL, PointType.START_POINT)
+                }
+                SortOption.ALPHABETICAL_INVERTED -> {
+                  sharedViewModel.sortPoints(SortOption.ALPHABETICAL_INVERTED, PointType.START_POINT)
+                }
+                SortOption.MAX_RELATIONS -> {
+                  sharedViewModel.sortPoints(SortOption.MAX_RELATIONS, PointType.START_POINT)
+                }
+                SortOption.MIN_RELATIONS -> {
+                  sharedViewModel.sortPoints(SortOption.MIN_RELATIONS, PointType.START_POINT)
+                }
+              }
             }
           )
         }
       }
-
     },
     modifier = Modifier
       .fillMaxSize()
@@ -81,7 +109,6 @@ fun SelectFromDestinationScreen(
           Divider(modifier = Modifier.background(MaterialTheme.colors.accentColor))
         }
       }
-    },
-    bottomBar = {}
+    }
   )
 }

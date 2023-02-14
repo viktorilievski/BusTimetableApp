@@ -15,6 +15,8 @@ import androidx.compose.ui.res.stringResource
 import mk.vozenred.bustimetableapp.R
 import mk.vozenred.bustimetableapp.components.topbars.SearchAppBar
 import mk.vozenred.bustimetableapp.components.topbars.SelectDestinationTopAppBar
+import mk.vozenred.bustimetableapp.components.topbars.utils.PointType
+import mk.vozenred.bustimetableapp.components.topbars.utils.SortOption
 import mk.vozenred.bustimetableapp.ui.screens.select_relation.composables.PointListRowItemComposable
 import mk.vozenred.bustimetableapp.ui.theme.accentColor
 import mk.vozenred.bustimetableapp.ui.viewmodels.SharedViewModel
@@ -30,6 +32,10 @@ fun SelectToDestinationScreen(
   val searchAppBarState by sharedViewModel.searchAppBarState
   var searchAppBarText by remember {
     mutableStateOf("")
+  }
+
+  var sortDropDownMenuExpanded by remember {
+    mutableStateOf(false)
   }
 
   LaunchedEffect(key1 = true) {
@@ -62,6 +68,28 @@ fun SelectToDestinationScreen(
             },
             onBackArrowClick = {
               navigateToSearchScreen(true)
+            },
+            onSortIconClick = { sortDropDownMenuExpanded = true },
+            onDismissedSortDropdown = {
+              sortDropDownMenuExpanded = false
+            },
+            sortDropDownMenuExpanded = sortDropDownMenuExpanded,
+            closeSortDropdownMenu = { sortOption ->
+              sortDropDownMenuExpanded = false
+              when (sortOption) {
+                SortOption.ALPHABETICAL -> {
+                  sharedViewModel.sortPoints(SortOption.ALPHABETICAL, PointType.END_POINT)
+                }
+                SortOption.ALPHABETICAL_INVERTED -> {
+                  sharedViewModel.sortPoints(SortOption.ALPHABETICAL_INVERTED, PointType.END_POINT)
+                }
+                SortOption.MAX_RELATIONS -> {
+                  sharedViewModel.sortPoints(SortOption.MAX_RELATIONS, PointType.END_POINT)
+                }
+                SortOption.MIN_RELATIONS -> {
+                  sharedViewModel.sortPoints(SortOption.MIN_RELATIONS, PointType.END_POINT)
+                }
+              }
             }
           )
         }

@@ -11,8 +11,16 @@ class RelationsRepository @Inject constructor(
   private val relationsDao: RelationsDao
 ) {
 
-  fun getRelations(departure: String, arrival: String): Flow<List<Relation>> {
-    return relationsDao.getRelations(departure, arrival)
+  fun getRelations(departure: String, arrival: String, companyName: String?): List<Relation> {
+    return relationsDao.getRelationsForCompany(departure, arrival, companyName)
+  }
+
+  fun getFavoriteRelations(): List<Relation> {
+    return relationsDao.getFavoriteRelations()
+  }
+
+  suspend fun removeRelationFromFavorite(relationId: Int) {
+    relationsDao.setRelationFavoriteStatus(relationId = relationId, isRelationFavorite = false)
   }
 
   fun getRelation(relationId: Int): Flow<Relation> {
@@ -23,34 +31,50 @@ class RelationsRepository @Inject constructor(
     relationsDao.addRelation(relation = relation)
   }
 
-  fun getAllStartingPoints(): Flow<List<String>> {
-    return relationsDao.getAllStartingPoints()
+  fun getStartAllPointsAlphaSorted(): Flow<List<String>> {
+    return relationsDao.getAllStartingPointsAlphaSorted()
   }
 
-  fun getStartPointsForEnteredText(enteredText: String): Flow<List<String>> {
-    return relationsDao.getStartPointsForEnteredText(enteredText)
+  fun getStartAllPointsAlphaSortedInv(): Flow<List<String>> {
+    return relationsDao.getAllStartingPointsAlphaSortedInv()
+  }
+
+  fun getStartPointsMaxRelationsSorted(): Flow<List<String>> {
+    return relationsDao.getStartPointsMaxRelationsSorted()
+  }
+
+  fun getStartPointsMinRelationsSorted(): Flow<List<String>> {
+    return relationsDao.getStartPointsMinRelationsSorted()
+  }
+
+  fun getAllEndPointsAlphaSorted(startPointSelected: String): Flow<List<String>> {
+    return relationsDao.getAllEndPointsAlphaSorted(startPointSelected)
+  }
+
+  fun getAllEndPointsAlphaSortedInv(startPointSelected: String): Flow<List<String>> {
+    return relationsDao.getAllEndPointsAlphaSortedInv(startPointSelected)
+  }
+
+  fun getEndPointsMaxRelationsSorted(startPointSelected: String): Flow<List<String>> {
+    return relationsDao.getEndPointsMaxRelationsSorted(startPointSelected)
+  }
+
+  fun getEndPointsMinRelationsSorted(startPointSelected: String): Flow<List<String>> {
+    return relationsDao.getEndPointsMinRelationsSorted(startPointSelected)
+  }
+
+  suspend fun setRelationFavoriteStatus(relationId: Int, isRelationFavorite: Boolean) {
+    relationsDao.setRelationFavoriteStatus(
+      relationId = relationId,
+      isRelationFavorite = isRelationFavorite
+    )
   }
 
   fun getEndPointsForSelectedStartPoint(selectedStartPoint: String): Flow<List<String>> {
     return relationsDao.getEndPointsForSelected(selectedStartPoint)
   }
 
-  fun getEndPointsForEnteredText(
-    selectedStartPoint: String,
-    enteredText: String
-  ): Flow<List<String>> {
-    return relationsDao.getEndPointsForEnteredText(selectedStartPoint, enteredText)
-  }
-
   fun getCompaniesForRelation(startPoint: String, endPoint: String): Flow<List<String>> {
     return relationsDao.getCompaniesForRelation(startPoint, endPoint)
-  }
-
-  fun getRelationsForSelectedCompany(
-    startPoint: String,
-    endPoint: String,
-    companyName: String
-  ): Flow<List<Relation>> {
-    return relationsDao.getRelationsForCompany(startPoint, endPoint, companyName)
   }
 }

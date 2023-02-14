@@ -7,9 +7,13 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
+import mk.vozenred.bustimetableapp.components.topbars.utils.PointType
+import mk.vozenred.bustimetableapp.components.topbars.utils.SortOption
 import mk.vozenred.bustimetableapp.data.model.Relation
 import mk.vozenred.bustimetableapp.data.repositories.local.RelationsRepository
 import mk.vozenred.bustimetableapp.util.SearchAppBarState
@@ -19,7 +23,6 @@ import javax.inject.Inject
 class SharedViewModel @Inject constructor(
   private val relationsRepository: RelationsRepository
 ) : ViewModel() {
-
 
   private val _startPointSelected: MutableState<String> = mutableStateOf("")
   val startPointSelected: State<String> = _startPointSelected
@@ -37,27 +40,95 @@ class SharedViewModel @Inject constructor(
   private val searchAppBarText: MutableState<String> = mutableStateOf("")
   val searchAppBarState: MutableState<SearchAppBarState> = mutableStateOf(SearchAppBarState.CLOSED)
 
-  private val _relations: MutableStateFlow<List<Relation>> = MutableStateFlow(mutableListOf())
-  val relations: StateFlow<List<Relation>> = _relations
+  private val _relations: MutableSharedFlow<List<Relation>> = MutableSharedFlow()
+  val relations: SharedFlow<List<Relation>> = _relations
 
   private val _selectedRelation: MutableStateFlow<Relation> = MutableStateFlow(Relation())
   val selectedRelation: StateFlow<Relation> = _selectedRelation
 
-  fun getRelations() {
-    selectedCompany.value = "Сите"
+  fun getRelations(companyName: String?) {
+    selectedCompany.value = companyName ?: "Сите"
     viewModelScope.launch(Dispatchers.IO) {
-      relationsRepository.getRelations(_startPointSelected.value, _endPointSelected.value)
-        .collect {
-          _relations.value = it
-        }
+      _relations.emit(
+        relationsRepository.getRelations(
+          _startPointSelected.value,
+          _endPointSelected.value,
+          companyName
+        )
+      )
     }
   }
 
   fun getAllStartPoints() {
     viewModelScope.launch(Dispatchers.IO) {
-      relationsRepository.getAllStartingPoints().collect {
+      relationsRepository.getStartAllPointsAlphaSorted().collect {
         startPoints.value = it
         filteredStartPoints.value = startPoints.value
+      }
+    }
+  }
+
+  fun sortPoints(sortOption: SortOption, pointType: PointType) {
+    viewModelScope.launch(Dispatchers.IO) {
+      when (pointType) {
+        PointType.START_POINT -> {
+          when (sortOption) {
+            SortOption.ALPHABETICAL -> {
+              relationsRepository.getStartAllPointsAlphaSorted().collect {
+                startPoints.value = it
+                filteredStartPoints.value = startPoints.value
+              }
+            }
+            SortOption.ALPHABETICAL_INVERTED -> {
+              relationsRepository.getStartAllPointsAlphaSortedInv().collect {
+                startPoints.value = it
+                filteredStartPoints.value = startPoints.value
+              }
+            }
+            SortOption.MAX_RELATIONS -> {
+              relationsRepository.getStartPointsMaxRelationsSorted().collect {
+                startPoints.value = it
+                filteredStartPoints.value = startPoints.value
+              }
+            }
+            SortOption.MIN_RELATIONS -> {
+              relationsRepository.getStartPointsMinRelationsSorted().collect {
+                startPoints.value = it
+                filteredStartPoints.value = startPoints.value
+              }
+            }
+          }
+        }
+        PointType.END_POINT -> {
+          when (sortOption) {
+            SortOption.ALPHABETICAL -> {
+              relationsRepository.getAllEndPointsAlphaSorted(_startPointSelected.value).collect {
+                endPoints.value = it
+                filteredEndPoints.value = endPoints.value
+              }
+            }
+            SortOption.ALPHABETICAL_INVERTED -> {
+              relationsRepository.getAllEndPointsAlphaSortedInv(_startPointSelected.value).collect {
+                endPoints.value = it
+                filteredEndPoints.value = endPoints.value
+              }
+            }
+            SortOption.MAX_RELATIONS -> {
+              relationsRepository.getEndPointsMaxRelationsSorted(_startPointSelected.value)
+                .collect {
+                  endPoints.value = it
+                  filteredEndPoints.value = endPoints.value
+                }
+            }
+            SortOption.MIN_RELATIONS -> {
+              relationsRepository.getEndPointsMinRelationsSorted(_startPointSelected.value)
+                .collect {
+                  endPoints.value = it
+                  filteredEndPoints.value = endPoints.value
+                }
+            }
+          }
+        }
       }
     }
   }
@@ -81,10 +152,6 @@ class SharedViewModel @Inject constructor(
     _endPointSelected.value = endPoint
   }
 
-  fun setSelectedCompany(companyName: String) {
-    selectedCompany.value = companyName
-  }
-
   fun clearEndPoint() {
     _endPointSelected.value = ""
   }
@@ -96,22 +163,6 @@ class SharedViewModel @Inject constructor(
           endPoints.value = it
           filteredEndPoints.value = endPoints.value
         }
-    }
-  }
-
-  fun getRelationsForSelectedCompany(companyName: String) {
-    if (companyName.isEmpty()) {
-      getRelations()
-    } else {
-      viewModelScope.launch(Dispatchers.IO) {
-        relationsRepository.getRelationsForSelectedCompany(
-          _startPointSelected.value,
-          _endPointSelected.value,
-          companyName
-        ).collect {
-          _relations.value = it
-        }
-      }
     }
   }
 
@@ -160,8 +211,15 @@ class SharedViewModel @Inject constructor(
     }
   }
 
-  fun updateReportRelationFields(selectedRelation: Relation?) {
-    TODO("Not yet implemented")
+  fun setRelationFavoriteStatus(relationId: Int, isRelationFavorite: Boolean) {
+    viewModelScope.launch(Dispatchers.IO) {
+      relationsRepository.setRelationFavoriteStatus(relationId, isRelationFavorite)
+      val companyName: String? = if (selectedCompany.value == "Сите") {
+        null
+      } else {
+        selectedCompany.value
+      }
+      getRelations(companyName)
+    }
   }
-
 }

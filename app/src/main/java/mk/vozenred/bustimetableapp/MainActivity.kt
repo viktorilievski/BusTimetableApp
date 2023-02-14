@@ -10,6 +10,7 @@ import com.google.accompanist.navigation.animation.rememberAnimatedNavController
 import dagger.hilt.android.AndroidEntryPoint
 import mk.vozenred.bustimetableapp.navigation.SetupNavigation
 import mk.vozenred.bustimetableapp.ui.theme.BusTimetableAppTheme
+import mk.vozenred.bustimetableapp.ui.viewmodels.FavoriteRelationsViewModel
 import mk.vozenred.bustimetableapp.ui.viewmodels.SharedViewModel
 import mk.vozenred.bustimetableapp.ui.viewmodels.SplashScreenViewModel
 import mk.vozenred.bustimetableapp.util.NetworkConnectionLiveData
@@ -20,6 +21,7 @@ class MainActivity : ComponentActivity() {
   private lateinit var navController: NavHostController
   private val sharedViewModel: SharedViewModel by viewModels()
   private val splashScreenViewModel: SplashScreenViewModel by viewModels()
+  private val favoriteRelationsViewModel: FavoriteRelationsViewModel by viewModels()
 
   @OptIn(ExperimentalAnimationApi::class)
   override fun onCreate(savedInstanceState: Bundle?) {
@@ -31,6 +33,7 @@ class MainActivity : ComponentActivity() {
         SetupNavigation(
           navController = navController,
           sharedViewModel = sharedViewModel,
+          favoriteRelationsViewModel = favoriteRelationsViewModel,
           splashScreenViewModel = splashScreenViewModel
         )
       }
@@ -43,5 +46,4 @@ class MainActivity : ComponentActivity() {
       splashScreenViewModel.networkStatus.value = isConnected
     }
   }
-
 }

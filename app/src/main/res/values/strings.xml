@@ -42,5 +42,11 @@
     <string name="dark_mode">Dark mode</string>
     <string name="contact_info">За било какви информации и пријавување проблеми за апликацијата можете да не контактирате на info@bustimetable.mk или на телефонскиот број подолу.</string>
     <string name="report_screen_title">Пријави проблем</string>
+    <string name="favorite_relations_top_app_bar_title">Омилени релации</string>
+    <string name="sort_icon">Sort Icon</string>
+    <string name="no_favorite_relations_text">Немате ниту една омилена релација.</string>
+    <string name="remove_favorite_relation_dialog_title">Дали сакате да ја избришете оваа релација од омилени?</string>
+    <string name="favorite_relation_dialog_cancel">Откажи</string>
+    <string name="favorite_relation_dialog_remove">Избриши</string>
 
 </resources>

@@ -13,7 +13,8 @@ fun NavGraphBuilder.relationsComposable(
   sharedViewModel: SharedViewModel,
   navigateToSearchScreen: () -> Unit,
   navigateToContactScreen: () -> Unit,
-  navigateToReportScreen: (Int) -> Unit
+  navigateToReportScreen: (Int) -> Unit,
+  navigateToFavoriteRelationsScreen: () -> Unit,
 ) {
   composable(
     route = RELATIONS_SCREEN,
@@ -25,7 +26,8 @@ fun NavGraphBuilder.relationsComposable(
       sharedViewModel = sharedViewModel,
       navigateToSearchScreen = navigateToSearchScreen,
       navigateToContactScreen = navigateToContactScreen,
-      navigateToReportScreen = navigateToReportScreen
+      navigateToReportScreen = navigateToReportScreen,
+      navigateToFavoriteRelationsScreen = navigateToFavoriteRelationsScreen
     )
   }
 }

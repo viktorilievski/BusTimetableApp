@@ -8,12 +8,13 @@ import mk.vozenred.bustimetableapp.util.Constants.CONTACT_SCREEN
 
 @OptIn(ExperimentalAnimationApi::class)
 fun NavGraphBuilder.contactComposable(
-  navigateToSearchScreen: () -> Unit
+  navigateToSearchScreen: () -> Unit,
+  navigateToFavoriteRelationsScreen: () -> Unit
 ) {
   composable(route = CONTACT_SCREEN) {
-    // contact screen composable here
     ContactScreen(
-      navigateToSearchScreen = navigateToSearchScreen
+      navigateToSearchScreen = navigateToSearchScreen,
+      navigateToFavoriteRelationsScreen = navigateToFavoriteRelationsScreen
     )
   }
 }

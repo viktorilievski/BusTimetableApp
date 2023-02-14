@@ -12,7 +12,7 @@ import androidx.compose.ui.res.stringResource
 import mk.vozenred.bustimetableapp.R
 
 @Composable
-fun TopAppBarWithDrawer(
+fun DrawerTopAppBar(
   title: String,
   onDrawerIconClick: () -> Unit,
 ) {
