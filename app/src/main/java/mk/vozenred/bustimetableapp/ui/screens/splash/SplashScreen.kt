@@ -31,7 +31,7 @@ fun SplashScreen(
   navigateToNoConnectionScreen: () -> Unit,
   splashScreenViewModel: SplashScreenViewModel
 ) {
-  val localDbVersion by splashScreenViewModel.dataStoreValue.collectAsState()
+  val localDbVersion by splashScreenViewModel.dataStoreDatabaseVersion.collectAsState()
 
   LaunchedEffect(key1 = true) {
     if (splashScreenViewModel.networkStatus.value) {

@@ -25,7 +25,7 @@ fun NoConnectionScreen(
   splashScreenViewModel: SplashScreenViewModel
 ) {
   val localDbVersionIsPresent =
-    splashScreenViewModel.dataStoreValue.collectAsState().value != null
+    splashScreenViewModel.dataStoreDatabaseVersion.collectAsState().value != null
 
   Column(
     modifier = Modifier
@@ -62,8 +62,8 @@ fun NoConnectionScreenContent(
       modifier = Modifier.size(DRAWABLE_SIZE_BIG),
       colorFilter = ColorFilter.tint(MaterialTheme.colors.iconColor)
     )
-    var noteText = ""
-    noteText = if (localDbVersionIsPresent) {
+
+    val noteText = if (localDbVersionIsPresent) {
       stringResource(id = R.string.no_connection_with_db)
     } else {
       stringResource(id = R.string.no_connection_first_time)
@@ -78,11 +78,11 @@ fun NoConnectionScreenContent(
       ) {
         Text(text = stringResource(R.string.retry_connection_button_text))
         Spacer(modifier = Modifier.size(ButtonDefaults.IconSize))
-        Icon(imageVector = Icons.Filled.Refresh, contentDescription = "")
+        Icon(imageVector = Icons.Filled.Refresh, contentDescription = stringResource(R.string.refresh_icon))
       }
       if (localDbVersionIsPresent) {
         Button(onClick = { onContinueButtonClick() }) {
-          Text(text = "Offline mode")
+          Text(text = stringResource(R.string.offline_mode_button_text))
           Spacer(modifier = Modifier.size(ButtonDefaults.IconSize))
           Icon(painter = painterResource(id = R.drawable.ic_no_connection), contentDescription = "")
         }

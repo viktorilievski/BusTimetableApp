@@ -16,7 +16,9 @@
     <string name="standard_bus_icon">Bus Icon</string>
     <string name="report_relation_icon">Report relation Icon</string>
     <string name="icon_button_content_description">Icon Button</string>
-
+    <string name="note_info_icon">Note info icon</string>
+    <string name="sort_icon">Sort Icon</string>
+    <string name="refresh_icon">Icon Refresh</string>
 
     <!-- APP STRINGS -->
     <string name="app_name">Возен Ред</string>
@@ -27,7 +29,6 @@
     Потребен е интернет за најновите релации, меѓутоа можете да ја користите апликацијата во
         Offline mode со вашите претходно ажурирани релации</string>
     <string name="retry_connection_button_text">Пробај пак</string>
-    <string name="note_info_icon">Note info icon</string>
     <string name="search_relations_screen_topbar_title">Одбери релација</string>
     <string name="all_relations_text">Сите</string>
     <string name="search_new_relation">Барај нова релација</string>
@@ -43,12 +44,12 @@
     <string name="contact_info">За било какви информации и пријавување проблеми за апликацијата можете да не контактирате на info@bustimetable.mk или на телефонскиот број подолу.</string>
     <string name="report_screen_title">Пријави проблем</string>
     <string name="favorite_relations_top_app_bar_title">Омилени релации</string>
-    <string name="sort_icon">Sort Icon</string>
     <string name="no_favorite_relations_text">Немате ниту една омилена релација.</string>
     <string name="remove_favorite_relation_dialog_title">Дали сакате да ја избришете оваа релација од омилени?</string>
     <string name="favorite_relation_dialog_cancel">Откажи</string>
     <string name="favorite_relation_dialog_remove">Избриши</string>
     <string name="search_screen_title">Одберете почетна и крајна релација!</string>
     <string name="search_screen_body">Доколку не постои вашата посакувана крајна релација, за истата не постојат релации.</string>
+    <string name="offline_mode_button_text">Offline mode</string>
 
 </resources>

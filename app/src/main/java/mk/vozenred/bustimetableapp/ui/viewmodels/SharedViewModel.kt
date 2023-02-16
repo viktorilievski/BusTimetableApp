@@ -211,6 +211,12 @@ class SharedViewModel @Inject constructor(
     }
   }
 
+  fun swapCities() {
+    val tempCity = _startPointSelected.value
+    _startPointSelected.value = _endPointSelected.value
+    _endPointSelected.value = tempCity
+  }
+
   fun setRelationFavoriteStatus(relationId: Int, isRelationFavorite: Boolean) {
     viewModelScope.launch(Dispatchers.IO) {
       relationsRepository.setRelationFavoriteStatus(relationId, isRelationFavorite)

@@ -32,8 +32,8 @@ class SplashScreenViewModel @Inject constructor(
   private var _loading: MutableLiveData<LoadingState> = MutableLiveData(LoadingState.Loading)
   val loading: LiveData<LoadingState> = _loading
 
-  private val _dataStoreValue: MutableStateFlow<String?> = MutableStateFlow(null)
-  val dataStoreValue: StateFlow<String?> = _dataStoreValue
+  private val _dataStoreDatabaseVersion: MutableStateFlow<String?> = MutableStateFlow(null)
+  val dataStoreDatabaseVersion: StateFlow<String?> = _dataStoreDatabaseVersion
 
   init {
     readDatabaseVersionFromDataStore(DB_VERSION_PREFERENCE_KEY)
@@ -53,15 +53,15 @@ class SplashScreenViewModel @Inject constructor(
     }
   }
 
-  fun saveDatabaseVersionToDataStore(key: String, value: String) {
+  private fun saveDatabaseVersionToDataStore(key: String, value: String) {
     viewModelScope.launch(Dispatchers.IO) {
       dataStoreRepository.save(key, value)
     }
   }
 
-  fun readDatabaseVersionFromDataStore(key: String) {
+  private fun readDatabaseVersionFromDataStore(key: String) {
     viewModelScope.launch(Dispatchers.IO) {
-      _dataStoreValue.value = dataStoreRepository.read(key)
+      _dataStoreDatabaseVersion.value = dataStoreRepository.read(key)
     }
   }
 

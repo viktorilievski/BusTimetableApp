@@ -45,7 +45,10 @@ fun SearchRelationsScreen(
         endPoint = endPoint,
         navigateToStartDestinationScreen = { navigateToStartDestinationScreen() },
         navigateToEndDestinationScreen = { navigateToEndDestinationScreen() },
-        navigateToRelationsScreen = { navigateToRelationsScreen() }
+        navigateToRelationsScreen = { navigateToRelationsScreen() },
+        onSwapCitiesIconClicked = {
+          sharedViewModel.swapCities()
+        }
       )
     },
     drawerContent = {

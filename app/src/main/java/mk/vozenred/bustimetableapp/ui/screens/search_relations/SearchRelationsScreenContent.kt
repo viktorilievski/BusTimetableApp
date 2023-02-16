@@ -3,15 +3,13 @@ package mk.vozenred.bustimetableapp.ui.screens.search_relations
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.Button
-import androidx.compose.material.Icon
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Text
+import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowForward
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
@@ -29,7 +27,8 @@ fun SearchRelationsScreenContent(
   paddingValue: PaddingValues,
   navigateToStartDestinationScreen: () -> Unit,
   navigateToEndDestinationScreen: () -> Unit,
-  navigateToRelationsScreen: () -> Unit
+  navigateToRelationsScreen: () -> Unit,
+  onSwapCitiesIconClicked:() -> Unit
 ) {
   val isStartPointSelected = startPoint.isNotEmpty()
   val isEndPointSelected = endPoint.isNotEmpty()
@@ -62,12 +61,11 @@ fun SearchRelationsScreenContent(
       modifier = Modifier
         .fillMaxWidth()
         .weight(2f),
-      verticalArrangement = Arrangement.Center
+      horizontalAlignment = Alignment.CenterHorizontally,
+      verticalArrangement = Arrangement.SpaceEvenly
     ) {
       Row(
-        horizontalArrangement = Arrangement.SpaceEvenly,
-        verticalAlignment = Alignment.CenterVertically,
-        modifier = Modifier.fillMaxWidth()
+        verticalAlignment = Alignment.CenterVertically
       ) {
         Column(
           modifier = Modifier.weight(0.3f)
@@ -78,21 +76,20 @@ fun SearchRelationsScreenContent(
             onFieldClick = navigateToStartDestinationScreen,
             isStartPointSelected = true
           )
-        }
-        Icon(
-          modifier = Modifier.padding(horizontal = MEDIUM_PADDING),
-          imageVector = Icons.Filled.ArrowForward,
-          contentDescription = stringResource(id = R.string.forward_arrow_icon)
-        )
-        Column(
-          modifier = Modifier.weight(0.3f)
-        ) {
+          Divider(modifier = Modifier.padding(vertical = MEDIUM_PADDING))
           SelectRelationField(
             label = "До:",
             selectedPoint = endPoint,
             onFieldClick = navigateToEndDestinationScreen,
             isStartPointSelected = isStartPointSelected
           )
+        }
+        IconButton(
+          onClick = { onSwapCitiesIconClicked() },
+          enabled = isEndPointSelected,
+          modifier = Modifier.padding(start = 10.dp)
+        ) {
+          Icon(painter = painterResource(id = R.drawable.ic_baseline_swap_vert_24), contentDescription = "")
         }
       }
     }
@@ -102,7 +99,6 @@ fun SearchRelationsScreenContent(
       modifier = Modifier
         .fillMaxWidth()
         .weight(2f)
-//        .padding(LARGEST_PADDING)
     ) {
       Row() {
         Button(
@@ -124,15 +120,16 @@ fun SearchRelationsScreenContent(
   }
 }
 
-@Composable
-@Preview
-fun SearchRelationsScreenContentPreview() {
-  SearchRelationsScreenContent(
-    startPoint = "Скопје",
-    endPoint = "Куманово",
-    paddingValue = PaddingValues(),
-    navigateToEndDestinationScreen = {},
-    navigateToStartDestinationScreen = {},
-    navigateToRelationsScreen = {}
-  )
-}
+  @Composable
+  @Preview
+  fun SearchRelationsScreenContentPreview() {
+    SearchRelationsScreenContent(
+      startPoint = "Скопје",
+      endPoint = "Куманово",
+      paddingValue = PaddingValues(),
+      navigateToEndDestinationScreen = {},
+      navigateToStartDestinationScreen = {},
+      navigateToRelationsScreen = {},
+      onSwapCitiesIconClicked = {}
+    )
+  }

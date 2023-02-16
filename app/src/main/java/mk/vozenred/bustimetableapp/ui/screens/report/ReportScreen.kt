@@ -1,5 +1,6 @@
 package mk.vozenred.bustimetableapp.ui.screens.report
 
+import android.annotation.SuppressLint
 import android.content.ActivityNotFoundException
 import android.content.Context
 import android.content.Intent
@@ -23,6 +24,7 @@ import mk.vozenred.bustimetableapp.ui.theme.BusTimetableAppTheme
 import mk.vozenred.bustimetableapp.ui.theme.LARGEST_PADDING
 import mk.vozenred.bustimetableapp.ui.viewmodels.SharedViewModel
 
+@SuppressLint("UnusedMaterialScaffoldPaddingParameter")
 @Composable
 fun ReportScreen(
   sharedViewModel: SharedViewModel,
@@ -37,10 +39,9 @@ fun ReportScreen(
         }
       )
     },
-    content = { paddingValues ->
+    content = {
       ReportScreenContent(
-        selectedRelation = selectedRelation,
-        paddingValues = paddingValues
+        selectedRelation = selectedRelation
       )
     }
   )
@@ -48,8 +49,7 @@ fun ReportScreen(
 
 @Composable
 fun ReportScreenContent(
-  selectedRelation: Relation,
-  paddingValues: PaddingValues
+  selectedRelation: Relation
 ) {
   val context = LocalContext.current
   var userNoteText by remember {
@@ -217,8 +217,7 @@ fun ReportScreenContentPreview() {
         departureTime = "10:00",
         arrivalTime = "12:00",
         note = "Секој ден освен во недела."
-      ),
-      paddingValues = PaddingValues()
+      )
     )
   }
 }
