@@ -10,6 +10,7 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Email
 import androidx.compose.material.icons.outlined.Call
 import androidx.compose.material.icons.outlined.Email
 import androidx.compose.runtime.Composable
@@ -92,41 +93,55 @@ fun ContactScreenContent(paddingValue: PaddingValues) {
 
   Column(
     modifier = Modifier
-      .padding(paddingValue)
-      .fillMaxHeight(),
-    horizontalAlignment = Alignment.CenterHorizontally,
-    verticalArrangement = Arrangement.Center
+      .padding(LARGEST_PADDING)
+      .fillMaxSize()
   ) {
-    Text(
-      text = stringResource(R.string.contact_info),
-      textAlign = TextAlign.Center,
-      modifier = Modifier.padding(bottom = LARGEST_PADDING)
-    )
-    ContactScreenRowButton(
-      icon = Icons.Outlined.Email,
-      iconBackgroundColor = Color.Cyan,
-      title = "Испрати e-mail",
-      onRowItemClick = {
-        val emailIntent = Intent(Intent.ACTION_SEND)
-        emailIntent.type = "message/rfc822"
-        context.startActivity(Intent.createChooser(emailIntent, "Choose an Email client: "))
-      }
-    )
-    ContactScreenRowButton(
-      icon = Icons.Outlined.Call,
-      iconBackgroundColor = Color.Black,
-      title = "Јави се",
-      onRowItemClick = {
-        val uri = Uri.parse("tel:070510928")
-        val intent = Intent(Intent.ACTION_DIAL, uri)
-        context.startActivity(intent, null)
-      }
-    )
+    Column(
+      modifier = Modifier
+        .fillMaxWidth()
+        .weight(2f),
+      horizontalAlignment = Alignment.CenterHorizontally,
+      verticalArrangement = Arrangement.Center
+    ) {
+      Text(
+        text = stringResource(R.string.contact_info),
+        textAlign = TextAlign.Center,
+        modifier = Modifier.padding(bottom = LARGEST_PADDING)
+      )
+    }
+    Column(
+      modifier = Modifier
+        .fillMaxWidth()
+        .weight(1f),
+      horizontalAlignment = Alignment.CenterHorizontally,
+      verticalArrangement = Arrangement.Center
+    ) {
+      ContactButton(
+        icon = Icons.Outlined.Email,
+        iconBackgroundColor = Color.Cyan,
+        title = "Испрати e-mail",
+        onRowItemClick = {
+          val emailIntent = Intent(Intent.ACTION_SEND)
+          emailIntent.type = "message/rfc822"
+          context.startActivity(Intent.createChooser(emailIntent, "Choose an Email client: "))
+        }
+      )
+      ContactButton(
+        icon = Icons.Outlined.Call,
+        iconBackgroundColor = Color.Black,
+        title = "Јави се",
+        onRowItemClick = {
+          val uri = Uri.parse("tel:070510928")
+          val intent = Intent(Intent.ACTION_DIAL, uri)
+          context.startActivity(intent, null)
+        }
+      )
+    }
   }
 }
 
 @Composable
-fun ContactScreenRowButton(
+fun ContactButton(
   icon: ImageVector,
   iconBackgroundColor: Color,
   title: String,
@@ -136,7 +151,6 @@ fun ContactScreenRowButton(
     .fillMaxWidth()
     .height(POINT_ROW_ITEM_HEIGHT)
     .padding(
-      horizontal = LARGEST_PADDING,
       vertical = MEDIUM_PADDING
     )
     .clip(RoundedCornerShape(10.dp))
@@ -156,7 +170,8 @@ fun ContactScreenRowButton(
       Icon(
         imageVector = icon,
         contentDescription = stringResource(R.string.icon_button_content_description),
-        tint = Color.White
+        tint = Color.White,
+        modifier = Modifier.fillMaxSize(0.5f)
       )
     }
     Text(
@@ -176,4 +191,15 @@ fun ContactScreenPreview() {
       navigateToFavoriteRelationsScreen = {}
     )
   }
+}
+
+@Preview
+@Composable
+fun ContactButtonPreview() {
+  ContactButton(
+    icon = Icons.Filled.Email,
+    iconBackgroundColor = Color.Cyan,
+    title = "Испрати e-mail",
+    onRowItemClick = {}
+  )
 }

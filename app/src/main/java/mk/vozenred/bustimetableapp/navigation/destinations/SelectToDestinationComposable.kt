@@ -11,7 +11,7 @@ import mk.vozenred.bustimetableapp.util.Constants.SELECT_TO_DESTINATION_SCREEN
 
 @OptIn(ExperimentalAnimationApi::class)
 fun NavGraphBuilder.selectToDestinationComposable(
-  navigateToSearchScreen: (shouldClearBackstack: Boolean) -> Unit,
+  navigateToSearchScreen: () -> Unit,
   sharedViewModel: SharedViewModel
 ) {
   composable(

@@ -15,10 +15,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import mk.vozenred.bustimetableapp.R
-import mk.vozenred.bustimetableapp.ui.theme.BusTimetableAppTheme
-import mk.vozenred.bustimetableapp.ui.theme.DRAWABLE_SIZE_BIG
-import mk.vozenred.bustimetableapp.ui.theme.LARGE_PADDING
-import mk.vozenred.bustimetableapp.ui.theme.iconColor
+import mk.vozenred.bustimetableapp.ui.theme.*
 import mk.vozenred.bustimetableapp.ui.viewmodels.SplashScreenViewModel
 
 @Composable
@@ -30,8 +27,10 @@ fun NoConnectionScreen(
   val localDbVersionIsPresent =
     splashScreenViewModel.dataStoreValue.collectAsState().value != null
 
-  Surface(
-    modifier = Modifier.fillMaxSize(),
+  Column(
+    modifier = Modifier
+      .fillMaxSize()
+      .padding(LARGEST_PADDING),
   ) {
     NoConnectionScreenContent(
       onRetryButtonClick = {
@@ -56,8 +55,6 @@ fun NoConnectionScreenContent(
   Column(
     horizontalAlignment = Alignment.CenterHorizontally,
     verticalArrangement = Arrangement.SpaceEvenly,
-    modifier = Modifier
-      .padding(LARGE_PADDING)
   ) {
     Image(
       painter = painterResource(id = R.drawable.ic_no_connection),
@@ -86,6 +83,8 @@ fun NoConnectionScreenContent(
       if (localDbVersionIsPresent) {
         Button(onClick = { onContinueButtonClick() }) {
           Text(text = "Offline mode")
+          Spacer(modifier = Modifier.size(ButtonDefaults.IconSize))
+          Icon(painter = painterResource(id = R.drawable.ic_no_connection), contentDescription = "")
         }
       }
     }
@@ -100,7 +99,7 @@ fun NoConnectionScreenContentPreview() {
     NoConnectionScreenContent(
       onRetryButtonClick = {},
       onContinueButtonClick = {},
-      localDbVersionIsPresent = false
+      localDbVersionIsPresent = true
     )
   }
 }

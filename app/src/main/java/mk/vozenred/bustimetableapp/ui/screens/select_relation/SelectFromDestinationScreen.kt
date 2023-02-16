@@ -25,7 +25,7 @@ import mk.vozenred.bustimetableapp.util.SearchAppBarState
 @Composable
 fun SelectFromDestinationScreen(
   sharedViewModel: SharedViewModel,
-  navigateToSearchScreen: (shouldClearBackstack: Boolean) -> Unit
+  navigateToSearchScreen: () -> Unit
 ) {
   val filteredStartPoints by sharedViewModel.filteredStartPoints
   val searchAppBarState by sharedViewModel.searchAppBarState
@@ -65,7 +65,7 @@ fun SelectFromDestinationScreen(
               sharedViewModel.topAppBarOnSearchClick()
             },
             onBackArrowClick = {
-              navigateToSearchScreen(true)
+              navigateToSearchScreen()
             },
             onSortIconClick = {
               sortDropDownMenuExpanded = !sortDropDownMenuExpanded
@@ -104,7 +104,7 @@ fun SelectFromDestinationScreen(
           PointListRowItemComposable(pointName = startPoint) {
             sharedViewModel.setStartPoint(startPoint)
             sharedViewModel.clearEndPoint()
-            navigateToSearchScreen(true)
+            navigateToSearchScreen()
           }
           Divider(modifier = Modifier.background(MaterialTheme.colors.accentColor))
         }

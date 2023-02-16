@@ -48,5 +48,7 @@
     <string name="remove_favorite_relation_dialog_title">Дали сакате да ја избришете оваа релација од омилени?</string>
     <string name="favorite_relation_dialog_cancel">Откажи</string>
     <string name="favorite_relation_dialog_remove">Избриши</string>
+    <string name="search_screen_title">Одберете почетна и крајна релација!</string>
+    <string name="search_screen_body">Доколку не постои вашата посакувана крајна релација, за истата не постојат релации.</string>
 
 </resources>

@@ -1,5 +1,6 @@
 package mk.vozenred.bustimetableapp.navigation
 
+import android.util.Log
 import androidx.navigation.NavHostController
 import mk.vozenred.bustimetableapp.util.Constants.CONTACT_SCREEN
 import mk.vozenred.bustimetableapp.util.Constants.FAVORITES_SCREEN
@@ -48,41 +49,25 @@ class Screens(navController: NavHostController) {
     navController.navigate(route = SELECT_TO_DESTINATION_SCREEN)
   }
 
-  val selectFromDestinationToSearch: (shouldClearBackstack: Boolean) -> Unit =
-    { shouldClearBackstack ->
-      navController.navigate(route = SEARCH_SCREEN) {
-        popUpTo(SELECT_FROM_DESTINATION_SCREEN) { inclusive = true }
-        popUpTo(SEARCH_SCREEN) { inclusive = shouldClearBackstack }
-      }
+  val selectFromDestinationToSearch: () -> Unit = {
+      navController.popBackStack(route = SEARCH_SCREEN, inclusive = false)
     }
 
-  val selectToDestinationToSearch: (shouldClearBackstack: Boolean) -> Unit =
-    { shouldClearBackstack ->
-      navController.navigate(route = SEARCH_SCREEN) {
-        popUpTo(SELECT_TO_DESTINATION_SCREEN) { inclusive = true }
-        popUpTo(SEARCH_SCREEN) { inclusive = shouldClearBackstack }
-      }
+  val selectToDestinationToSearch: () -> Unit = {
+      navController.popBackStack(route = SEARCH_SCREEN, inclusive = false)
     }
 
   val navigateToSearchScreenFromDrawer: () -> Unit = {
-    navController.navigate(route = SEARCH_SCREEN) {
-      popUpTo(RELATIONS_SCREEN) { inclusive = true }
-      popUpTo(CONTACT_SCREEN) { inclusive = true }
-      popUpTo(REPORT_SCREEN) { inclusive = true }
-    }
+    navController.popBackStack(route = SEARCH_SCREEN, inclusive = false)
   }
 
   val navigateToContactScreenFromDrawer: () -> Unit = {
-    navController.navigate(route = CONTACT_SCREEN) {
-      popUpTo(RELATIONS_SCREEN) { inclusive = true }
-      popUpTo(REPORT_SCREEN) { inclusive = true }
-    }
+    navController.navigate(route = CONTACT_SCREEN)
   }
 
   val navigateToReportScreen: (Int) -> Unit = { relationId ->
     navController.navigate(route = "report/${relationId}") {
       popUpTo(RELATIONS_SCREEN) { inclusive = true }
-      popUpTo(CONTACT_SCREEN) { inclusive = true }
     }
   }
 

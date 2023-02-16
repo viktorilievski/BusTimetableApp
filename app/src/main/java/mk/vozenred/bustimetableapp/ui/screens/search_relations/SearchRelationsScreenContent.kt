@@ -13,6 +13,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import mk.vozenred.bustimetableapp.R
@@ -41,59 +42,83 @@ fun SearchRelationsScreenContent(
     verticalArrangement = Arrangement.Center,
     horizontalAlignment = Alignment.CenterHorizontally
   ) {
-    Row(
-      horizontalArrangement = Arrangement.SpaceEvenly,
-      verticalAlignment = Alignment.CenterVertically,
-      modifier = Modifier.fillMaxWidth()
+    Column(
+      modifier = Modifier
+        .fillMaxWidth()
+        .weight(2f),
+      horizontalAlignment = Alignment.CenterHorizontally,
+      verticalArrangement = Arrangement.SpaceEvenly
     ) {
-      Column(
-        modifier = Modifier.weight(0.3f)
-      ) {
-        SelectRelationField(
-          label = "Од:",
-          selectedPoint = startPoint,
-          onFieldClick = navigateToStartDestinationScreen,
-          isStartPointSelected = true
-        )
-      }
-      Icon(
-        modifier = Modifier.padding(horizontal = MEDIUM_PADDING),
-        imageVector = Icons.Filled.ArrowForward,
-        contentDescription = stringResource(id = R.string.forward_arrow_icon)
+      Text(
+        text = stringResource(R.string.search_screen_title),
+        textAlign = TextAlign.Center
       )
-      Column(
-        modifier = Modifier.weight(0.3f)
+      Text(
+        text = stringResource(R.string.search_screen_body),
+        textAlign = TextAlign.Center
+      )
+    }
+    Column(
+      modifier = Modifier
+        .fillMaxWidth()
+        .weight(2f),
+      verticalArrangement = Arrangement.Center
+    ) {
+      Row(
+        horizontalArrangement = Arrangement.SpaceEvenly,
+        verticalAlignment = Alignment.CenterVertically,
+        modifier = Modifier.fillMaxWidth()
       ) {
-        SelectRelationField(
-          label = "До:",
-          selectedPoint = endPoint,
-          onFieldClick = navigateToEndDestinationScreen,
-          isStartPointSelected = isStartPointSelected
+        Column(
+          modifier = Modifier.weight(0.3f)
+        ) {
+          SelectRelationField(
+            label = "Од:",
+            selectedPoint = startPoint,
+            onFieldClick = navigateToStartDestinationScreen,
+            isStartPointSelected = true
+          )
+        }
+        Icon(
+          modifier = Modifier.padding(horizontal = MEDIUM_PADDING),
+          imageVector = Icons.Filled.ArrowForward,
+          contentDescription = stringResource(id = R.string.forward_arrow_icon)
         )
+        Column(
+          modifier = Modifier.weight(0.3f)
+        ) {
+          SelectRelationField(
+            label = "До:",
+            selectedPoint = endPoint,
+            onFieldClick = navigateToEndDestinationScreen,
+            isStartPointSelected = isStartPointSelected
+          )
+        }
       }
     }
-  }
-  Column(
-    verticalArrangement = Arrangement.Bottom,
-    horizontalAlignment = Alignment.CenterHorizontally,
-    modifier = Modifier
-      .fillMaxSize()
-      .padding(LARGEST_PADDING)
-  ) {
-    Row() {
-      Button(
-        modifier = Modifier
-          .fillMaxWidth()
-          .height(70.dp)
-          .padding(bottom = LARGEST_PADDING),
-        onClick = { navigateToRelationsScreen() },
-        enabled = isEndPointSelected,
-        shape = RoundedCornerShape(24.dp)
-      ) {
-        Text(
-          text = "БАРАЈ",
-          fontSize = TEXT_SIZE_MEDIUM
-        )
+    Column(
+      verticalArrangement = Arrangement.Bottom,
+      horizontalAlignment = Alignment.CenterHorizontally,
+      modifier = Modifier
+        .fillMaxWidth()
+        .weight(2f)
+//        .padding(LARGEST_PADDING)
+    ) {
+      Row() {
+        Button(
+          modifier = Modifier
+            .fillMaxWidth()
+            .height(70.dp)
+            .padding(bottom = LARGEST_PADDING),
+          onClick = { navigateToRelationsScreen() },
+          enabled = isEndPointSelected,
+          shape = RoundedCornerShape(24.dp)
+        ) {
+          Text(
+            text = "БАРАЈ",
+            fontSize = TEXT_SIZE_MEDIUM
+          )
+        }
       }
     }
   }
