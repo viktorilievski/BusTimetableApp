@@ -15,12 +15,14 @@ object Constants {
   const val REPORT_SCREEN = "report/{relationId}"
   const val RELATIONS_SCREEN = "relationsList"
   const val FAVORITES_SCREEN = "favorites"
+  const val SETTINGS_SCREEN = "settings"
   const val SELECT_FROM_DESTINATION_SCREEN = "selectFromDestination"
   const val SELECT_TO_DESTINATION_SCREEN = "selectToDestination"
 
   // DataStore Preferences
   const val PREFERENCE_NAME = "app_preferences"
   const val DB_VERSION_PREFERENCE_KEY = "db_version"
+  const val LIVE_RELATION_PREFERENCE_KEY = "live_relation"
 
   // Firebase - Firestore
   const val RELATIONS_COLLECTION = "relacii"

@@ -2,9 +2,7 @@ package mk.vozenred.bustimetableapp.ui.screens.search_relations
 
 import androidx.compose.material.Scaffold
 import androidx.compose.material.rememberScaffoldState
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.*
 import androidx.compose.ui.res.stringResource
 import kotlinx.coroutines.launch
 import mk.vozenred.bustimetableapp.R
@@ -19,6 +17,7 @@ fun SearchRelationsScreen(
   navigateToEndDestinationScreen: () -> Unit,
   navigateToContactScreen: () -> Unit,
   navigateToFavoriteRelationsScreen: () -> Unit,
+  navigateToSettingsScreen: () -> Unit,
   sharedViewModel: SharedViewModel
 ) {
   val startPoint: String by sharedViewModel.startPointSelected
@@ -72,6 +71,12 @@ fun SearchRelationsScreen(
         },
         navigateToFavoriteRelationsScreen = {
           navigateToFavoriteRelationsScreen()
+          coroutineScope.launch {
+            scaffoldState.drawerState.close()
+          }
+        },
+        navigateToSettingsScreen = {
+          navigateToSettingsScreen()
           coroutineScope.launch {
             scaffoldState.drawerState.close()
           }

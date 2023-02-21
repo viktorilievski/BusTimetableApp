@@ -14,7 +14,7 @@ import mk.vozenred.bustimetableapp.util.Constants.REPORT_SCREEN
 @OptIn(ExperimentalAnimationApi::class)
 fun NavGraphBuilder.reportComposable(
   sharedViewModel: SharedViewModel,
-  navigateToRelationsScreen: () -> Unit
+  onBackArrowClick: () -> Unit
 ) {
   composable(
     route = REPORT_SCREEN,
@@ -30,7 +30,7 @@ fun NavGraphBuilder.reportComposable(
 
     ReportScreen(
       sharedViewModel = sharedViewModel,
-      navigateToRelationScreen = navigateToRelationsScreen
+      onBackArrowClick = onBackArrowClick
     )
   }
 }

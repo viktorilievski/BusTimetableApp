@@ -51,5 +51,7 @@
     <string name="search_screen_title">Одберете почетна и крајна релација!</string>
     <string name="search_screen_body">Доколку не постои вашата посакувана крајна релација, за истата не постојат релации.</string>
     <string name="offline_mode_button_text">Offline mode</string>
+    <string name="live_relation_toggle">Релации во живо</string>
+    <string name="settings">Поставки</string>
 
 </resources>

@@ -1,15 +1,14 @@
 package mk.vozenred.bustimetableapp.navigation
 
-import android.util.Log
 import androidx.navigation.NavHostController
 import mk.vozenred.bustimetableapp.util.Constants.CONTACT_SCREEN
 import mk.vozenred.bustimetableapp.util.Constants.FAVORITES_SCREEN
 import mk.vozenred.bustimetableapp.util.Constants.NO_CONNECTION_SCREEN
 import mk.vozenred.bustimetableapp.util.Constants.RELATIONS_SCREEN
-import mk.vozenred.bustimetableapp.util.Constants.REPORT_SCREEN
 import mk.vozenred.bustimetableapp.util.Constants.SEARCH_SCREEN
 import mk.vozenred.bustimetableapp.util.Constants.SELECT_FROM_DESTINATION_SCREEN
 import mk.vozenred.bustimetableapp.util.Constants.SELECT_TO_DESTINATION_SCREEN
+import mk.vozenred.bustimetableapp.util.Constants.SETTINGS_SCREEN
 import mk.vozenred.bustimetableapp.util.Constants.SPLASH_SCREEN
 
 class Screens(navController: NavHostController) {
@@ -66,16 +65,17 @@ class Screens(navController: NavHostController) {
   }
 
   val navigateToReportScreen: (Int) -> Unit = { relationId ->
-    navController.navigate(route = "report/${relationId}") {
-      popUpTo(RELATIONS_SCREEN) { inclusive = true }
-    }
+    navController.navigate(route = "report/${relationId}")
   }
 
-  val navigateToRelationsScreen: () -> Unit = {
+  val navigateToPreviousScreen: () -> Unit = {
     navController.navigateUp()
   }
 
   val navigateToFavoriteRelationsFromDrawer: () -> Unit = {
     navController.navigate(route = FAVORITES_SCREEN)
+  }
+  val navigateToSettingsFromDrawer: () -> Unit = {
+    navController.navigate(route = SETTINGS_SCREEN)
   }
 }

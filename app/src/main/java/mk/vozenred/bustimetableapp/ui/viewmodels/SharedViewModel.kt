@@ -1,5 +1,7 @@
 package mk.vozenred.bustimetableapp.ui.viewmodels
 
+import android.os.Build
+import androidx.annotation.RequiresApi
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
@@ -7,21 +9,23 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.MutableSharedFlow
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.SharedFlow
-import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import mk.vozenred.bustimetableapp.components.topbars.utils.PointType
 import mk.vozenred.bustimetableapp.components.topbars.utils.SortOption
 import mk.vozenred.bustimetableapp.data.model.Relation
+import mk.vozenred.bustimetableapp.data.repositories.local.DataStoreRepository
 import mk.vozenred.bustimetableapp.data.repositories.local.RelationsRepository
+import mk.vozenred.bustimetableapp.util.Constants.LIVE_RELATION_PREFERENCE_KEY
 import mk.vozenred.bustimetableapp.util.SearchAppBarState
+import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
 import javax.inject.Inject
 
 @HiltViewModel
 class SharedViewModel @Inject constructor(
-  private val relationsRepository: RelationsRepository
+  private val relationsRepository: RelationsRepository,
+  private val dataStoreRepository: DataStoreRepository
 ) : ViewModel() {
 
   private val _startPointSelected: MutableState<String> = mutableStateOf("")
@@ -46,14 +50,25 @@ class SharedViewModel @Inject constructor(
   private val _selectedRelation: MutableStateFlow<Relation> = MutableStateFlow(Relation())
   val selectedRelation: StateFlow<Relation> = _selectedRelation
 
+  private val _liveRelation: MutableStateFlow<Boolean> = MutableStateFlow(false)
+  val liveRelation: StateFlow<Boolean> = _liveRelation
+
+  @RequiresApi(Build.VERSION_CODES.O)
   fun getRelations(companyName: String?) {
-    selectedCompany.value = companyName ?: "Сите"
     viewModelScope.launch(Dispatchers.IO) {
+      readLiveRelationDataStore()
+      selectedCompany.value = companyName ?: "Сите"
+      val currentTime: String? = if (_liveRelation.value) {
+        LocalDateTime.now().format(DateTimeFormatter.ofPattern("HH:mm"))
+      } else {
+        null
+      }
       _relations.emit(
         relationsRepository.getRelations(
           _startPointSelected.value,
           _endPointSelected.value,
-          companyName
+          companyName,
+          currentTime
         )
       )
     }
@@ -191,6 +206,41 @@ class SharedViewModel @Inject constructor(
     }
   }
 
+  fun saveToDataStore(key: String, value: Any) {
+    viewModelScope.launch(Dispatchers.IO) {
+      dataStoreRepository.save(key, value)
+    }
+  }
+
+  fun readLiveRelationDataStore() {
+    viewModelScope.launch(Dispatchers.IO) {
+      val liveRelationValue = dataStoreRepository.read(LIVE_RELATION_PREFERENCE_KEY)
+      if (liveRelationValue == null) {
+        saveToDataStore(LIVE_RELATION_PREFERENCE_KEY, false)
+        _liveRelation.value = false
+      } else {
+        _liveRelation.value = liveRelationValue as Boolean
+      }
+    }
+  }
+
+  @RequiresApi(Build.VERSION_CODES.O)
+  fun filterLiveRelations() {
+    val time = LocalDateTime.now().format(DateTimeFormatter.ofPattern("HH:mm"))
+    viewModelScope.launch(Dispatchers.IO) {
+      val allRelations = relationsRepository.getRelations(
+        _startPointSelected.value,
+        _endPointSelected.value,
+        selectedCompany.value,
+        time
+      )
+      allRelations.filter { relation ->
+        relation.departureTime > time
+      }
+      _relations.emit(allRelations)
+    }
+  }
+
   fun clearSearchAppBarText() {
     searchAppBarText.value = ""
   }
@@ -217,6 +267,7 @@ class SharedViewModel @Inject constructor(
     _endPointSelected.value = tempCity
   }
 
+  @RequiresApi(Build.VERSION_CODES.O)
   fun setRelationFavoriteStatus(relationId: Int, isRelationFavorite: Boolean) {
     viewModelScope.launch(Dispatchers.IO) {
       relationsRepository.setRelationFavoriteStatus(relationId, isRelationFavorite)

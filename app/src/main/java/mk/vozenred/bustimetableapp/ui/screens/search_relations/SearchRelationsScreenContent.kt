@@ -44,7 +44,7 @@ fun SearchRelationsScreenContent(
     Column(
       modifier = Modifier
         .fillMaxWidth()
-        .weight(2f),
+        .weight(1f),
       horizontalAlignment = Alignment.CenterHorizontally,
       verticalArrangement = Arrangement.SpaceEvenly
     ) {
@@ -60,7 +60,7 @@ fun SearchRelationsScreenContent(
     Column(
       modifier = Modifier
         .fillMaxWidth()
-        .weight(2f),
+        .weight(3f),
       horizontalAlignment = Alignment.CenterHorizontally,
       verticalArrangement = Arrangement.SpaceEvenly
     ) {
@@ -98,7 +98,7 @@ fun SearchRelationsScreenContent(
       horizontalAlignment = Alignment.CenterHorizontally,
       modifier = Modifier
         .fillMaxWidth()
-        .weight(2f)
+        .weight(1f)
     ) {
       Row() {
         Button(

@@ -15,6 +15,7 @@ fun NavGraphBuilder.relationsComposable(
   navigateToContactScreen: () -> Unit,
   navigateToReportScreen: (Int) -> Unit,
   navigateToFavoriteRelationsScreen: () -> Unit,
+  navigateToSettingsScreen: () -> Unit
 ) {
   composable(
     route = RELATIONS_SCREEN,
@@ -27,7 +28,8 @@ fun NavGraphBuilder.relationsComposable(
       navigateToSearchScreen = navigateToSearchScreen,
       navigateToContactScreen = navigateToContactScreen,
       navigateToReportScreen = navigateToReportScreen,
-      navigateToFavoriteRelationsScreen = navigateToFavoriteRelationsScreen
+      navigateToFavoriteRelationsScreen = navigateToFavoriteRelationsScreen,
+      navigateToSettingsScreen = navigateToSettingsScreen
     )
   }
 }

@@ -12,7 +12,8 @@ fun NavGraphBuilder.favoritesComposable(
   favoriteRelationsViewModel: FavoriteRelationsViewModel,
   navigateToSearchScreen: () -> Unit,
   navigateToContactScreen: () -> Unit,
-  navigateToReportScreen: (Int) -> Unit
+  navigateToReportScreen: (Int) -> Unit,
+  navigateToSettingsScreen: () -> Unit
 ) {
   composable(
     route = FAVORITES_SCREEN
@@ -21,7 +22,8 @@ fun NavGraphBuilder.favoritesComposable(
       favoriteRelationsViewModel = favoriteRelationsViewModel,
       navigateToContactScreen = navigateToContactScreen,
       navigateToSearchScreen = navigateToSearchScreen,
-      navigateToReportScreen = navigateToReportScreen
+      navigateToReportScreen = navigateToReportScreen,
+      navigateToSettingsScreen = navigateToSettingsScreen,
     )
   }
 }

@@ -7,6 +7,7 @@ import androidx.navigation.NavHostController
 import com.google.accompanist.navigation.animation.AnimatedNavHost
 import mk.vozenred.bustimetableapp.navigation.destinations.*
 import mk.vozenred.bustimetableapp.ui.viewmodels.FavoriteRelationsViewModel
+import mk.vozenred.bustimetableapp.ui.viewmodels.SettingsScreenViewModel
 import mk.vozenred.bustimetableapp.ui.viewmodels.SharedViewModel
 import mk.vozenred.bustimetableapp.ui.viewmodels.SplashScreenViewModel
 import mk.vozenred.bustimetableapp.util.Constants.SPLASH_SCREEN
@@ -17,7 +18,8 @@ fun SetupNavigation(
   navController: NavHostController,
   sharedViewModel: SharedViewModel,
   favoriteRelationsViewModel: FavoriteRelationsViewModel,
-  splashScreenViewModel: SplashScreenViewModel
+  splashScreenViewModel: SplashScreenViewModel,
+  settingsScreenViewModel: SettingsScreenViewModel
 ) {
   val screen = remember(navController) {
     Screens(navController = navController)
@@ -44,6 +46,7 @@ fun SetupNavigation(
       navigateToEndDestination = screen.searchToEndDestinationScreen,
       navigateToContactScreen = screen.navigateToContactScreenFromDrawer,
       navigateToFavoriteRelationsScreen = screen.navigateToFavoriteRelationsFromDrawer,
+      navigateToSettingsScreen = screen.navigateToSettingsFromDrawer,
       sharedViewModel = sharedViewModel
     )
     relationsComposable(
@@ -51,7 +54,8 @@ fun SetupNavigation(
       navigateToSearchScreen = screen.navigateToSearchScreenFromDrawer,
       navigateToContactScreen = screen.navigateToContactScreenFromDrawer,
       navigateToReportScreen = screen.navigateToReportScreen,
-      navigateToFavoriteRelationsScreen = screen.navigateToFavoriteRelationsFromDrawer
+      navigateToFavoriteRelationsScreen = screen.navigateToFavoriteRelationsFromDrawer,
+      navigateToSettingsScreen = screen.navigateToSettingsFromDrawer
     )
     selectFromDestinationComposable(
       navigateToSearchScreen = screen.selectFromDestinationToSearch,
@@ -63,17 +67,23 @@ fun SetupNavigation(
     )
     contactComposable(
       navigateToSearchScreen = screen.navigateToSearchScreenFromDrawer,
-      navigateToFavoriteRelationsScreen = screen.navigateToFavoriteRelationsFromDrawer
+      navigateToFavoriteRelationsScreen = screen.navigateToFavoriteRelationsFromDrawer,
+      navigateToSettingsScreen = screen.navigateToSettingsFromDrawer
     )
     reportComposable(
       sharedViewModel = sharedViewModel,
-      navigateToRelationsScreen = screen.navigateToRelationsScreen,
+      onBackArrowClick = screen.navigateToPreviousScreen,
     )
     favoritesComposable(
       favoriteRelationsViewModel = favoriteRelationsViewModel,
       navigateToReportScreen = screen.navigateToReportScreen,
       navigateToSearchScreen = screen.navigateToSearchScreenFromDrawer,
-      navigateToContactScreen = screen.navigateToContactScreenFromDrawer
+      navigateToContactScreen = screen.navigateToContactScreenFromDrawer,
+      navigateToSettingsScreen = screen.navigateToSettingsFromDrawer
+    )
+    settingsComposable(
+      settingsScreenViewModel = settingsScreenViewModel,
+      onBackArrowClick = screen.navigateToPreviousScreen
     )
   }
 }

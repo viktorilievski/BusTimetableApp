@@ -13,8 +13,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Email
 import androidx.compose.material.icons.outlined.Call
 import androidx.compose.material.icons.outlined.Email
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -37,10 +36,15 @@ import mk.vozenred.bustimetableapp.ui.theme.POINT_ROW_ITEM_HEIGHT
 @Composable
 fun ContactScreen(
   navigateToSearchScreen: () -> Unit,
-  navigateToFavoriteRelationsScreen: () -> Unit
+  navigateToFavoriteRelationsScreen: () -> Unit,
+  navigateToSettingsScreen: () -> Unit
 ) {
   val scaffoldState = rememberScaffoldState()
   val coroutineScope = rememberCoroutineScope()
+
+  var liveRelationToggle by remember {
+    mutableStateOf(false)
+  }
 
   Scaffold(
     modifier = Modifier
@@ -76,6 +80,12 @@ fun ContactScreen(
         },
         navigateToFavoriteRelationsScreen = {
           navigateToFavoriteRelationsScreen()
+          coroutineScope.launch {
+            scaffoldState.drawerState.close()
+          }
+        },
+        navigateToSettingsScreen = {
+          navigateToSettingsScreen()
           coroutineScope.launch {
             scaffoldState.drawerState.close()
           }
@@ -188,7 +198,8 @@ fun ContactScreenPreview() {
   BusTimetableAppTheme {
     ContactScreen(
       navigateToSearchScreen = {},
-      navigateToFavoriteRelationsScreen = {}
+      navigateToFavoriteRelationsScreen = {},
+      navigateToSettingsScreen = {}
     )
   }
 }

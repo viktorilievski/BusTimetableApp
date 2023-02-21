@@ -28,15 +28,13 @@ import mk.vozenred.bustimetableapp.ui.viewmodels.SharedViewModel
 @Composable
 fun ReportScreen(
   sharedViewModel: SharedViewModel,
-  navigateToRelationScreen: () -> Unit,
+  onBackArrowClick: () -> Unit,
 ) {
   val selectedRelation by sharedViewModel.selectedRelation.collectAsState()
   Scaffold(
     topBar = {
       BasicTopAppBar(title = stringResource(R.string.report_screen_title),
-        onBackArrowClick = {
-          navigateToRelationScreen()
-        }
+        onBackArrowClick = { onBackArrowClick() }
       )
     },
     content = {

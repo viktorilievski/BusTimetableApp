@@ -36,6 +36,7 @@ fun FavoriteRelationsScreen(
   navigateToContactScreen: () -> Unit,
   navigateToSearchScreen: () -> Unit,
   navigateToReportScreen: (Int) -> Unit,
+  navigateToSettingsScreen: () -> Unit
 ) {
 
   val favoriteRelations by favoriteRelationsViewModel.favoriteRelations.collectAsState(initial = mutableListOf())
@@ -88,6 +89,12 @@ fun FavoriteRelationsScreen(
           navigateToContactScreen()
         },
         navigateToFavoriteRelationsScreen = {
+          coroutineScope.launch {
+            scaffoldState.drawerState.close()
+          }
+        },
+        navigateToSettingsScreen = {
+          navigateToSettingsScreen()
           coroutineScope.launch {
             scaffoldState.drawerState.close()
           }
