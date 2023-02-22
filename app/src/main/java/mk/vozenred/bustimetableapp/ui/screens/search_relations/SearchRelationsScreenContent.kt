@@ -4,8 +4,6 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.ArrowForward
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -28,7 +26,7 @@ fun SearchRelationsScreenContent(
   navigateToStartDestinationScreen: () -> Unit,
   navigateToEndDestinationScreen: () -> Unit,
   navigateToRelationsScreen: () -> Unit,
-  onSwapCitiesIconClicked:() -> Unit
+  onSwapCitiesIconClicked: () -> Unit
 ) {
   val isStartPointSelected = startPoint.isNotEmpty()
   val isEndPointSelected = endPoint.isNotEmpty()
@@ -44,7 +42,7 @@ fun SearchRelationsScreenContent(
     Column(
       modifier = Modifier
         .fillMaxWidth()
-        .weight(2f),
+        .weight(1f),
       horizontalAlignment = Alignment.CenterHorizontally,
       verticalArrangement = Arrangement.SpaceEvenly
     ) {
@@ -68,17 +66,17 @@ fun SearchRelationsScreenContent(
         verticalAlignment = Alignment.CenterVertically
       ) {
         Column(
-          modifier = Modifier.weight(0.3f)
+          modifier = Modifier.weight(3f)
         ) {
           SelectRelationField(
-            label = "Од:",
+            label = stringResource(R.string.select_relation_from_label),
             selectedPoint = startPoint,
             onFieldClick = navigateToStartDestinationScreen,
             isStartPointSelected = true
           )
           Divider(modifier = Modifier.padding(vertical = MEDIUM_PADDING))
           SelectRelationField(
-            label = "До:",
+            label = stringResource(R.string.select_relation_to_label),
             selectedPoint = endPoint,
             onFieldClick = navigateToEndDestinationScreen,
             isStartPointSelected = isStartPointSelected
@@ -87,9 +85,12 @@ fun SearchRelationsScreenContent(
         IconButton(
           onClick = { onSwapCitiesIconClicked() },
           enabled = isEndPointSelected,
-          modifier = Modifier.padding(start = 10.dp)
+          modifier = Modifier.padding(horizontal = MEDIUM_PADDING)
         ) {
-          Icon(painter = painterResource(id = R.drawable.ic_baseline_swap_vert_24), contentDescription = "")
+          Icon(
+            painter = painterResource(id = R.drawable.ic_baseline_swap_vert_24),
+            contentDescription = stringResource(R.string.swap_cities_icon)
+          )
         }
       }
     }
@@ -98,7 +99,7 @@ fun SearchRelationsScreenContent(
       horizontalAlignment = Alignment.CenterHorizontally,
       modifier = Modifier
         .fillMaxWidth()
-        .weight(2f)
+        .weight(1f)
     ) {
       Row() {
         Button(
@@ -111,7 +112,7 @@ fun SearchRelationsScreenContent(
           shape = RoundedCornerShape(24.dp)
         ) {
           Text(
-            text = "БАРАЈ",
+            text = stringResource(R.string.button_search_text),
             fontSize = TEXT_SIZE_MEDIUM
           )
         }
@@ -120,16 +121,16 @@ fun SearchRelationsScreenContent(
   }
 }
 
-  @Composable
-  @Preview
-  fun SearchRelationsScreenContentPreview() {
-    SearchRelationsScreenContent(
-      startPoint = "Скопје",
-      endPoint = "Куманово",
-      paddingValue = PaddingValues(),
-      navigateToEndDestinationScreen = {},
-      navigateToStartDestinationScreen = {},
-      navigateToRelationsScreen = {},
-      onSwapCitiesIconClicked = {}
-    )
-  }
+@Composable
+@Preview
+fun SearchRelationsScreenContentPreview() {
+  SearchRelationsScreenContent(
+    startPoint = "Скопје",
+    endPoint = "Куманово",
+    paddingValue = PaddingValues(),
+    navigateToEndDestinationScreen = {},
+    navigateToStartDestinationScreen = {},
+    navigateToRelationsScreen = {},
+    onSwapCitiesIconClicked = {}
+  )
+}

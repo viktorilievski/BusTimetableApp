@@ -15,7 +15,10 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import mk.vozenred.bustimetableapp.R
-import mk.vozenred.bustimetableapp.ui.theme.*
+import mk.vozenred.bustimetableapp.ui.theme.BusTimetableAppTheme
+import mk.vozenred.bustimetableapp.ui.theme.DRAWABLE_SIZE_BIG
+import mk.vozenred.bustimetableapp.ui.theme.LARGEST_PADDING
+import mk.vozenred.bustimetableapp.ui.theme.iconColor
 import mk.vozenred.bustimetableapp.ui.viewmodels.SplashScreenViewModel
 
 @Composable
@@ -78,7 +81,10 @@ fun NoConnectionScreenContent(
       ) {
         Text(text = stringResource(R.string.retry_connection_button_text))
         Spacer(modifier = Modifier.size(ButtonDefaults.IconSize))
-        Icon(imageVector = Icons.Filled.Refresh, contentDescription = stringResource(R.string.refresh_icon))
+        Icon(
+          imageVector = Icons.Filled.Refresh,
+          contentDescription = stringResource(R.string.refresh_icon)
+        )
       }
       if (localDbVersionIsPresent) {
         Button(onClick = { onContinueButtonClick() }) {

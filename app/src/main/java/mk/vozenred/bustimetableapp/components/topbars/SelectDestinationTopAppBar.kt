@@ -1,19 +1,20 @@
 package mk.vozenred.bustimetableapp.components.topbars
 
-import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.*
-import androidx.compose.material.*
+import androidx.compose.foundation.layout.Box
+import androidx.compose.material.Icon
+import androidx.compose.material.IconButton
+import androidx.compose.material.Text
+import androidx.compose.material.TopAppBar
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.dp
 import mk.vozenred.bustimetableapp.R
 import mk.vozenred.bustimetableapp.components.topbars.utils.SortOption
+import mk.vozenred.bustimetableapp.ui.screens.select_relation.composables.SortDropdownMenu
 
 @Composable
 fun SelectDestinationTopAppBar(
@@ -63,41 +64,6 @@ fun SelectDestinationTopAppBar(
       }
     }
   )
-}
-
-@Composable
-fun SortDropdownMenu(
-  expanded: Boolean,
-  onDismissClicked: () -> Unit,
-  onOptionChosen: (SortOption) -> Unit,
-) {
-  DropdownMenu(
-    expanded = expanded,
-    onDismissRequest = { onDismissClicked() },
-    modifier = Modifier.fillMaxWidth(),
-  ) {
-    SortDropDownMenuItem(onItemClicked = onOptionChosen, sortOption = SortOption.ALPHABETICAL)
-    SortDropDownMenuItem(onItemClicked = onOptionChosen, sortOption = SortOption.ALPHABETICAL_INVERTED)
-    SortDropDownMenuItem(onItemClicked = onOptionChosen, sortOption = SortOption.MAX_RELATIONS)
-    SortDropDownMenuItem(onItemClicked = onOptionChosen, sortOption = SortOption.MIN_RELATIONS)
-  }
-}
-
-@Composable
-fun SortDropDownMenuItem(
-  onItemClicked: (SortOption) -> Unit,
-  sortOption: SortOption
-) {
-  Column(modifier = Modifier.fillMaxWidth()) {
-    Row(
-      modifier = Modifier
-        .fillMaxWidth()
-        .clickable { onItemClicked(SortOption.valueOf(sortOption.name)) }
-        .padding(15.dp)
-    ) {
-      Text(text = sortOption.description)
-    }
-  }
 }
 
 @Composable

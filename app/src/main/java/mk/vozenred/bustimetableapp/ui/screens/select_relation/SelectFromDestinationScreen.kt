@@ -81,7 +81,10 @@ fun SelectFromDestinationScreen(
                   sharedViewModel.sortPoints(SortOption.ALPHABETICAL, PointType.START_POINT)
                 }
                 SortOption.ALPHABETICAL_INVERTED -> {
-                  sharedViewModel.sortPoints(SortOption.ALPHABETICAL_INVERTED, PointType.START_POINT)
+                  sharedViewModel.sortPoints(
+                    SortOption.ALPHABETICAL_INVERTED,
+                    PointType.START_POINT
+                  )
                 }
                 SortOption.MAX_RELATIONS -> {
                   sharedViewModel.sortPoints(SortOption.MAX_RELATIONS, PointType.START_POINT)
@@ -100,7 +103,7 @@ fun SelectFromDestinationScreen(
       .background(Color.Red),
     content = {
       LazyColumn(modifier = Modifier.padding(it)) {
-        items(filteredStartPoints) { startPoint ->
+        items(items = filteredStartPoints, key = { it }) { startPoint ->
           PointListRowItemComposable(pointName = startPoint) {
             sharedViewModel.setStartPoint(startPoint)
             sharedViewModel.clearEndPoint()

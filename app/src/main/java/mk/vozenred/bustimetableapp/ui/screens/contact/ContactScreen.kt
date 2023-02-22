@@ -8,11 +8,13 @@ import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.*
+import androidx.compose.material.Icon
+import androidx.compose.material.Scaffold
+import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Call
 import androidx.compose.material.icons.filled.Email
-import androidx.compose.material.icons.outlined.Call
-import androidx.compose.material.icons.outlined.Email
+import androidx.compose.material.rememberScaffoldState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
@@ -117,18 +119,19 @@ fun ContactScreenContent(paddingValue: PaddingValues) {
       verticalArrangement = Arrangement.Center
     ) {
       ContactButton(
-        icon = Icons.Outlined.Email,
-        iconBackgroundColor = Color.Cyan,
+        icon = Icons.Filled.Email,
+        iconBackgroundColor = Color.Red,
         title = "Испрати e-mail",
         onRowItemClick = {
           val emailIntent = Intent(Intent.ACTION_SEND)
           emailIntent.type = "message/rfc822"
+          emailIntent.putExtra(Intent.EXTRA_EMAIL, arrayOf("info@bustimetable.mk"))
           context.startActivity(Intent.createChooser(emailIntent, "Choose an Email client: "))
         }
       )
       ContactButton(
-        icon = Icons.Outlined.Call,
-        iconBackgroundColor = Color.Black,
+        icon = Icons.Filled.Call,
+        iconBackgroundColor = Color.Green,
         title = "Јави се",
         onRowItemClick = {
           val uri = Uri.parse("tel:070510928")
@@ -157,28 +160,37 @@ fun ContactButton(
     .clickable {
       onRowItemClick()
     }
-    .border(width = 2.dp, color = iconBackgroundColor, shape = RoundedCornerShape(10.dp)),
+    .border(
+      width = 2.dp,
+      color = iconBackgroundColor,
+      shape = RoundedCornerShape(10.dp)
+    ),
     verticalAlignment = Alignment.CenterVertically
   ) {
-    Surface(
+    Row(
       modifier = Modifier
-        .height(POINT_ROW_ITEM_HEIGHT)
         .background(color = iconBackgroundColor)
-        .weight(1f),
-      color = iconBackgroundColor
+        .weight(1f)
+        .height(POINT_ROW_ITEM_HEIGHT),
+      verticalAlignment = Alignment.CenterVertically,
+      horizontalArrangement = Arrangement.Center
     ) {
       Icon(
         imageVector = icon,
         contentDescription = stringResource(R.string.icon_button_content_description),
         tint = Color.White,
-        modifier = Modifier.fillMaxSize(0.5f)
+        modifier = Modifier.size(35.dp)
       )
     }
-    Text(
-      text = title,
+    Row(
       modifier = Modifier.weight(4f),
-      textAlign = TextAlign.Center
-    )
+      horizontalArrangement = Arrangement.Center
+    ) {
+      Text(
+        text = title,
+        textAlign = TextAlign.Center
+      )
+    }
   }
 }
 
