@@ -1,6 +1,7 @@
 package mk.vozenred.bustimetableapp.ui.screens.no_connection
 
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
@@ -30,23 +31,17 @@ fun NoConnectionScreen(
   val localDbVersionIsPresent =
     splashScreenViewModel.dataStoreDatabaseVersion.collectAsState().value != null
 
-  Column(
-    modifier = Modifier
-      .fillMaxSize()
-      .padding(LARGEST_PADDING),
-  ) {
-    NoConnectionScreenContent(
-      onRetryButtonClick = {
-        if (splashScreenViewModel.networkStatus.value) {
-          navigateToSplashScreen()
-        }
-      },
-      onContinueButtonClick = {
-        navigateToSearchScreen()
-      },
-      localDbVersionIsPresent = localDbVersionIsPresent
-    )
-  }
+  NoConnectionScreenContent(
+    onRetryButtonClick = {
+      if (splashScreenViewModel.networkStatus.value) {
+        navigateToSplashScreen()
+      }
+    },
+    onContinueButtonClick = {
+      navigateToSearchScreen()
+    },
+    localDbVersionIsPresent = localDbVersionIsPresent
+  )
 }
 
 @Composable
@@ -58,6 +53,10 @@ fun NoConnectionScreenContent(
   Column(
     horizontalAlignment = Alignment.CenterHorizontally,
     verticalArrangement = Arrangement.SpaceEvenly,
+    modifier = Modifier
+      .fillMaxSize()
+      .background(MaterialTheme.colors.background)
+      .padding(LARGEST_PADDING)
   ) {
     Image(
       painter = painterResource(id = R.drawable.ic_no_connection),
@@ -71,7 +70,7 @@ fun NoConnectionScreenContent(
     } else {
       stringResource(id = R.string.no_connection_first_time)
     }
-    Text(text = noteText, textAlign = TextAlign.Center)
+    Text(text = noteText, textAlign = TextAlign.Center, color = MaterialTheme.colors.onBackground)
     Row(
       modifier = Modifier.fillMaxWidth(),
       horizontalArrangement = Arrangement.SpaceEvenly

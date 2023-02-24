@@ -9,7 +9,7 @@ import mk.vozenred.bustimetableapp.util.Constants.CONTACT_SCREEN
 @OptIn(ExperimentalAnimationApi::class)
 fun NavGraphBuilder.contactComposable(
   navigateToSearchScreen: () -> Unit,
-  navigateToFavoriteRelationsScreen: () -> Unit
+  navigateToFavoriteRelationsScreen: () -> Unit,
 ) {
   composable(route = CONTACT_SCREEN) {
     ContactScreen(

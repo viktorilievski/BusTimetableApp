@@ -63,11 +63,11 @@ fun SetupNavigation(
     )
     contactComposable(
       navigateToSearchScreen = screen.navigateToSearchScreenFromDrawer,
-      navigateToFavoriteRelationsScreen = screen.navigateToFavoriteRelationsFromDrawer
+      navigateToFavoriteRelationsScreen = screen.navigateToFavoriteRelationsFromDrawer,
     )
     reportComposable(
       sharedViewModel = sharedViewModel,
-      navigateToRelationsScreen = screen.navigateToRelationsScreen,
+      onBackArrowClick = screen.navigateToPreviousScreen,
     )
     favoritesComposable(
       favoriteRelationsViewModel = favoriteRelationsViewModel,

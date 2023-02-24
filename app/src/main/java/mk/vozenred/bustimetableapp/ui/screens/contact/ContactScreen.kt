@@ -12,8 +12,8 @@ import androidx.compose.material.Icon
 import androidx.compose.material.Scaffold
 import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Call
 import androidx.compose.material.icons.filled.Email
+import androidx.compose.material.icons.outlined.Call
 import androidx.compose.material.rememberScaffoldState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.rememberCoroutineScope
@@ -41,6 +41,8 @@ fun ContactScreen(
   navigateToSearchScreen: () -> Unit,
   navigateToFavoriteRelationsScreen: () -> Unit
 ) {
+  val context = LocalContext.current as Activity
+
   val scaffoldState = rememberScaffoldState()
   val coroutineScope = rememberCoroutineScope()
 
@@ -85,14 +87,28 @@ fun ContactScreen(
       )
     }
   ) { paddingValue ->
-    ContactScreenContent(paddingValue)
+    ContactScreenContent(
+      paddingValue = paddingValue,
+      onSendEmailClick = {
+        val emailIntent = Intent(Intent.ACTION_SEND)
+        emailIntent.type = "message/rfc822"
+        context.startActivity(Intent.createChooser(emailIntent, "Choose an Email client: "))
+      },
+      onCallButtonClick = {
+        val uri = Uri.parse("tel:070510928")
+        val intent = Intent(Intent.ACTION_DIAL, uri)
+        context.startActivity(intent, null)
+      }
+    )
   }
 }
 
 @Composable
-fun ContactScreenContent(paddingValue: PaddingValues) {
-  val context = LocalContext.current as Activity
-
+fun ContactScreenContent(
+  paddingValue: PaddingValues,
+  onSendEmailClick: () -> Unit,
+  onCallButtonClick: () -> Unit
+) {
   Column(
     modifier = Modifier
       .padding(LARGEST_PADDING)
@@ -123,20 +139,15 @@ fun ContactScreenContent(paddingValue: PaddingValues) {
         iconBackgroundColor = Color.Red,
         title = "Испрати e-mail",
         onRowItemClick = {
-          val emailIntent = Intent(Intent.ACTION_SEND)
-          emailIntent.type = "message/rfc822"
-          emailIntent.putExtra(Intent.EXTRA_EMAIL, arrayOf("info@bustimetable.mk"))
-          context.startActivity(Intent.createChooser(emailIntent, "Choose an Email client: "))
+          onSendEmailClick()
         }
       )
       ContactButton(
-        icon = Icons.Filled.Call,
+        icon = Icons.Outlined.Call,
         iconBackgroundColor = Color.Green,
         title = "Јави се",
         onRowItemClick = {
-          val uri = Uri.parse("tel:070510928")
-          val intent = Intent(Intent.ACTION_DIAL, uri)
-          context.startActivity(intent, null)
+          onCallButtonClick()
         }
       )
     }
@@ -169,11 +180,11 @@ fun ContactButton(
   ) {
     Row(
       modifier = Modifier
-        .background(color = iconBackgroundColor)
         .weight(1f)
+        .background(iconBackgroundColor)
         .height(POINT_ROW_ITEM_HEIGHT),
-      verticalAlignment = Alignment.CenterVertically,
-      horizontalArrangement = Arrangement.Center
+      horizontalArrangement = Arrangement.Center,
+      verticalAlignment = Alignment.CenterVertically
     ) {
       Icon(
         imageVector = icon,
@@ -183,11 +194,13 @@ fun ContactButton(
       )
     }
     Row(
-      modifier = Modifier.weight(4f),
-      horizontalArrangement = Arrangement.Center
+      modifier = Modifier.weight(5f),
+      horizontalArrangement = Arrangement.Center,
+      verticalAlignment = Alignment.CenterVertically
     ) {
       Text(
         text = title,
+        modifier = Modifier.weight(4f),
         textAlign = TextAlign.Center
       )
     }
@@ -196,11 +209,12 @@ fun ContactButton(
 
 @Preview
 @Composable
-fun ContactScreenPreview() {
-  BusTimetableAppTheme {
-    ContactScreen(
-      navigateToSearchScreen = {},
-      navigateToFavoriteRelationsScreen = {}
+fun ContactScreenContentPreview() {
+  BusTimetableAppTheme() {
+    ContactScreenContent(
+      paddingValue = PaddingValues(),
+      onSendEmailClick = {},
+      onCallButtonClick = {},
     )
   }
 }
@@ -210,7 +224,7 @@ fun ContactScreenPreview() {
 fun ContactButtonPreview() {
   ContactButton(
     icon = Icons.Filled.Email,
-    iconBackgroundColor = Color.Cyan,
+    iconBackgroundColor = Color.Red,
     title = "Испрати e-mail",
     onRowItemClick = {}
   )

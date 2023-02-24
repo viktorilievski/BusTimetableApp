@@ -28,20 +28,30 @@ import mk.vozenred.bustimetableapp.ui.viewmodels.SharedViewModel
 @Composable
 fun ReportScreen(
   sharedViewModel: SharedViewModel,
-  navigateToRelationScreen: () -> Unit,
+  onBackArrowClick: () -> Unit,
 ) {
   val selectedRelation by sharedViewModel.selectedRelation.collectAsState()
+  val context = LocalContext.current
   Scaffold(
     topBar = {
       BasicTopAppBar(title = stringResource(R.string.report_screen_title),
-        onBackArrowClick = {
-          navigateToRelationScreen()
-        }
+        onBackArrowClick = { onBackArrowClick() }
       )
     },
     content = {
       ReportScreenContent(
-        selectedRelation = selectedRelation
+        selectedRelation = selectedRelation,
+        onReportButtonClick = { selectedRelationId, mailBody ->
+          if (mailBody.isNotEmpty()) {
+            showEmailChooser(
+              relationId = selectedRelation.id,
+              mailContentBody = "${selectedRelation}\n\nОбјаснување: \n$mailBody",
+              context = context
+            )
+          } else {
+            Toast.makeText(context, "Внесете објаснување за проблемот.", Toast.LENGTH_SHORT).show()
+          }
+        }
       )
     }
   )
@@ -49,9 +59,10 @@ fun ReportScreen(
 
 @Composable
 fun ReportScreenContent(
-  selectedRelation: Relation
+  selectedRelation: Relation,
+  onReportButtonClick: (Int, String) -> Unit
 ) {
-  val context = LocalContext.current
+
   var userNoteText by remember {
     mutableStateOf("")
   }
@@ -183,15 +194,7 @@ fun ReportScreenContent(
       verticalArrangement = Arrangement.Bottom
     ) {
       Button(onClick = {
-        if (userNoteText.isNotEmpty()) {
-          showEmailChooser(
-            relationId = selectedRelation.id,
-            mailContentBody = "${selectedRelation}\n\nОбјаснување: \n$userNoteText",
-            context = context
-          )
-        } else {
-          Toast.makeText(context, "Внесете објаснување за проблемот.", Toast.LENGTH_SHORT).show()
-        }
+        onReportButtonClick(selectedRelation.id, userNoteText)
       }, modifier = Modifier.fillMaxWidth()) {
         Text(text = stringResource(id = R.string.report_screen_title))
         Spacer(modifier = Modifier.size(ButtonDefaults.IconSize))
@@ -217,7 +220,8 @@ fun ReportScreenContentPreview() {
         departureTime = "10:00",
         arrivalTime = "12:00",
         note = "Секој ден освен во недела."
-      )
+      ),
+      onReportButtonClick = { _, _ -> }
     )
   }
 }

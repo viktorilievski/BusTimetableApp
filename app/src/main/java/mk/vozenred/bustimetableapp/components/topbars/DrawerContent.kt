@@ -24,7 +24,7 @@ fun DrawerContent(
   onCloseDrawerClick: () -> Unit,
   navigateToSearchScreen: () -> Unit,
   navigateToContactScreen: () -> Unit,
-  navigateToFavoriteRelationsScreen: () -> Unit,
+  navigateToFavoriteRelationsScreen: () -> Unit
 ) {
 
   Column(modifier = Modifier.fillMaxSize()) {
@@ -34,19 +34,30 @@ fun DrawerContent(
     )
     Column(
       modifier = Modifier
-        .fillMaxHeight()
-        .background(MaterialTheme.colors.drawerBackgroundColor),
-      verticalArrangement = Arrangement.SpaceBetween
+        .background(MaterialTheme.colors.drawerBackgroundColor)
+        .fillMaxSize(),
+      verticalArrangement = Arrangement.SpaceBetween,
     ) {
-      DrawerBody(
-        navigateToSearchScreen = navigateToSearchScreen,
-        navigateToContactScreen = navigateToContactScreen,
-        navigateToFavoriteRelationsScreen = navigateToFavoriteRelationsScreen
-      )
+      Column {
+        DrawerBody(
+          navigateToSearchScreen = navigateToSearchScreen,
+          navigateToContactScreen = navigateToContactScreen,
+          navigateToFavoriteRelationsScreen = navigateToFavoriteRelationsScreen
+        )
+      }
+      Column {
+        DrawerFooter(
+        )
+      }
     }
-
   }
 }
+
+@Composable
+fun DrawerFooter(
+) {
+}
+
 
 @Composable
 fun DrawerHeader(
@@ -74,7 +85,6 @@ fun DrawerHeader(
       text = title,
       color = MaterialTheme.colors.topAppBarContentColor,
       style = MaterialTheme.typography.h6
-
     )
   }
 }
@@ -144,6 +154,6 @@ fun DrawerContentPreview() {
     onCloseDrawerClick = {},
     navigateToSearchScreen = {},
     navigateToContactScreen = {},
-    navigateToFavoriteRelationsScreen = {}
+    navigateToFavoriteRelationsScreen = {},
   )
 }

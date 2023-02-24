@@ -55,5 +55,7 @@
     <string name="swap_cities_icon">Icon Swap Cities</string>
     <string name="select_relation_to_label">До:</string>
     <string name="select_relation_from_label">Од:</string>
+    <string name="live_relation_toggle">Релации во живо</string>
+    <string name="settings">Поставки</string>
 
 </resources>

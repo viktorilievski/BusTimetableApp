@@ -31,11 +31,12 @@ interface RelationsDao {
   @Query("SELECT DISTINCT companyName FROM relations_table WHERE startPoint LIKE :starPoint AND endPoint LIKE :endPoint ORDER BY companyName ASC")
   fun getCompaniesForRelation(starPoint: String, endPoint: String): Flow<List<String>>
 
-  @Query("SELECT * FROM relations_table WHERE startPoint LIKE :startPoint AND endPoint LIKE :endPoint AND (companyName LIKE :companyName OR :companyName is null) ORDER BY departureTime ASC")
+  @Query("SELECT * FROM relations_table WHERE startPoint LIKE :startPoint AND endPoint LIKE :endPoint AND (companyName LIKE :companyName OR :companyName is NULL) AND (:currentTime is NULL OR departureTime > :currentTime) ORDER BY departureTime ASC")
   fun getRelationsForCompany(
     startPoint: String,
     endPoint: String,
-    companyName: String?
+    companyName: String?,
+    currentTime: String?
   ): List<Relation>
 
   @Query("UPDATE relations_table SET isRelationFavorite = :isRelationFavorite WHERE id = :relationId")

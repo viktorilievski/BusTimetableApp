@@ -1,5 +1,6 @@
 package mk.vozenred.bustimetableapp.ui.screens.favorite_relations
 
+import android.annotation.SuppressLint
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
@@ -30,12 +31,13 @@ import mk.vozenred.bustimetableapp.ui.theme.LARGE_PADDING
 import mk.vozenred.bustimetableapp.ui.theme.MEDIUM_PADDING
 import mk.vozenred.bustimetableapp.ui.viewmodels.FavoriteRelationsViewModel
 
+@SuppressLint("UnusedMaterialScaffoldPaddingParameter")
 @Composable
 fun FavoriteRelationsScreen(
   favoriteRelationsViewModel: FavoriteRelationsViewModel,
   navigateToContactScreen: () -> Unit,
   navigateToSearchScreen: () -> Unit,
-  navigateToReportScreen: (Int) -> Unit,
+  navigateToReportScreen: (Int) -> Unit
 ) {
 
   val favoriteRelations by favoriteRelationsViewModel.favoriteRelations.collectAsState(initial = mutableListOf())
@@ -95,41 +97,68 @@ fun FavoriteRelationsScreen(
       )
     }
   ) {
-    if (favoriteRelations.isNotEmpty()) {
-      LazyColumn(
-        modifier = Modifier.padding(it)
-      ) {
-        items(items = favoriteRelations, key = { item: Relation -> item.id }) { relation ->
-          RelationListRowItem(
-            relation = relation,
-            onReportRelationClicked = { relationId ->
-              navigateToReportScreen(relationId)
-            },
-            onFavoriteClicked = { relationId, _ ->
-              showRemoveRelationDialog = true
-              favoriteRelationId = relationId
-            }
-          )
-        }
-
+    FavoriteRelationsContent(
+      favoriteRelations = favoriteRelations,
+      onReportRelationClicked = {
+        navigateToReportScreen(it)
+      },
+      onFavoriteClicked = {
+        showRemoveRelationDialog = true
+        favoriteRelationId = it
+      },
+      isDialogShown = showRemoveRelationDialog,
+      onDialogRemoveButtonClicked = {
+        favoriteRelationsViewModel.removeFavoriteRelation(favoriteRelationId)
+        showRemoveRelationDialog = false
+      },
+      onDialogDismissButtonClicked = {
+        showRemoveRelationDialog = false
       }
-    } else {
-      NoRelationsWidget()
+    )
+  }
+}
+
+@Composable
+fun FavoriteRelationsContent(
+  favoriteRelations: List<Relation>,
+  onReportRelationClicked: (Int) -> Unit,
+  onFavoriteClicked: (Int) -> Unit,
+  isDialogShown: Boolean,
+  onDialogRemoveButtonClicked: () -> Unit,
+  onDialogDismissButtonClicked: () -> Unit,
+) {
+  if (favoriteRelations.isNotEmpty()) {
+    LazyColumn(
+      modifier = Modifier.padding()
+    ) {
+      items(items = favoriteRelations, key = { item: Relation -> item.id }) { relation ->
+        RelationListRowItem(
+          relation = relation,
+          onReportRelationClicked = { relationId ->
+            onReportRelationClicked(relationId)
+          },
+          onFavoriteClicked = { relationId, _ ->
+            onFavoriteClicked(relationId)
+          }
+        )
+      }
+
     }
-    if (showRemoveRelationDialog) {
-      DialogRemoveFavoriteRelation(
-        onRemoveButtonClicked = {
-          favoriteRelationsViewModel.removeFavoriteRelation(favoriteRelationId)
-          showRemoveRelationDialog = false
-        },
-        onDismissButtonClicked = {
-          showRemoveRelationDialog = false
-        },
-        onOutsideDialogClick = {
-          showRemoveRelationDialog = false
-        }
-      )
-    }
+  } else {
+    NoRelationsWidget()
+  }
+  if (isDialogShown) {
+    DialogRemoveFavoriteRelation(
+      onRemoveButtonClicked = {
+        onDialogRemoveButtonClicked()
+      },
+      onDismissButtonClicked = {
+        onDialogDismissButtonClicked()
+      },
+      onOutsideDialogClick = {
+        onDialogDismissButtonClicked()
+      }
+    )
   }
 }
 

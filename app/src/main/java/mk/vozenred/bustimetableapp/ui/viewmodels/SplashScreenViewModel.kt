@@ -48,20 +48,20 @@ class SplashScreenViewModel @Inject constructor(
           relationsRepository.addRelation(relation)
         }
       }
-      saveDatabaseVersionToDataStore(DB_VERSION_PREFERENCE_KEY, readFirestoreDatabaseVersion())
+      saveToDataStore(DB_VERSION_PREFERENCE_KEY, readFirestoreDatabaseVersion())
       _loading.value = LoadingState.Success
     }
   }
 
-  private fun saveDatabaseVersionToDataStore(key: String, value: String) {
+  fun saveToDataStore(key: String, value: Any) {
     viewModelScope.launch(Dispatchers.IO) {
-      dataStoreRepository.save(key, value)
+      dataStoreRepository.save(key, value as String)
     }
   }
 
   private fun readDatabaseVersionFromDataStore(key: String) {
     viewModelScope.launch(Dispatchers.IO) {
-      _dataStoreDatabaseVersion.value = dataStoreRepository.read(key)
+      _dataStoreDatabaseVersion.value = dataStoreRepository.read(key) as String?
     }
   }
 

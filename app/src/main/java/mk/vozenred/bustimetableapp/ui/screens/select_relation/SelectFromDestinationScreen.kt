@@ -103,12 +103,15 @@ fun SelectFromDestinationScreen(
       .background(Color.Red),
     content = {
       LazyColumn(modifier = Modifier.padding(it)) {
-        items(items = filteredStartPoints, key = { it }) { startPoint ->
-          PointListRowItemComposable(pointName = startPoint) {
-            sharedViewModel.setStartPoint(startPoint)
-            sharedViewModel.clearEndPoint()
-            navigateToSearchScreen()
-          }
+        items(filteredStartPoints) { startPoint ->
+          PointListRowItemComposable(
+            pointName = startPoint,
+            navigateToSearchScreen = {
+              sharedViewModel.setStartPoint(startPoint)
+              sharedViewModel.clearEndPoint()
+              navigateToSearchScreen()
+            }
+          )
           Divider(modifier = Modifier.background(MaterialTheme.colors.accentColor))
         }
       }
