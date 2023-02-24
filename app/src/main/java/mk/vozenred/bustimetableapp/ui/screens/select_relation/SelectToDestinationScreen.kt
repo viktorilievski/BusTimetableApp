@@ -103,14 +103,16 @@ fun SelectToDestinationScreen(
         modifier = Modifier.padding(it)
       ) {
         items(filteredEndPoints) { endPoint ->
-          PointListRowItemComposable(pointName = endPoint) {
-            sharedViewModel.setEndPoint(endPoint)
-            navigateToSearchScreen()
-          }
+          PointListRowItemComposable(
+            pointName = endPoint,
+            navigateToSearchScreen = {
+              sharedViewModel.setEndPoint(endPoint)
+              navigateToSearchScreen()
+            }
+          )
           Divider(modifier = Modifier.background(MaterialTheme.colors.accentColor))
         }
       }
-    },
-    bottomBar = {}
+    }
   )
 }

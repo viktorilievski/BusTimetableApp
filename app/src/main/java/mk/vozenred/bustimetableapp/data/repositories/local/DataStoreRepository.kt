@@ -8,7 +8,6 @@ import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.android.scopes.ViewModelScoped
 import kotlinx.coroutines.flow.first
 import mk.vozenred.bustimetableapp.util.Constants.PREFERENCE_NAME
-import java.lang.reflect.TypeVariable
 import javax.inject.Inject
 
 val Context.dataStore: DataStore<Preferences> by preferencesDataStore(name = PREFERENCE_NAME)
@@ -22,9 +21,9 @@ class DataStoreRepository @Inject constructor(
 
   suspend fun save(key: String, value: Any) {
     val dataStoreKey = getDataStoreKey(key, value)
-      dataStore.edit { preference ->
-        preference[dataStoreKey!!] = value
-      }
+    dataStore.edit { preference ->
+      preference[dataStoreKey!!] = value
+    }
   }
 
   @Suppress("UNCHECKED_CAST")
@@ -42,7 +41,9 @@ class DataStoreRepository @Inject constructor(
       is Double -> {
         return doublePreferencesKey(key) as Preferences.Key<Any>
       }
-      else -> { null }
+      else -> {
+        null
+      }
     }
   }
 

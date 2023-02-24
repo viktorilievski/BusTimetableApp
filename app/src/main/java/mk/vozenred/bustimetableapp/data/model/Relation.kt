@@ -18,11 +18,11 @@ data class Relation(
 ) {
   override fun toString(): String {
     return "Релација:\n" +
-        "Име на компанија: ${companyName}\n" +
-        "Почетна точка: ${startPoint}\n" +
-        "Крајна точка: ${endPoint}\n" +
-        "Време на поаѓање: ${departureTime}\n" +
-        "Време на пристигање: ${arrivalTime}\n" +
-        "Режин на возење: ${note}\n"
+            "Име на компанија: ${companyName}\n" +
+            "Почетна точка: ${startPoint}\n" +
+            "Крајна точка: ${endPoint}\n" +
+            "Време на поаѓање: ${departureTime}\n" +
+            "Време на пристигање: ${arrivalTime}\n" +
+            "Режин на возење: ${note}\n"
   }
 }

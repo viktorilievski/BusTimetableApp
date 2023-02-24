@@ -8,12 +8,15 @@ import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.*
+import androidx.compose.material.Icon
+import androidx.compose.material.Scaffold
+import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Email
 import androidx.compose.material.icons.outlined.Call
-import androidx.compose.material.icons.outlined.Email
-import androidx.compose.runtime.*
+import androidx.compose.material.rememberScaffoldState
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -36,15 +39,12 @@ import mk.vozenred.bustimetableapp.ui.theme.POINT_ROW_ITEM_HEIGHT
 @Composable
 fun ContactScreen(
   navigateToSearchScreen: () -> Unit,
-  navigateToFavoriteRelationsScreen: () -> Unit,
-  navigateToSettingsScreen: () -> Unit
+  navigateToFavoriteRelationsScreen: () -> Unit
 ) {
+  val context = LocalContext.current as Activity
+
   val scaffoldState = rememberScaffoldState()
   val coroutineScope = rememberCoroutineScope()
-
-  var liveRelationToggle by remember {
-    mutableStateOf(false)
-  }
 
   Scaffold(
     modifier = Modifier
@@ -83,24 +83,32 @@ fun ContactScreen(
           coroutineScope.launch {
             scaffoldState.drawerState.close()
           }
-        },
-        navigateToSettingsScreen = {
-          navigateToSettingsScreen()
-          coroutineScope.launch {
-            scaffoldState.drawerState.close()
-          }
         }
       )
     }
   ) { paddingValue ->
-    ContactScreenContent(paddingValue)
+    ContactScreenContent(
+      paddingValue = paddingValue,
+      onSendEmailClick = {
+        val emailIntent = Intent(Intent.ACTION_SEND)
+        emailIntent.type = "message/rfc822"
+        context.startActivity(Intent.createChooser(emailIntent, "Choose an Email client: "))
+      },
+      onCallButtonClick = {
+        val uri = Uri.parse("tel:070510928")
+        val intent = Intent(Intent.ACTION_DIAL, uri)
+        context.startActivity(intent, null)
+      }
+    )
   }
 }
 
 @Composable
-fun ContactScreenContent(paddingValue: PaddingValues) {
-  val context = LocalContext.current as Activity
-
+fun ContactScreenContent(
+  paddingValue: PaddingValues,
+  onSendEmailClick: () -> Unit,
+  onCallButtonClick: () -> Unit
+) {
   Column(
     modifier = Modifier
       .padding(LARGEST_PADDING)
@@ -127,23 +135,19 @@ fun ContactScreenContent(paddingValue: PaddingValues) {
       verticalArrangement = Arrangement.Center
     ) {
       ContactButton(
-        icon = Icons.Outlined.Email,
-        iconBackgroundColor = Color.Cyan,
+        icon = Icons.Filled.Email,
+        iconBackgroundColor = Color.Red,
         title = "Испрати e-mail",
         onRowItemClick = {
-          val emailIntent = Intent(Intent.ACTION_SEND)
-          emailIntent.type = "message/rfc822"
-          context.startActivity(Intent.createChooser(emailIntent, "Choose an Email client: "))
+          onSendEmailClick()
         }
       )
       ContactButton(
         icon = Icons.Outlined.Call,
-        iconBackgroundColor = Color.Black,
+        iconBackgroundColor = Color.Green,
         title = "Јави се",
         onRowItemClick = {
-          val uri = Uri.parse("tel:070510928")
-          val intent = Intent(Intent.ACTION_DIAL, uri)
-          context.startActivity(intent, null)
+          onCallButtonClick()
         }
       )
     }
@@ -170,12 +174,13 @@ fun ContactButton(
     .border(width = 2.dp, color = iconBackgroundColor, shape = RoundedCornerShape(10.dp)),
     verticalAlignment = Alignment.CenterVertically
   ) {
-    Surface(
+    Row(
       modifier = Modifier
-        .height(POINT_ROW_ITEM_HEIGHT)
-        .background(color = iconBackgroundColor)
-        .weight(1f),
-      color = iconBackgroundColor
+        .weight(1f)
+        .background(iconBackgroundColor)
+        .height(POINT_ROW_ITEM_HEIGHT),
+      horizontalArrangement = Arrangement.Center,
+      verticalAlignment = Alignment.CenterVertically
     ) {
       Icon(
         imageVector = icon,
@@ -184,22 +189,28 @@ fun ContactButton(
         modifier = Modifier.fillMaxSize(0.5f)
       )
     }
-    Text(
-      text = title,
-      modifier = Modifier.weight(4f),
-      textAlign = TextAlign.Center
-    )
+    Row(
+      modifier = Modifier.weight(5f),
+      horizontalArrangement = Arrangement.Center,
+      verticalAlignment = Alignment.CenterVertically
+    ) {
+      Text(
+        text = title,
+        modifier = Modifier.weight(4f),
+        textAlign = TextAlign.Center
+      )
+    }
   }
 }
 
 @Preview
 @Composable
-fun ContactScreenPreview() {
-  BusTimetableAppTheme {
-    ContactScreen(
-      navigateToSearchScreen = {},
-      navigateToFavoriteRelationsScreen = {},
-      navigateToSettingsScreen = {}
+fun ContactScreenContentPreview() {
+  BusTimetableAppTheme() {
+    ContactScreenContent(
+      paddingValue = PaddingValues(),
+      onSendEmailClick = {},
+      onCallButtonClick = {},
     )
   }
 }
@@ -209,7 +220,7 @@ fun ContactScreenPreview() {
 fun ContactButtonPreview() {
   ContactButton(
     icon = Icons.Filled.Email,
-    iconBackgroundColor = Color.Cyan,
+    iconBackgroundColor = Color.Red,
     title = "Испрати e-mail",
     onRowItemClick = {}
   )

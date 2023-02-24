@@ -11,7 +11,12 @@ class RelationsRepository @Inject constructor(
   private val relationsDao: RelationsDao
 ) {
 
-  fun getRelations(departure: String, arrival: String, companyName: String?, currentTime: String?): List<Relation> {
+  fun getRelations(
+    departure: String,
+    arrival: String,
+    companyName: String?,
+    currentTime: String?
+  ): List<Relation> {
     return relationsDao.getRelationsForCompany(departure, arrival, companyName, currentTime)
   }
 

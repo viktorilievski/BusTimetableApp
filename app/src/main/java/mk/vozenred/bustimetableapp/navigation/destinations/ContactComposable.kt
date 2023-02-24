@@ -10,13 +10,11 @@ import mk.vozenred.bustimetableapp.util.Constants.CONTACT_SCREEN
 fun NavGraphBuilder.contactComposable(
   navigateToSearchScreen: () -> Unit,
   navigateToFavoriteRelationsScreen: () -> Unit,
-  navigateToSettingsScreen: () -> Unit
 ) {
   composable(route = CONTACT_SCREEN) {
     ContactScreen(
       navigateToSearchScreen = navigateToSearchScreen,
-      navigateToFavoriteRelationsScreen = navigateToFavoriteRelationsScreen,
-      navigateToSettingsScreen = navigateToSettingsScreen
+      navigateToFavoriteRelationsScreen = navigateToFavoriteRelationsScreen
     )
   }
 }

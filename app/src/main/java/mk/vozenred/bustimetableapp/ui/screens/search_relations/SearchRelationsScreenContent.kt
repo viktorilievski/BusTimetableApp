@@ -4,8 +4,6 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.ArrowForward
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -28,7 +26,7 @@ fun SearchRelationsScreenContent(
   navigateToStartDestinationScreen: () -> Unit,
   navigateToEndDestinationScreen: () -> Unit,
   navigateToRelationsScreen: () -> Unit,
-  onSwapCitiesIconClicked:() -> Unit
+  onSwapCitiesIconClicked: () -> Unit
 ) {
   val isStartPointSelected = startPoint.isNotEmpty()
   val isEndPointSelected = endPoint.isNotEmpty()
@@ -89,7 +87,10 @@ fun SearchRelationsScreenContent(
           enabled = isEndPointSelected,
           modifier = Modifier.padding(start = 10.dp)
         ) {
-          Icon(painter = painterResource(id = R.drawable.ic_baseline_swap_vert_24), contentDescription = "")
+          Icon(
+            painter = painterResource(id = R.drawable.ic_baseline_swap_vert_24),
+            contentDescription = ""
+          )
         }
       }
     }
@@ -120,16 +121,16 @@ fun SearchRelationsScreenContent(
   }
 }
 
-  @Composable
-  @Preview
-  fun SearchRelationsScreenContentPreview() {
-    SearchRelationsScreenContent(
-      startPoint = "Скопје",
-      endPoint = "Куманово",
-      paddingValue = PaddingValues(),
-      navigateToEndDestinationScreen = {},
-      navigateToStartDestinationScreen = {},
-      navigateToRelationsScreen = {},
-      onSwapCitiesIconClicked = {}
-    )
-  }
+@Composable
+@Preview
+fun SearchRelationsScreenContentPreview() {
+  SearchRelationsScreenContent(
+    startPoint = "Скопје",
+    endPoint = "Куманово",
+    paddingValue = PaddingValues(),
+    navigateToEndDestinationScreen = {},
+    navigateToStartDestinationScreen = {},
+    navigateToRelationsScreen = {},
+    onSwapCitiesIconClicked = {}
+  )
+}

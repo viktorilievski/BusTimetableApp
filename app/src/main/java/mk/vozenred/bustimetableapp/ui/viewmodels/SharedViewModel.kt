@@ -1,7 +1,6 @@
 package mk.vozenred.bustimetableapp.ui.viewmodels
 
-import android.os.Build
-import androidx.annotation.RequiresApi
+import android.util.Log
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
@@ -9,7 +8,10 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.*
+import kotlinx.coroutines.flow.MutableSharedFlow
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.SharedFlow
+import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 import mk.vozenred.bustimetableapp.components.topbars.utils.PointType
 import mk.vozenred.bustimetableapp.components.topbars.utils.SortOption
@@ -53,12 +55,10 @@ class SharedViewModel @Inject constructor(
   private val _liveRelation: MutableStateFlow<Boolean> = MutableStateFlow(false)
   val liveRelation: StateFlow<Boolean> = _liveRelation
 
-  @RequiresApi(Build.VERSION_CODES.O)
-  fun getRelations(companyName: String?) {
+  fun getRelations(companyName: String?, isLiveRelation: Boolean) {
     viewModelScope.launch(Dispatchers.IO) {
-      readLiveRelationDataStore()
       selectedCompany.value = companyName ?: "Сите"
-      val currentTime: String? = if (_liveRelation.value) {
+      val currentTime: String? = if (isLiveRelation) {
         LocalDateTime.now().format(DateTimeFormatter.ofPattern("HH:mm"))
       } else {
         null
@@ -214,30 +214,14 @@ class SharedViewModel @Inject constructor(
 
   fun readLiveRelationDataStore() {
     viewModelScope.launch(Dispatchers.IO) {
-      val liveRelationValue = dataStoreRepository.read(LIVE_RELATION_PREFERENCE_KEY)
-      if (liveRelationValue == null) {
+      val liveRelationValue = dataStoreRepository.read(LIVE_RELATION_PREFERENCE_KEY) as Boolean?
+      Log.d("DataStoreRepository", "SharedViewModel: Live relation value is $liveRelationValue")
+      _liveRelation.value = if (liveRelationValue == null) {
         saveToDataStore(LIVE_RELATION_PREFERENCE_KEY, false)
-        _liveRelation.value = false
+        false
       } else {
-        _liveRelation.value = liveRelationValue as Boolean
+        liveRelationValue
       }
-    }
-  }
-
-  @RequiresApi(Build.VERSION_CODES.O)
-  fun filterLiveRelations() {
-    val time = LocalDateTime.now().format(DateTimeFormatter.ofPattern("HH:mm"))
-    viewModelScope.launch(Dispatchers.IO) {
-      val allRelations = relationsRepository.getRelations(
-        _startPointSelected.value,
-        _endPointSelected.value,
-        selectedCompany.value,
-        time
-      )
-      allRelations.filter { relation ->
-        relation.departureTime > time
-      }
-      _relations.emit(allRelations)
     }
   }
 
@@ -267,7 +251,6 @@ class SharedViewModel @Inject constructor(
     _endPointSelected.value = tempCity
   }
 
-  @RequiresApi(Build.VERSION_CODES.O)
   fun setRelationFavoriteStatus(relationId: Int, isRelationFavorite: Boolean) {
     viewModelScope.launch(Dispatchers.IO) {
       relationsRepository.setRelationFavoriteStatus(relationId, isRelationFavorite)
@@ -276,7 +259,7 @@ class SharedViewModel @Inject constructor(
       } else {
         selectedCompany.value
       }
-      getRelations(companyName)
+      getRelations(companyName, _liveRelation.value)
     }
   }
 }

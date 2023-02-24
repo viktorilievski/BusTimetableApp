@@ -49,12 +49,12 @@ class Screens(navController: NavHostController) {
   }
 
   val selectFromDestinationToSearch: () -> Unit = {
-      navController.popBackStack(route = SEARCH_SCREEN, inclusive = false)
-    }
+    navController.popBackStack(route = SEARCH_SCREEN, inclusive = false)
+  }
 
   val selectToDestinationToSearch: () -> Unit = {
-      navController.popBackStack(route = SEARCH_SCREEN, inclusive = false)
-    }
+    navController.popBackStack(route = SEARCH_SCREEN, inclusive = false)
+  }
 
   val navigateToSearchScreenFromDrawer: () -> Unit = {
     navController.popBackStack(route = SEARCH_SCREEN, inclusive = false)

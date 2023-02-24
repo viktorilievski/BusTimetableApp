@@ -1,6 +1,7 @@
 package mk.vozenred.bustimetableapp.ui.screens.no_connection
 
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
@@ -15,7 +16,10 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import mk.vozenred.bustimetableapp.R
-import mk.vozenred.bustimetableapp.ui.theme.*
+import mk.vozenred.bustimetableapp.ui.theme.BusTimetableAppTheme
+import mk.vozenred.bustimetableapp.ui.theme.DRAWABLE_SIZE_BIG
+import mk.vozenred.bustimetableapp.ui.theme.LARGEST_PADDING
+import mk.vozenred.bustimetableapp.ui.theme.iconColor
 import mk.vozenred.bustimetableapp.ui.viewmodels.SplashScreenViewModel
 
 @Composable
@@ -27,23 +31,17 @@ fun NoConnectionScreen(
   val localDbVersionIsPresent =
     splashScreenViewModel.dataStoreDatabaseVersion.collectAsState().value != null
 
-  Column(
-    modifier = Modifier
-      .fillMaxSize()
-      .padding(LARGEST_PADDING),
-  ) {
-    NoConnectionScreenContent(
-      onRetryButtonClick = {
-        if (splashScreenViewModel.networkStatus.value) {
-          navigateToSplashScreen()
-        }
-      },
-      onContinueButtonClick = {
-        navigateToSearchScreen()
-      },
-      localDbVersionIsPresent = localDbVersionIsPresent
-    )
-  }
+  NoConnectionScreenContent(
+    onRetryButtonClick = {
+      if (splashScreenViewModel.networkStatus.value) {
+        navigateToSplashScreen()
+      }
+    },
+    onContinueButtonClick = {
+      navigateToSearchScreen()
+    },
+    localDbVersionIsPresent = localDbVersionIsPresent
+  )
 }
 
 @Composable
@@ -55,6 +53,10 @@ fun NoConnectionScreenContent(
   Column(
     horizontalAlignment = Alignment.CenterHorizontally,
     verticalArrangement = Arrangement.SpaceEvenly,
+    modifier = Modifier
+      .fillMaxSize()
+      .background(MaterialTheme.colors.background)
+      .padding(LARGEST_PADDING)
   ) {
     Image(
       painter = painterResource(id = R.drawable.ic_no_connection),
@@ -68,7 +70,7 @@ fun NoConnectionScreenContent(
     } else {
       stringResource(id = R.string.no_connection_first_time)
     }
-    Text(text = noteText, textAlign = TextAlign.Center)
+    Text(text = noteText, textAlign = TextAlign.Center, color = MaterialTheme.colors.onBackground)
     Row(
       modifier = Modifier.fillMaxWidth(),
       horizontalArrangement = Arrangement.SpaceEvenly
@@ -78,7 +80,10 @@ fun NoConnectionScreenContent(
       ) {
         Text(text = stringResource(R.string.retry_connection_button_text))
         Spacer(modifier = Modifier.size(ButtonDefaults.IconSize))
-        Icon(imageVector = Icons.Filled.Refresh, contentDescription = stringResource(R.string.refresh_icon))
+        Icon(
+          imageVector = Icons.Filled.Refresh,
+          contentDescription = stringResource(R.string.refresh_icon)
+        )
       }
       if (localDbVersionIsPresent) {
         Button(onClick = { onContinueButtonClick() }) {

@@ -77,7 +77,10 @@ fun SortDropdownMenu(
     modifier = Modifier.fillMaxWidth(),
   ) {
     SortDropDownMenuItem(onItemClicked = onOptionChosen, sortOption = SortOption.ALPHABETICAL)
-    SortDropDownMenuItem(onItemClicked = onOptionChosen, sortOption = SortOption.ALPHABETICAL_INVERTED)
+    SortDropDownMenuItem(
+      onItemClicked = onOptionChosen,
+      sortOption = SortOption.ALPHABETICAL_INVERTED
+    )
     SortDropDownMenuItem(onItemClicked = onOptionChosen, sortOption = SortOption.MAX_RELATIONS)
     SortDropDownMenuItem(onItemClicked = onOptionChosen, sortOption = SortOption.MIN_RELATIONS)
   }

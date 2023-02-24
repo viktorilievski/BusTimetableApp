@@ -1,18 +1,18 @@
 package mk.vozenred.bustimetableapp.components.topbars
 
-import android.media.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.*
+import androidx.compose.material.icons.filled.Call
+import androidx.compose.material.icons.filled.Close
+import androidx.compose.material.icons.filled.Favorite
+import androidx.compose.material.icons.filled.Search
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.graphics.vector.ImageVector
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import mk.vozenred.bustimetableapp.R
@@ -24,8 +24,7 @@ fun DrawerContent(
   onCloseDrawerClick: () -> Unit,
   navigateToSearchScreen: () -> Unit,
   navigateToContactScreen: () -> Unit,
-  navigateToFavoriteRelationsScreen: () -> Unit,
-  navigateToSettingsScreen: () -> Unit
+  navigateToFavoriteRelationsScreen: () -> Unit
 ) {
 
   Column(modifier = Modifier.fillMaxSize()) {
@@ -48,7 +47,6 @@ fun DrawerContent(
       }
       Column {
         DrawerFooter(
-          navigateToSettingsScreen = { navigateToSettingsScreen() }
         )
       }
     }
@@ -57,13 +55,7 @@ fun DrawerContent(
 
 @Composable
 fun DrawerFooter(
-  navigateToSettingsScreen: () -> Unit
 ) {
-  DrawerFooterItem(
-    title = stringResource(id = R.string.settings),
-    icon = Icons.Filled.Settings,
-    onToggleClick = { navigateToSettingsScreen() }
-  )
 }
 
 
@@ -155,34 +147,6 @@ fun DrawerNavigationItem(
 }
 
 @Composable
-fun DrawerFooterItem(
-  title: String,
-  onToggleClick: () -> Unit,
-  icon: ImageVector
-) {
-  Divider()
-  Row(
-    modifier = Modifier
-      .fillMaxWidth()
-      .height(TOP_APP_BAR_HEIGHT)
-      .clickable { onToggleClick() }
-      .padding(start = MEDIUM_PADDING),
-    verticalAlignment = Alignment.CenterVertically,
-  ) {
-    Icon(
-      modifier = Modifier.padding(horizontal = ICON_BUTTON_PADDING),
-      imageVector = icon,
-      contentDescription = title,
-    )
-    Text(
-      modifier = Modifier
-        .padding(start = LARGEST_PADDING),
-      text = title
-    )
-  }
-}
-
-@Composable
 @Preview
 fun DrawerContentPreview() {
   DrawerContent(
@@ -191,6 +155,5 @@ fun DrawerContentPreview() {
     navigateToSearchScreen = {},
     navigateToContactScreen = {},
     navigateToFavoriteRelationsScreen = {},
-    navigateToSettingsScreen = {}
   )
 }

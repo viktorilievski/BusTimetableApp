@@ -1,7 +1,6 @@
 package mk.vozenred.bustimetableapp
 
 import android.os.Bundle
-import android.provider.Settings
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
@@ -12,7 +11,6 @@ import dagger.hilt.android.AndroidEntryPoint
 import mk.vozenred.bustimetableapp.navigation.SetupNavigation
 import mk.vozenred.bustimetableapp.ui.theme.BusTimetableAppTheme
 import mk.vozenred.bustimetableapp.ui.viewmodels.FavoriteRelationsViewModel
-import mk.vozenred.bustimetableapp.ui.viewmodels.SettingsScreenViewModel
 import mk.vozenred.bustimetableapp.ui.viewmodels.SharedViewModel
 import mk.vozenred.bustimetableapp.ui.viewmodels.SplashScreenViewModel
 import mk.vozenred.bustimetableapp.util.NetworkConnectionLiveData
@@ -24,7 +22,6 @@ class MainActivity : ComponentActivity() {
   private val sharedViewModel: SharedViewModel by viewModels()
   private val splashScreenViewModel: SplashScreenViewModel by viewModels()
   private val favoriteRelationsViewModel: FavoriteRelationsViewModel by viewModels()
-  private val settingsScreenViewModel: SettingsScreenViewModel by viewModels()
 
   @OptIn(ExperimentalAnimationApi::class)
   override fun onCreate(savedInstanceState: Bundle?) {
@@ -37,8 +34,7 @@ class MainActivity : ComponentActivity() {
           navController = navController,
           sharedViewModel = sharedViewModel,
           favoriteRelationsViewModel = favoriteRelationsViewModel,
-          splashScreenViewModel = splashScreenViewModel,
-          settingsScreenViewModel = settingsScreenViewModel
+          splashScreenViewModel = splashScreenViewModel
         )
       }
     }
