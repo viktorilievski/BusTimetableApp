@@ -23,6 +23,6 @@ data class Relation(
             "Крајна точка: ${endPoint}\n" +
             "Време на поаѓање: ${departureTime}\n" +
             "Време на пристигање: ${arrivalTime}\n" +
-            "Режин на возење: ${note}\n"
+            "Режим на возење: ${note}\n"
   }
 }

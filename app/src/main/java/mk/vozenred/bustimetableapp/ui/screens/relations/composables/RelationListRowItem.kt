@@ -172,7 +172,7 @@ fun RelationPointWithIconPreview() {
 @Composable
 @Preview
 fun RelationListRowItemPreview() {
-  BusTimetableAppTheme(darkTheme = true) {
+  BusTimetableAppTheme(darkTheme = false) {
     RelationListRowItem(
       relation = Relation(
         companyName = "МАМЛИ - ТРАВЕЛ",

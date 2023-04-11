@@ -28,8 +28,4 @@ object DatabaseModule {
   @Singleton
   @Provides
   fun provideRelationsDao(database: RelationsDatabase) = database.relationsDao()
-
-  @Singleton
-  @Provides
-  fun provideFavoritesDao(database: RelationsDatabase) = database.favoritesDao()
 }

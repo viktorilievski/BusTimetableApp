@@ -5,7 +5,6 @@ object Constants {
   // Room Database
   const val RELATIONS_DATABASE_NAME = "relations_database"
   const val RELATIONS_DATABASE_TABLE = "relations_table"
-  const val FAVORITE_RELATIONS_TABLE = "favorite_relations_table"
 
   // Navigation Routes
   const val SPLASH_SCREEN = "splash"
