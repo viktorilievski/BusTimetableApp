@@ -35,7 +35,7 @@ import mk.vozenred.bustimetableapp.ui.viewmodels.FavoriteRelationsViewModel
 @Composable
 fun FavoriteRelationsScreen(
   favoriteRelationsViewModel: FavoriteRelationsViewModel,
-  navigateFromDrawerTo: (screenName: String) -> Unit,
+  navigateFromDrawerTo: (String) -> Unit,
   navigateToReportScreen: (Int) -> Unit
 ) {
 
@@ -75,10 +75,9 @@ fun FavoriteRelationsScreen(
           coroutineScope.launch {
             scaffoldState.drawerState.close()
           }
-        }
-      ) { screenName ->
-        navigateFromDrawerTo(screenName)
-      }
+        },
+        navigateFromDrawerTo = { navigateFromDrawerTo(it) }
+      )
     }
   ) {
     FavoriteRelationsContent(

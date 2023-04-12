@@ -54,4 +54,3 @@ val Colors.topAppBarContentColor: Color
 val Colors.drawerBackgroundColor: Color
   @Composable
   get() = if (isLight) Color.White else Color.Black
-

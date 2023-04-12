@@ -1,8 +1,6 @@
 package mk.vozenred.bustimetableapp.navigation
 
 import androidx.navigation.NavHostController
-import mk.vozenred.bustimetableapp.util.Constants.CONTACT_SCREEN
-import mk.vozenred.bustimetableapp.util.Constants.FAVORITES_SCREEN
 import mk.vozenred.bustimetableapp.util.Constants.NO_CONNECTION_SCREEN
 import mk.vozenred.bustimetableapp.util.Constants.RELATIONS_SCREEN
 import mk.vozenred.bustimetableapp.util.Constants.SEARCH_SCREEN

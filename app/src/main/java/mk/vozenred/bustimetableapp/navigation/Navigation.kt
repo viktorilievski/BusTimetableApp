@@ -70,5 +70,8 @@ fun SetupNavigation(
       navigateToReportScreen = screen.navigateToReportScreen,
       navigateFromDrawerTo = screen.navigateFromDrawerTo
     )
+    infoComposable(
+      navigateFromDrawerTo = screen.navigateFromDrawerTo
+    )
   }
 }

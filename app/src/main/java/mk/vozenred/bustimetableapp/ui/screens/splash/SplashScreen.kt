@@ -48,17 +48,12 @@ fun SplashScreen(
     splashScreenViewModel.loading.observeForever {
       when (it) {
         LoadingState.Failed -> {
-          Log.e(
-            "SplashScreen",
-            "Failed loading data. Please check your internet connection!"
-          )
           navigateToNoConnectionScreen()
         }
         LoadingState.Loading -> {
           Log.d("SplashScreen", "Loading data from Firestore!")
         }
         LoadingState.Success -> {
-          Log.d("SplashScreen", "Data loaded successfully!")
           navigateToSearchScreen()
         }
       }
