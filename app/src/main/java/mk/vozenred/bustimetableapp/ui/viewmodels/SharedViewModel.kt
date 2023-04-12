@@ -1,6 +1,5 @@
 package mk.vozenred.bustimetableapp.ui.viewmodels
 
-import android.util.Log
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
@@ -215,7 +214,6 @@ class SharedViewModel @Inject constructor(
   fun readLiveRelationDataStore() {
     viewModelScope.launch(Dispatchers.IO) {
       val liveRelationValue = dataStoreRepository.read(LIVE_RELATION_PREFERENCE_KEY) as Boolean?
-      Log.d("DataStoreRepository", "SharedViewModel: Live relation value is $liveRelationValue")
       _liveRelation.value = if (liveRelationValue == null) {
         saveToDataStore(LIVE_RELATION_PREFERENCE_KEY, false)
         false

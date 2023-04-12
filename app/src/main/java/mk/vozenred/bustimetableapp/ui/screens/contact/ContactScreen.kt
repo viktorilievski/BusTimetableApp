@@ -32,10 +32,7 @@ import kotlinx.coroutines.launch
 import mk.vozenred.bustimetableapp.R
 import mk.vozenred.bustimetableapp.components.drawer.DrawerContent
 import mk.vozenred.bustimetableapp.components.topbars.DrawerTopAppBar
-import mk.vozenred.bustimetableapp.ui.theme.BusTimetableAppTheme
-import mk.vozenred.bustimetableapp.ui.theme.LARGEST_PADDING
-import mk.vozenred.bustimetableapp.ui.theme.MEDIUM_PADDING
-import mk.vozenred.bustimetableapp.ui.theme.POINT_ROW_ITEM_HEIGHT
+import mk.vozenred.bustimetableapp.ui.theme.*
 import mk.vozenred.bustimetableapp.util.Constants.CONTACT_NUMBER
 
 @SuppressLint("UnusedMaterialScaffoldPaddingParameter")
@@ -95,7 +92,7 @@ fun ContactScreenContent(
 ) {
   Column(
     modifier = Modifier
-      .padding(LARGEST_PADDING)
+      .padding(LARGE_PADDING)
       .fillMaxSize()
   ) {
     Column(

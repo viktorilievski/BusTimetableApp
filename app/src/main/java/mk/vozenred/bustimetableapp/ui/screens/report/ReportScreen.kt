@@ -4,7 +4,6 @@ import android.annotation.SuppressLint
 import android.content.ActivityNotFoundException
 import android.content.Context
 import android.content.Intent
-import android.util.Log
 import android.widget.Toast
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.*
@@ -231,7 +230,6 @@ fun showEmailChooser(
   mailContentBody: String,
   context: Context
 ) {
-  Log.d("Report Screen", mailContentBody)
   val emailIntent = Intent(Intent.ACTION_SEND)
   emailIntent.type = "message/rfc822"
   emailIntent.putExtra(Intent.EXTRA_EMAIL, arrayOf("info@bustimetable.mk"))
