@@ -1,5 +1,6 @@
 package mk.vozenred.bustimetableapp.ui.screens.relations
 
+import android.annotation.SuppressLint
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
@@ -14,7 +15,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import kotlinx.coroutines.launch
 import mk.vozenred.bustimetableapp.R
-import mk.vozenred.bustimetableapp.components.topbars.DrawerContent
+import mk.vozenred.bustimetableapp.components.drawer.DrawerContent
 import mk.vozenred.bustimetableapp.components.topbars.FilterDropdownMenu
 import mk.vozenred.bustimetableapp.components.topbars.RelationsTopAppBar
 import mk.vozenred.bustimetableapp.data.model.Relation
@@ -26,14 +27,12 @@ import mk.vozenred.bustimetableapp.ui.theme.MEDIUM_PADDING
 import mk.vozenred.bustimetableapp.ui.viewmodels.SharedViewModel
 import mk.vozenred.bustimetableapp.util.Constants.LIVE_RELATION_PREFERENCE_KEY
 
-
+@SuppressLint("UnusedMaterialScaffoldPaddingParameter")
 @Composable
 fun RelationsScreen(
   sharedViewModel: SharedViewModel,
-  navigateToSearchScreen: () -> Unit,
-  navigateToContactScreen: () -> Unit,
+  navigateFromDrawerTo: (String) -> Unit,
   navigateToReportScreen: (Int) -> Unit,
-  navigateToFavoriteRelationsScreen: () -> Unit
 ) {
   val liveRelationState by sharedViewModel.liveRelation.collectAsState()
   val relations by sharedViewModel.relations.collectAsState(initial = mutableListOf())
@@ -106,24 +105,7 @@ fun RelationsScreen(
             scaffoldState.drawerState.close()
           }
         },
-        navigateToSearchScreen = {
-          coroutineScope.launch {
-            scaffoldState.drawerState.close()
-          }
-          navigateToSearchScreen()
-        },
-        navigateToContactScreen = {
-          coroutineScope.launch {
-            scaffoldState.drawerState.close()
-          }
-          navigateToContactScreen()
-        },
-        navigateToFavoriteRelationsScreen = {
-          navigateToFavoriteRelationsScreen()
-          coroutineScope.launch {
-            scaffoldState.drawerState.close()
-          }
-        }
+        navigateFromDrawerTo = { navigateFromDrawerTo(it) }
       )
     }
   ) {

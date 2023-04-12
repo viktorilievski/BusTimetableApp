@@ -14,7 +14,7 @@ object Constants {
   const val REPORT_SCREEN = "report/{relationId}"
   const val RELATIONS_SCREEN = "relationsList"
   const val FAVORITES_SCREEN = "favorites"
-  const val SETTINGS_SCREEN = "settings"
+  const val INFO_SCREEN = "info"
   const val SELECT_FROM_DESTINATION_SCREEN = "selectFromDestination"
   const val SELECT_TO_DESTINATION_SCREEN = "selectToDestination"
 
@@ -33,4 +33,7 @@ object Constants {
 
   // Argument Key
   const val RELATION_ARGUMENT_KEY = "relationId"
+
+  // Contact constants
+  const val CONTACT_NUMBER = "tel:070510928"
 }

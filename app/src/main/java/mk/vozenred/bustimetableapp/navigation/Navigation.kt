@@ -42,16 +42,13 @@ fun SetupNavigation(
       navigateToListRelations = screen.searchToRelationsScreen,
       navigateToStartDestination = screen.searchToStartDestinationScreen,
       navigateToEndDestination = screen.searchToEndDestinationScreen,
-      navigateToContactScreen = screen.navigateToContactScreenFromDrawer,
-      navigateToFavoriteRelationsScreen = screen.navigateToFavoriteRelationsFromDrawer,
+      navigateFromDrawerTo = screen.navigateFromDrawerTo,
       sharedViewModel = sharedViewModel
     )
     relationsComposable(
       sharedViewModel = sharedViewModel,
-      navigateToSearchScreen = screen.navigateToSearchScreenFromDrawer,
-      navigateToContactScreen = screen.navigateToContactScreenFromDrawer,
       navigateToReportScreen = screen.navigateToReportScreen,
-      navigateToFavoriteRelationsScreen = screen.navigateToFavoriteRelationsFromDrawer
+      navigateFromDrawerTo = screen.navigateFromDrawerTo
     )
     selectFromDestinationComposable(
       navigateToSearchScreen = screen.selectFromDestinationToSearch,
@@ -62,8 +59,7 @@ fun SetupNavigation(
       sharedViewModel = sharedViewModel
     )
     contactComposable(
-      navigateToSearchScreen = screen.navigateToSearchScreenFromDrawer,
-      navigateToFavoriteRelationsScreen = screen.navigateToFavoriteRelationsFromDrawer,
+      navigateFromDrawerTo = screen.navigateFromDrawerTo
     )
     reportComposable(
       sharedViewModel = sharedViewModel,
@@ -72,8 +68,7 @@ fun SetupNavigation(
     favoritesComposable(
       favoriteRelationsViewModel = favoriteRelationsViewModel,
       navigateToReportScreen = screen.navigateToReportScreen,
-      navigateToSearchScreen = screen.navigateToSearchScreenFromDrawer,
-      navigateToContactScreen = screen.navigateToContactScreenFromDrawer
+      navigateFromDrawerTo = screen.navigateFromDrawerTo
     )
   }
 }

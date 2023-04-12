@@ -57,5 +57,8 @@
     <string name="select_relation_from_label">Од:</string>
     <string name="live_relation_toggle">Релации во живо</string>
     <string name="settings">Поставки</string>
+    <string name="info">За нас</string>
+    <string name="send_email_button_text">Испрати e-mail</string>
+    <string name="call_button_text">Јави се</string>
 
 </resources>

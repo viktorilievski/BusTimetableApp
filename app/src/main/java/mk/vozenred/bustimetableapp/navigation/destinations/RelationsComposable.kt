@@ -11,10 +11,8 @@ import mk.vozenred.bustimetableapp.util.Constants.RELATIONS_SCREEN
 @OptIn(ExperimentalAnimationApi::class)
 fun NavGraphBuilder.relationsComposable(
   sharedViewModel: SharedViewModel,
-  navigateToSearchScreen: () -> Unit,
-  navigateToContactScreen: () -> Unit,
+  navigateFromDrawerTo: (String) -> Unit,
   navigateToReportScreen: (Int) -> Unit,
-  navigateToFavoriteRelationsScreen: () -> Unit
 ) {
   composable(
     route = RELATIONS_SCREEN,
@@ -24,10 +22,8 @@ fun NavGraphBuilder.relationsComposable(
   ) {
     RelationsScreen(
       sharedViewModel = sharedViewModel,
-      navigateToSearchScreen = navigateToSearchScreen,
-      navigateToContactScreen = navigateToContactScreen,
+      navigateFromDrawerTo = navigateFromDrawerTo,
       navigateToReportScreen = navigateToReportScreen,
-      navigateToFavoriteRelationsScreen = navigateToFavoriteRelationsScreen
     )
   }
 }

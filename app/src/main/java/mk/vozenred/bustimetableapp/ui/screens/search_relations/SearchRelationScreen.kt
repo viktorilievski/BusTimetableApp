@@ -8,7 +8,7 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.res.stringResource
 import kotlinx.coroutines.launch
 import mk.vozenred.bustimetableapp.R
-import mk.vozenred.bustimetableapp.components.topbars.DrawerContent
+import mk.vozenred.bustimetableapp.components.drawer.DrawerContent
 import mk.vozenred.bustimetableapp.components.topbars.DrawerTopAppBar
 import mk.vozenred.bustimetableapp.ui.viewmodels.SharedViewModel
 
@@ -17,8 +17,7 @@ fun SearchRelationsScreen(
   navigateToRelationsScreen: () -> Unit,
   navigateToStartDestinationScreen: () -> Unit,
   navigateToEndDestinationScreen: () -> Unit,
-  navigateToContactScreen: () -> Unit,
-  navigateToFavoriteRelationsScreen: () -> Unit,
+  navigateFromDrawerTo: (String) -> Unit,
   sharedViewModel: SharedViewModel
 ) {
   val startPoint: String by sharedViewModel.startPointSelected
@@ -59,23 +58,7 @@ fun SearchRelationsScreen(
             scaffoldState.drawerState.close()
           }
         },
-        navigateToSearchScreen = {
-          coroutineScope.launch {
-            scaffoldState.drawerState.close()
-          }
-        },
-        navigateToContactScreen = {
-          coroutineScope.launch {
-            scaffoldState.drawerState.close()
-          }
-          navigateToContactScreen()
-        },
-        navigateToFavoriteRelationsScreen = {
-          navigateToFavoriteRelationsScreen()
-          coroutineScope.launch {
-            scaffoldState.drawerState.close()
-          }
-        }
+        navigateFromDrawerTo = { navigateFromDrawerTo(it) }
       )
     }
   )

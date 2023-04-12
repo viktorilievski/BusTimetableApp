@@ -21,7 +21,7 @@ import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
 import kotlinx.coroutines.launch
 import mk.vozenred.bustimetableapp.R
-import mk.vozenred.bustimetableapp.components.topbars.DrawerContent
+import mk.vozenred.bustimetableapp.components.drawer.DrawerContent
 import mk.vozenred.bustimetableapp.components.topbars.DrawerTopAppBar
 import mk.vozenred.bustimetableapp.data.model.Relation
 import mk.vozenred.bustimetableapp.ui.screens.relations.composables.RelationListRowItem
@@ -35,8 +35,7 @@ import mk.vozenred.bustimetableapp.ui.viewmodels.FavoriteRelationsViewModel
 @Composable
 fun FavoriteRelationsScreen(
   favoriteRelationsViewModel: FavoriteRelationsViewModel,
-  navigateToContactScreen: () -> Unit,
-  navigateToSearchScreen: () -> Unit,
+  navigateFromDrawerTo: (screenName: String) -> Unit,
   navigateToReportScreen: (Int) -> Unit
 ) {
 
@@ -76,25 +75,10 @@ fun FavoriteRelationsScreen(
           coroutineScope.launch {
             scaffoldState.drawerState.close()
           }
-        },
-        navigateToSearchScreen = {
-          coroutineScope.launch {
-            scaffoldState.drawerState.close()
-          }
-          navigateToSearchScreen()
-        },
-        navigateToContactScreen = {
-          coroutineScope.launch {
-            scaffoldState.drawerState.close()
-          }
-          navigateToContactScreen()
-        },
-        navigateToFavoriteRelationsScreen = {
-          coroutineScope.launch {
-            scaffoldState.drawerState.close()
-          }
         }
-      )
+      ) { screenName ->
+        navigateFromDrawerTo(screenName)
+      }
     }
   ) {
     FavoriteRelationsContent(

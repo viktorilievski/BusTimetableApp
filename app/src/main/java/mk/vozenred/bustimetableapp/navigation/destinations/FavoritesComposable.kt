@@ -10,8 +10,7 @@ import mk.vozenred.bustimetableapp.util.Constants.FAVORITES_SCREEN
 @OptIn(ExperimentalAnimationApi::class)
 fun NavGraphBuilder.favoritesComposable(
   favoriteRelationsViewModel: FavoriteRelationsViewModel,
-  navigateToSearchScreen: () -> Unit,
-  navigateToContactScreen: () -> Unit,
+  navigateFromDrawerTo: (String) -> Unit,
   navigateToReportScreen: (Int) -> Unit
 ) {
   composable(
@@ -19,8 +18,7 @@ fun NavGraphBuilder.favoritesComposable(
   ) {
     FavoriteRelationsScreen(
       favoriteRelationsViewModel = favoriteRelationsViewModel,
-      navigateToContactScreen = navigateToContactScreen,
-      navigateToSearchScreen = navigateToSearchScreen,
+      navigateFromDrawerTo = navigateFromDrawerTo,
       navigateToReportScreen = navigateToReportScreen
     )
   }

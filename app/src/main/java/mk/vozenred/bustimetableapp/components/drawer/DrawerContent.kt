@@ -1,4 +1,4 @@
-package mk.vozenred.bustimetableapp.components.topbars
+package mk.vozenred.bustimetableapp.components.drawer
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -9,6 +9,7 @@ import androidx.compose.material.icons.filled.Call
 import androidx.compose.material.icons.filled.Close
 import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material.icons.filled.Search
+import androidx.compose.material.icons.outlined.Info
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -17,16 +18,17 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import mk.vozenred.bustimetableapp.R
 import mk.vozenred.bustimetableapp.ui.theme.*
+import mk.vozenred.bustimetableapp.util.Constants.CONTACT_SCREEN
+import mk.vozenred.bustimetableapp.util.Constants.FAVORITES_SCREEN
+import mk.vozenred.bustimetableapp.util.Constants.INFO_SCREEN
+import mk.vozenred.bustimetableapp.util.Constants.SEARCH_SCREEN
 
 @Composable
 fun DrawerContent(
   title: String,
   onCloseDrawerClick: () -> Unit,
-  navigateToSearchScreen: () -> Unit,
-  navigateToContactScreen: () -> Unit,
-  navigateToFavoriteRelationsScreen: () -> Unit
+  navigateFromDrawerTo: (String) -> Unit
 ) {
-
   Column(modifier = Modifier.fillMaxSize()) {
     DrawerHeader(
       title = title,
@@ -40,24 +42,13 @@ fun DrawerContent(
     ) {
       Column {
         DrawerBody(
-          navigateToSearchScreen = navigateToSearchScreen,
-          navigateToContactScreen = navigateToContactScreen,
-          navigateToFavoriteRelationsScreen = navigateToFavoriteRelationsScreen
-        )
-      }
-      Column {
-        DrawerFooter(
+          navigateFromDrawerTo = { navigateFromDrawerTo(it) },
+          onCloseDrawerClick = onCloseDrawerClick,
         )
       }
     }
   }
 }
-
-@Composable
-fun DrawerFooter(
-) {
-}
-
 
 @Composable
 fun DrawerHeader(
@@ -92,29 +83,43 @@ fun DrawerHeader(
 
 @Composable
 fun DrawerBody(
-  navigateToSearchScreen: () -> Unit,
-  navigateToContactScreen: () -> Unit,
-  navigateToFavoriteRelationsScreen: () -> Unit
+  navigateFromDrawerTo: (String) -> Unit,
+  onCloseDrawerClick: () -> Unit
 ) {
+  val drawerItems: List<DrawerBodyItem> = listOf(
+    DrawerBodyItem(
+      icon = Icons.Filled.Search,
+      title = stringResource(id = R.string.search_new_relation),
+      onItemClick = { navigateFromDrawerTo(SEARCH_SCREEN) }
+    ),
+    DrawerBodyItem(
+      icon = Icons.Filled.Favorite,
+      title = stringResource(id = R.string.favorite_relations_top_app_bar_title),
+      onItemClick = { navigateFromDrawerTo(FAVORITES_SCREEN) }
+    ),
+    DrawerBodyItem(
+      icon = Icons.Filled.Call,
+      title = stringResource(id = R.string.contact),
+      onItemClick = { navigateFromDrawerTo(CONTACT_SCREEN) }
+    ),
+    DrawerBodyItem(
+      icon = Icons.Outlined.Info,
+      title = stringResource(id = R.string.info),
+      onItemClick = { navigateFromDrawerTo(INFO_SCREEN) }
+    )
+  )
   Column(
     modifier = Modifier
       .background(MaterialTheme.colors.drawerBackgroundColor)
   ) {
-    DrawerNavigationItem(
-      icon = Icons.Filled.Search,
-      title = stringResource(R.string.search_new_relation),
-      onItemClick = navigateToSearchScreen
-    )
-    DrawerNavigationItem(
-      icon = Icons.Filled.Favorite,
-      title = stringResource(R.string.favorite_relations_top_app_bar_title),
-      onItemClick = navigateToFavoriteRelationsScreen
-    )
-    DrawerNavigationItem(
-      icon = Icons.Filled.Call,
-      title = stringResource(R.string.contact),
-      onItemClick = navigateToContactScreen
-    )
+    drawerItems.forEach { drawerItem ->
+      DrawerNavigationItem(
+        icon = drawerItem.icon,
+        title = drawerItem.title,
+        onItemClick = drawerItem.onItemClick,
+        onCloseDrawerClick = onCloseDrawerClick,
+      )
+    }
   }
 }
 
@@ -122,13 +127,17 @@ fun DrawerBody(
 fun DrawerNavigationItem(
   icon: ImageVector,
   title: String,
-  onItemClick: () -> Unit
+  onItemClick: () -> Unit,
+  onCloseDrawerClick: () -> Unit
 ) {
   Row(
     modifier = Modifier
       .fillMaxWidth()
       .height(TOP_APP_BAR_HEIGHT)
-      .clickable { onItemClick() }
+      .clickable {
+        onCloseDrawerClick()
+        onItemClick()
+      }
       .padding(start = MEDIUM_PADDING),
     verticalAlignment = Alignment.CenterVertically,
   ) {
@@ -152,8 +161,6 @@ fun DrawerContentPreview() {
   DrawerContent(
     title = "Title",
     onCloseDrawerClick = {},
-    navigateToSearchScreen = {},
-    navigateToContactScreen = {},
-    navigateToFavoriteRelationsScreen = {},
+    navigateFromDrawerTo = {}
   )
 }

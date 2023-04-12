@@ -8,7 +8,6 @@ import mk.vozenred.bustimetableapp.util.Constants.RELATIONS_SCREEN
 import mk.vozenred.bustimetableapp.util.Constants.SEARCH_SCREEN
 import mk.vozenred.bustimetableapp.util.Constants.SELECT_FROM_DESTINATION_SCREEN
 import mk.vozenred.bustimetableapp.util.Constants.SELECT_TO_DESTINATION_SCREEN
-import mk.vozenred.bustimetableapp.util.Constants.SETTINGS_SCREEN
 import mk.vozenred.bustimetableapp.util.Constants.SPLASH_SCREEN
 
 class Screens(navController: NavHostController) {
@@ -56,14 +55,6 @@ class Screens(navController: NavHostController) {
     navController.popBackStack(route = SEARCH_SCREEN, inclusive = false)
   }
 
-  val navigateToSearchScreenFromDrawer: () -> Unit = {
-    navController.popBackStack(route = SEARCH_SCREEN, inclusive = false)
-  }
-
-  val navigateToContactScreenFromDrawer: () -> Unit = {
-    navController.navigate(route = CONTACT_SCREEN)
-  }
-
   val navigateToReportScreen: (Int) -> Unit = { relationId ->
     navController.navigate(route = "report/${relationId}")
   }
@@ -72,10 +63,11 @@ class Screens(navController: NavHostController) {
     navController.navigateUp()
   }
 
-  val navigateToFavoriteRelationsFromDrawer: () -> Unit = {
-    navController.navigate(route = FAVORITES_SCREEN)
-  }
-  val navigateToSettingsFromDrawer: () -> Unit = {
-    navController.navigate(route = SETTINGS_SCREEN)
+  val navigateFromDrawerTo: (screenName: String) -> Unit = { screenName ->
+    if (screenName == SEARCH_SCREEN) {
+      navController.popBackStack(route = SEARCH_SCREEN, inclusive = false)
+    } else {
+      navController.navigate(route = screenName)
+    }
   }
 }

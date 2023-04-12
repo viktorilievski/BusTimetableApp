@@ -1,5 +1,6 @@
 package mk.vozenred.bustimetableapp.ui.screens.contact
 
+import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Intent
 import android.net.Uri
@@ -29,17 +30,18 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import kotlinx.coroutines.launch
 import mk.vozenred.bustimetableapp.R
-import mk.vozenred.bustimetableapp.components.topbars.DrawerContent
+import mk.vozenred.bustimetableapp.components.drawer.DrawerContent
 import mk.vozenred.bustimetableapp.components.topbars.DrawerTopAppBar
 import mk.vozenred.bustimetableapp.ui.theme.BusTimetableAppTheme
 import mk.vozenred.bustimetableapp.ui.theme.LARGEST_PADDING
 import mk.vozenred.bustimetableapp.ui.theme.MEDIUM_PADDING
 import mk.vozenred.bustimetableapp.ui.theme.POINT_ROW_ITEM_HEIGHT
+import mk.vozenred.bustimetableapp.util.Constants.CONTACT_NUMBER
 
+@SuppressLint("UnusedMaterialScaffoldPaddingParameter")
 @Composable
 fun ContactScreen(
-  navigateToSearchScreen: () -> Unit,
-  navigateToFavoriteRelationsScreen: () -> Unit
+  navigateFromDrawerTo: (String) -> Unit
 ) {
   val context = LocalContext.current as Activity
 
@@ -67,35 +69,18 @@ fun ContactScreen(
             scaffoldState.drawerState.close()
           }
         },
-        navigateToSearchScreen = {
-          navigateToSearchScreen()
-          coroutineScope.launch {
-            scaffoldState.drawerState.close()
-          }
-        },
-        navigateToContactScreen = {
-          coroutineScope.launch {
-            scaffoldState.drawerState.close()
-          }
-        },
-        navigateToFavoriteRelationsScreen = {
-          navigateToFavoriteRelationsScreen()
-          coroutineScope.launch {
-            scaffoldState.drawerState.close()
-          }
-        }
+        navigateFromDrawerTo = { navigateFromDrawerTo(it) }
       )
     }
-  ) { paddingValue ->
+  ) {
     ContactScreenContent(
-      paddingValue = paddingValue,
       onSendEmailClick = {
         val emailIntent = Intent(Intent.ACTION_SEND)
         emailIntent.type = "message/rfc822"
         context.startActivity(Intent.createChooser(emailIntent, "Choose an Email client: "))
       },
       onCallButtonClick = {
-        val uri = Uri.parse("tel:070510928")
+        val uri = Uri.parse(CONTACT_NUMBER)
         val intent = Intent(Intent.ACTION_DIAL, uri)
         context.startActivity(intent, null)
       }
@@ -105,7 +90,6 @@ fun ContactScreen(
 
 @Composable
 fun ContactScreenContent(
-  paddingValue: PaddingValues,
   onSendEmailClick: () -> Unit,
   onCallButtonClick: () -> Unit
 ) {
@@ -137,7 +121,7 @@ fun ContactScreenContent(
       ContactButton(
         icon = Icons.Filled.Email,
         iconBackgroundColor = Color.Red,
-        title = "Испрати e-mail",
+        title = stringResource(R.string.send_email_button_text),
         onRowItemClick = {
           onSendEmailClick()
         }
@@ -145,7 +129,7 @@ fun ContactScreenContent(
       ContactButton(
         icon = Icons.Outlined.Call,
         iconBackgroundColor = Color.Green,
-        title = "Јави се",
+        title = stringResource(R.string.call_button_text),
         onRowItemClick = {
           onCallButtonClick()
         }
@@ -210,9 +194,8 @@ fun ContactButton(
 @Preview
 @Composable
 fun ContactScreenContentPreview() {
-  BusTimetableAppTheme() {
+  BusTimetableAppTheme {
     ContactScreenContent(
-      paddingValue = PaddingValues(),
       onSendEmailClick = {},
       onCallButtonClick = {},
     )
